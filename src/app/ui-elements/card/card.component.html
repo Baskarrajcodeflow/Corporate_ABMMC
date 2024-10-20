@@ -1,0 +1,17 @@
+<div *ngIf="showCard"  class="overlay" [ngClass]="color + ' p-6 rounded-lg shadow-lg'">
+ 
+  <div class="">
+    <div class="lg:flex lg:flex-1 lg:justify-end">
+      <svg class="w-10 h-10 lg:justify-end cursor-pointer" xmlns="http://www.w3.org/2000/svg" fill="none"
+          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" (click)="close()">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+  
+      </svg>
+  
+  
+  </div>
+    <ng-content></ng-content>
+    </div>
+    
+  </div>
+  

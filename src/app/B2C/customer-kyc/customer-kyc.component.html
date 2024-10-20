@@ -1,0 +1,777 @@
+<div *ngIf="currentPage === 1">
+  <form
+    [formGroup]="kycForm"
+    (ngSubmit)="nextPage()"
+    class="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
+  >
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Basic Information</h2>
+
+    <div class="mb-4">
+      <label
+        for="custInfoFirstName"
+        class="block text-sm font-medium text-gray-700"
+        >First Name</label
+      >
+      <input
+        id="custInfoFirstName"
+        type="text"
+        formControlName="custInfoFirstName"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="custInfoSurname"
+        class="block text-sm font-medium text-gray-700"
+        >Last Name</label
+      >
+      <input
+        id="custInfoSurname"
+        type="text"
+        formControlName="custInfoSurname"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="custInfoFatherName"
+        class="block text-sm font-medium text-gray-700"
+        >Father Name</label
+      >
+      <input
+        id="custInfoFatherName"
+        type="text"
+        formControlName="custInfoFatherName"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="custInfoDob" class="block text-sm font-medium text-gray-700"
+        >Date Of Birth</label
+      >
+      <input
+        id="custInfoDob"
+        type="date"
+        formControlName="custInfoDob"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="custInfoMale" class="block text-sm font-medium text-gray-700"
+        >Gender</label
+      >
+      <select
+        id="custInfoMale"
+        formControlName="custInfoMale"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      >
+        <option value="1">MALE</option>
+        <option value="2">FEMALE</option>
+        <option value="3">OTHERS</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="custInfoAltPhone"
+        class="block text-sm font-medium text-gray-700"
+        >Phone</label
+      >
+      <input
+        id="custInfoAltPhone"
+        type="text"
+        formControlName="custInfoAltPhone"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="custInfoEmail" class="block text-sm font-medium text-gray-700"
+        >Email</label
+      >
+      <input
+        id="custInfoEmail"
+        type="email"
+        formControlName="custInfoEmail"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="custInfoCountry"
+        class="block text-sm font-medium text-gray-700"
+        >Nationality</label
+      >
+      <select
+        id="custInfoCountry"
+        formControlName="custInfoCountry"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-SM"
+      >
+        <option
+          *ngFor="let nationality of nationalities"
+          [value]="nationality?.name"
+        >
+          {{ nationality?.name }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          kycForm.get('custInfoCountry')?.invalid &&
+          (kycForm.get('custInfoCountry')?.dirty ||
+            kycForm.get('custInfoCountry')?.touched)
+        "
+        class="text-red-500 text-sm mt-1"
+      >
+        Nationality is required
+      </div>
+    </div>
+
+    <div class="flex justify-between">
+      <button
+        type="button"
+        class="px-4 py-2 bg-gray-300 text-black rounded-md shadow-sm hover:bg-gray-400"
+      >
+        Cancel
+      </button>
+      <button
+        type="button"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        style="background-color: #0a365a"
+        (click)="nextPage()"
+      >
+        Next
+      </button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="currentPage === 2">
+  <form
+    [formGroup]="kycForm"
+    (ngSubmit)="nextPage()"
+    class="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
+  >
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Address</h2>
+    <div class="mb-4">
+      <label for="currHouseNo" class="block text-sm font-medium text-gray-700"
+        >House Number</label
+      >
+      <input
+        id="currHouseNo"
+        type="text"
+        formControlName="currHouseNo"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="currLocation" class="block text-sm font-medium text-gray-700"
+        >Location</label
+      >
+      <input
+        id="currLocation"
+        type="text"
+        formControlName="currLocation"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="currCountry" class="block text-sm font-medium text-gray-700"
+        >Country</label
+      >
+      <select
+        id="currCountry"
+        formControlName="currCountry"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-SM"
+      >
+        <option
+          *ngFor="let nationality of nationalities"
+          [value]="nationality?.name"
+        >
+          {{ nationality?.name }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          kycForm.get('currCountry')?.invalid &&
+          (kycForm.get('currCountry')?.dirty ||
+            kycForm.get('currCountry')?.touched)
+        "
+        class="text-red-500 text-sm mt-1"
+      >
+        Nationality is required
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="currProvince" class="block text-sm font-medium text-gray-700"
+        >Province</label
+      >
+      <select
+        id="currProvince"
+        formControlName="currProvince"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-SM"
+        (change)="onSelectProvince($event)"
+      >
+        <option *ngFor="let province of provinces" [value]="province.name">
+          {{ province.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="currDistrict" class="block text-sm font-medium text-gray-700"
+        >District</label
+      >
+      <select
+        id="currDistrict"
+        formControlName="currDistrict"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-SM"
+      >
+        <option *ngFor="let district of districts" [value]="district.name">
+          {{ district.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="currStreet" class="block text-sm font-medium text-gray-700"
+        >Street</label
+      >
+      <input
+        id="currStreet"
+        type="text"
+        formControlName="currStreet"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="flex justify-between">
+      <button
+        type="button"
+        (click)="previousPage()"
+        class="px-4 py-2 bg-gray-300 text-black rounded-md shadow-sm hover:bg-gray-400"
+      >
+        Previous
+      </button>
+      <button
+        type="button"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        style="background-color: #0a365a"
+        (click)="nextPage()"
+      >
+        Next
+      </button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="currentPage === 4">
+  <form
+    [formGroup]="kycForm"
+    (ngSubmit)="nextPage()"
+    class="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
+  >
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Next of Kin Details</h2>
+
+    <div class="mb-4">
+      <label for="nokName" class="block text-sm font-medium text-gray-700"
+        >Name</label
+      >
+      <input
+        id="nokName"
+        type="text"
+        formControlName="nokName"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="nokMobile" class="block text-sm font-medium text-gray-700"
+        >Mobile</label
+      >
+      <input
+        id="nokMobile"
+        type="text"
+        formControlName="nokMobile"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="nokEmail" class="block text-sm font-medium text-gray-700"
+        >Email</label
+      >
+      <input
+        id="nokEmail"
+        type="email"
+        formControlName="nokEmail"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="nokHouseNo" class="block text-sm font-medium text-gray-700"
+        >House Number</label
+      >
+      <input
+        id="nokHouseNo"
+        type="text"
+        formControlName="nokHouseNo"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="nokLocation" class="block text-sm font-medium text-gray-700"
+        >Location</label
+      >
+      <input
+        id="nokLocation"
+        type="text"
+        formControlName="nokLocation"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="nokCountry" class="block text-sm font-medium text-gray-700"
+        >Country</label
+      >
+      <select
+        id="nokCountry"
+        formControlName="nokCountry"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-SM"
+      >
+        <option
+          *ngFor="let nationality of nationalities"
+          [value]="nationality?.name"
+        >
+          {{ nationality?.name }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          kycForm.get('nokCountry')?.invalid &&
+          (kycForm.get('nokCountry')?.dirty ||
+            kycForm.get('nokCountry')?.touched)
+        "
+        class="text-red-500 text-sm mt-1"
+      >
+        Nationality is required
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="nokProvince" class="block text-sm font-medium text-gray-700"
+        >Province</label
+      >
+      <select
+        id="nokProvince"
+        formControlName="nokProvince"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-SM"
+        (change)="onSelectProvince($event)"
+      >
+        <option *ngFor="let province of provinces" [value]="province.name">
+          {{ province.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="nokDistrict" class="block text-sm font-medium text-gray-700"
+        >District</label
+      >
+      <select
+        id="nokDistrict"
+        formControlName="nokDistrict"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-SM"
+      >
+        <option *ngFor="let district of districts" [value]="district.name">
+          {{ district.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="nokStreet" class="block text-sm font-medium text-gray-700"
+        >Street</label
+      >
+      <input
+        id="nokStreet"
+        type="text"
+        formControlName="nokStreet"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="flex justify-between">
+      <button
+        type="button"
+        (click)="previousPage()"
+        class="px-4 py-2 bg-gray-300 text-black rounded-md shadow-sm hover:bg-gray-400"
+      >
+        Previous
+      </button>
+      <button
+        type="button"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        style="background-color: #0a365a"
+        (click)="nextPage()"
+      >
+        Next
+      </button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="currentPage === 3">
+  <form
+    [formGroup]="kycForm"
+    (ngSubmit)="nextPage()"
+    class="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
+  >
+    <h2 class="text-lg font-medium text-gray-900 mb-4">Organization Details</h2>
+    <div class="mb-4">
+      <label for="orgName" class="block text-sm font-medium text-gray-700"
+        >Organization Name</label
+      >
+      <input
+        id="orgName"
+        type="text"
+        formControlName="orgName"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="occupation"
+        class="block text-sm font-medium text-gray-700"
+        >Source of Income/Occupation</label
+      >
+      <input
+        id="occupation"
+        type="text"
+        formControlName="occupation"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="salary"
+        class="block text-sm font-medium text-gray-700"
+        >Monthly Income</label
+      >
+      <input
+        id="salary"
+        type="text"
+        formControlName="salary"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <!-- <div class="mb-4">
+      <label for="orgTurnover" class="block text-sm font-medium text-gray-700"
+        >Turnover</label
+      >
+      <input
+        id="orgTurnover"
+        type="text"
+        formControlName="orgTurnover"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div> -->
+
+    <!-- <div class="mb-4">
+      <label for="orgHouseNo" class="block text-sm font-medium text-gray-700"
+        >House Number</label
+      >
+      <input
+        id="orgHouseNo"
+        type="text"
+        formControlName="orgHouseNo"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="orgLocation" class="block text-sm font-medium text-gray-700"
+        >Location</label
+      >
+      <input
+        id="orgLocation"
+        type="text"
+        formControlName="orgLocation"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="orgProvince" class="block text-sm font-medium text-gray-700"
+        >Province</label
+      >
+      <select
+        id="orgProvince"
+        formControlName="orgProvince"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      >
+        <option *ngFor="let province of provinces" [value]="province?.name">
+          {{ province?.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="orgStreet" class="block text-sm font-medium text-gray-700"
+        >Street</label
+      >
+      <input
+        id="orgStreet"
+        type="text"
+        formControlName="orgStreet"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="orgDistrict" class="block text-sm font-medium text-gray-700"
+        >District</label
+      >
+      <select
+        id="orgDistrict"
+        formControlName="orgDistrict"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      >
+        <option *ngFor="let district of districts" [value]="district?.name">
+          {{ district?.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="orgCountry" class="block text-sm font-medium text-gray-700"
+        >Country</label
+      >
+      <select
+        id="orgCountry"
+        formControlName="orgCountry"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      >
+        <option *ngFor="let country of nationalities" [value]="country?.name">
+          {{ country?.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="orgPhone" class="block text-sm font-medium text-gray-700"
+        >Phone</label
+      >
+      <input
+        id="orgPhone"
+        type="text"
+        formControlName="orgPhone"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="orgEmail" class="block text-sm font-medium text-gray-700"
+        >Email</label
+      >
+      <input
+        id="orgEmail"
+        type="email"
+        formControlName="orgEmail"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div> -->
+
+    <div class="flex justify-between">
+      <button
+        type="button"
+        (click)="previousPage()"
+        class="px-4 py-2 bg-gray-300 text-black rounded-md shadow-sm hover:bg-gray-400"
+      >
+        Previous
+      </button>
+      <button
+        type="submit"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        style="background-color: #0a365a"
+      >
+        Next
+      </button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="currentPage === 5">
+  <form
+    [formGroup]="kycForm"
+    class="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
+  >
+    <h2 class="text-lg font-medium text-gray-900 mb-4"></h2>
+    <div class="mb-4">
+      <label
+        for="custInfoLicenseNo"
+        class="block text-sm font-medium text-gray-700"
+        >ID Type</label
+      >
+      <select
+        id="custInfoMale"
+        formControlName="custInfoMale"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      >
+        <option value="1">E-Tazkira</option>
+        <option value="2">Passport</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="custInfoTazkira"
+        class="block text-sm font-medium text-gray-700"
+        >Id Number</label
+      >
+      <input
+        id="custInfoTazkira"
+        type="text"
+        formControlName="custInfoTazkira"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="block text-sm font-medium text-gray-700 w-[300px] mb-4">
+      Selfie Photo
+      <div class="border border-gray-400 rounded-lg p-[10px]">
+        <div class="ml-[61px]">
+          <img
+            width="150px "
+            src="../../../assets/images/imageUpload.png"
+            alt=""
+            *ngIf="imageUrl"
+            [src]="imageUrl"
+            class="image"
+          />
+          <input #Image type="file" (change)="handleFileInput($event.target)" />
+        </div>
+      </div>
+    </div>
+
+    <div class="block text-sm font-medium text-gray-700 w-[300px] mb-4">
+      Digital Signature
+
+      <div class="border border-gray-400 rounded-lg p-[10px]">
+        <div class="ml-[61px]">
+          <img
+            width="150px "
+            src="../../../assets/images/imageUpload.png"
+            alt=""
+            *ngIf="imageUrl"
+            [src]="imageUrl"
+            class="image"
+          />
+          <input #Image type="file" (change)="handleFileInput($event.target)" />
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between">
+      <button
+        type="button"
+        (click)="previousPage()"
+        class="px-4 py-2 bg-gray-300 text-black rounded-md shadow-sm hover:bg-gray-400"
+      >
+        Previous
+      </button>
+      <button
+        type="submit"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        style="background-color: #0a365a"
+        (click)="onSave()"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- <div *ngIf="currentPage === 5">
+  <form
+    [formGroup]="kycForm"
+    class="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
+  >
+    <h2 class="text-lg font-medium text-gray-900 mb-4"></h2>
+    <div class="mb-4">
+      <label
+        for="custInfoLicenseNo"
+        class="block text-sm font-medium text-gray-700"
+        >License Number</label
+      >
+      <input
+        id="custInfoLicenseNo"
+        type="text"
+        formControlName="custInfoLicenseNo"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label
+        for="custInfoLicenseExpiry"
+        class="block text-sm font-medium text-gray-700"
+        >License Expiry Date</label
+      >
+      <input
+        id="custInfoLicenseExpiry"
+        type="date"
+        formControlName="custInfoLicenseExpiry"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="empName" class="block text-sm font-medium text-gray-700"
+        >Employee Name</label
+      >
+      <input
+        id="empName"
+        type="text"
+        formControlName="empName"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+
+
+    <div class="mb-4">
+      <label for="salary" class="block text-sm font-medium text-gray-700"
+        >Salary</label
+      >
+      <input
+        id="salary"
+        type="text"
+        formControlName="salary"
+        class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+      />
+    </div>
+    <div class="flex justify-between">
+      <button
+        type="button"
+        (click)="previousPage()"
+        class="px-4 py-2 bg-gray-300 text-black rounded-md shadow-sm hover:bg-gray-400"
+      >
+        Previous
+      </button>
+    
+    </div>
+  </form>
+</div> -->

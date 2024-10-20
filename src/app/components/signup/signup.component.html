@@ -1,0 +1,232 @@
+
+    <div class="flex items-center justify-center min-h-screen bg-custom-blue">
+        <div
+          class="flex flex-col md:flex-row bg-white rounded-lg shadow-lg mx-4 md:mx-auto overflow-hidden"
+          style="max-width: 1000px; width: 1000px"
+        >
+
+          <div
+            class="w-full md:w-1/2 flex min-h-full flex-col justify-center"
+          >
+      
+          <div
+          class="flex flex-col md:flex-row bg-white rounded-lg shadow-lg mx-4 md:mx-auto overflow-hidden"
+          style="max-width: 1000px; width: 1000px"
+        >
+          <!-- Left side with image -->
+          <div
+            class="md:w-1/2 bg-cover bg-center lt-md:hidden"
+            style="
+              background-image: url('https://via.placeholder.com/600x800');
+              height: 850px;
+            "
+          ></div>
+          <!-- Right side with form -->
+          <div
+            class="w-full md:w-1/2 p-8 md:p-12 flex items-center justify-center"
+            style="height: 850px; overflow-y: auto;"
+          >
+            <div class="w-full">
+              <div>
+                <div class="mb-3 text-center">
+                  <img
+                    src="../../../assets/images/logo.png"
+                    alt="Logo"
+                    class="mx-auto mb-4 w-28 h-auto"
+                  />
+                  <h2 class="text-2xl font-bold text-[rgb(0,100,162)]">Signup</h2>
+                </div>
+                <div *ngIf="!otpVerify">
+                    <form [formGroup]="backOfficeForm">
+                      <div class="mb-4">
+                        <label class=" ">First Name</label>
+                        <input
+                          formControlName="firstName"
+                          required
+                          class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                        <div
+                          *ngIf="
+                            backOfficeForm.get('firstName')?.touched &&
+                            backOfficeForm.get('firstName')?.invalid
+                          "
+                          class="text-red-600 text-sm"
+                        >
+                          First Name is required.
+                        </div>
+                      </div>
+        
+                      <div class="mb-4">
+                        <label class=" ">Last Name</label>
+                        <input
+                          formControlName="lastName"
+                          required
+                          class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                        <div
+                          *ngIf="
+                            backOfficeForm.get('lastName')?.touched &&
+                            backOfficeForm.get('lastName')?.invalid
+                          "
+                          class="text-red-600 text-sm"
+                        >
+                          Last Name is required.
+                        </div>
+                      </div>
+        
+                      <div class="mb-4">
+                        <label class=" ">Email</label>
+                        <input
+                          type="email"
+                          formControlName="email"
+                          required
+                          class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                        <div
+                          *ngIf="
+                            backOfficeForm.get('email')?.touched &&
+                            backOfficeForm.get('email')?.invalid
+                          "
+                          class="text-red-600 text-sm"
+                        >
+                          Email is required and must be a valid email address.
+                        </div>
+                      </div>
+        
+                      <div class="mb-4">
+                        <label class=" ">Phone</label>
+                        <input
+                          type="number"
+                          formControlName="phone"
+                          required
+                          class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                        <div
+                          *ngIf="
+                            backOfficeForm.get('phone')?.touched &&
+                            backOfficeForm.get('phone')?.invalid
+                          "
+                          class="text-red-600 text-sm"
+                        >
+                          Phone number is required and must be at least 9 digits.
+                        </div>
+                      </div>
+        
+                      <div class="mb-4">
+                        <label class=" ">Gender</label>
+                        <select
+                          formControlName="gender"
+                          autocomplete="phone"
+                          required
+                          class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                          <option value="MALE">Male</option>
+                          <option value="FEMALE">Female</option>
+                        </select>
+                        <div
+                          *ngIf="
+                            backOfficeForm.get('gender')?.touched &&
+                            backOfficeForm.get('gender')?.invalid
+                          "
+                          class="text-red-600 text-sm"
+                        >
+                          Gender is required.
+                        </div>
+                      </div>
+        
+                      <div class="mb-4">
+                        <label class=" ">Password</label>
+                        <input
+                          type="password"
+                          formControlName="password"
+                          required
+                          class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                        <div
+                          *ngIf="
+                            backOfficeForm.get('password')?.touched &&
+                            backOfficeForm.get('password')?.invalid
+                          "
+                          class="text-red-600 text-sm"
+                        >
+                          Password is required.
+                        </div>
+                      </div>
+        
+                      <div class="mb-4">
+                        <label class=" ">Confirm Password</label>
+                        <input
+                          formControlName="confirmPassword"
+                          type="password"
+                          required
+                          class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        />
+                        <div
+                          *ngIf="
+                            backOfficeForm.get('confirmPassword')?.touched &&
+                            backOfficeForm.get('confirmPassword')?.invalid
+                          "
+                          class="text-red-600 text-sm"
+                        >
+                          Confirm Password is required.
+                        </div>
+                      </div>
+        
+                      <button
+                      [disabled]="backOfficeForm.invalid"
+                      (click)="onSave()"
+                        type="submit"
+                        class="w-full py-3 bg-custom-orange bg-orange-600 text-white font-bold rounded-lg transition duration-200"
+                      >
+                        Sign Up
+                      </button>
+                    </form>
+                    <div class="text-center mt-4">
+                      <p>
+                        Already a Member?
+                        <a
+                          class="text-[rgb(0,100,162)] font-semibold hover:underline"
+                          (click)="navigate()"
+                          >Login Here</a
+                        >
+                      </p>
+                    </div>
+                </div>
+                <div *ngIf="otpVerify">
+                    <form [formGroup]="otpForm">
+                        <div class="mb-4">
+                            <label class=" ">Enter OTP</label>
+                            <input
+                              formControlName="OTP"
+                              required
+                              class="w-full mt-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            />
+                            <div
+                              *ngIf="
+                                backOfficeForm.get('OTP')?.touched &&
+                                backOfficeForm.get('OTP')?.invalid
+                              "
+                              class="text-red-600 text-sm"
+                            >
+                              OTP is required.
+                            </div>
+                          </div>
+                          <button
+                          (click)="onSaveOtp()"
+                            type="submit"
+                            class="w-full py-3 bg-custom-orange hover:bg-orange-600 text-white font-bold rounded-lg transition duration-200"
+                          >
+                            Sign Up
+                          </button>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        </div>
+      </div>
+      
+
+</div>

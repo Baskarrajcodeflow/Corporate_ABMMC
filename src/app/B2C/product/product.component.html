@@ -1,0 +1,859 @@
+<!------------------------------------------ Add Money ------------------------------------------>
+<div class="flex justify-center items-center min-h-screen">
+  <div
+    *ngIf="title !== 'Breshna Bill Payments'"
+    class="sm:mx-auto sm:w-full sm:max-w-sm min-h-full max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[41rem] mb-[10px]"
+  >
+    <div *ngIf="product == 'AddMoney'" class="mb-[20px]">
+      <div class="text-center text-xl font-semibold header-titles">
+        Add Money
+      </div>
+      <div>
+        <form
+          [formGroup]="addMoneyForm"
+          class="space-y-6"
+          #loginForm="ngForm"
+          action="#"
+          method="POST"
+        >
+          <div>
+            <div class="flex gap-6 ml-[40px]">
+              <div class="mt-4 relative">
+                <span class="text-black text-sm">Select Bank</span>
+                <select
+                  name="gender"
+                  required
+                  formControlName="selectBank"
+                  class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+                >
+                  <option class="text-greay-400" value="" disabled selected>
+                    Select Bank
+                  </option>
+
+                  <option *ngFor="let item of this.decryptedText?.response?.BankList" [value]="item?.bankId">{{item?.bankName}}</option>
+                </select>
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg> -->
+                </div>
+              </div>
+
+              <div class="mt-4 relative">
+                <span class="text-black text-sm">Amount to Add</span>
+                <input
+                  formControlName="amount"
+                  type="text"
+                  name="firstName"
+                  autocomplete="current-password"
+                  required
+                  class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+                />
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg> -->
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-6">
+              <div class="mt-4 relative ml-[40px]">
+                <span class="text-black text-sm">Bank PIN</span>
+                <input
+                  formControlName="bankPIN"
+                  type="text"
+                  name="firstName"
+                  autocomplete="current-password"
+                  required
+                  class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+                />
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg> -->
+                </div>
+              </div>
+              <div>
+                <div class="mt-4 text-center">
+                <app-spinner></app-spinner>
+                  <button
+                  (click)="addMoney()"
+                    type="submit"
+                    class="w-[100px] mt-[23px] justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    Add Money
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!------------------------------------------ Bank Transfer ------------------------------------------>
+<div class="flex justify-center items-center min-h-screen">
+  <div
+    *ngIf="title !== 'Breshna Bill Payments'"
+    class="sm:mx-auto sm:w-full sm:max-w-sm min-h-full max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[41rem] mb-[10px]"
+  >
+    <div *ngIf="product == 'bankTransfer'" class="mb-[20px]">
+      <div class="text-center text-xl font-semibold header-titles mt-[10px]">
+        Bank Transfer
+      </div>
+      <div>
+        <form
+          [formGroup]="searchBillForm"
+          class="space-y-6"
+          #loginForm="ngForm"
+          action="#"
+          method="POST"
+        >
+          <div>
+            <div class="flex gap-6 ml-[40px]">
+              <div class="mt-4 relative">
+                <span class="text-black text-sm">Select Bank</span>
+                <select
+                  name="gender"
+                  required
+                  class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+                >
+                  <option class="text-greay-400" value="" disabled selected>
+                    Select Bank
+                  </option>
+
+                  <option value="0">Afghan United Bank</option>
+                </select>
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg> -->
+                </div>
+              </div>
+
+              <div class="mt-4 relative">
+                <span class="text-black text-sm">Amount to Add</span>
+                <input
+                  formControlName="phoneNumber"
+                  type="text"
+                  name="firstName"
+                  autocomplete="current-password"
+                  required
+                  class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+                />
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg> -->
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 relative ml-[40px]">
+              <span class="text-black text-sm">Bank PIN</span>
+              <input
+                formControlName="phoneNumber"
+                type="text"
+                name="firstName"
+                autocomplete="current-password"
+                required
+                class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+              />
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg> -->
+              </div>
+            </div>
+            <div class="flex gap-[0.9rem]">
+              <div>
+                <div class="ml-[40px]">
+                  <button
+                    style="font-size: small"
+                    type="submit"
+                    class="w-full mt-[23px] justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    WALLET TO BANK
+                  </button>
+                </div>
+              </div>
+              <div>
+                <div class="">
+                  <button
+                    style="font-size: small"
+                    type="submit"
+                    class="w-full mt-[23px] justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    BANK TO WALLET
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!------------------------------------------ Pay Bills ------------------------------------------>
+<div *ngIf="title !== 'Breshna Bill Payments'">
+  <div
+    *ngIf="product == 'payBills'"
+    class="flex min-h-full max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl"
+  >
+    <div
+      class="hidden lg:block lg:w-1/2 bg-cover"
+      style="background-image: url('../../../assets/images/wallet.png')"
+    ></div>
+    <div class="w-full p-2 lg:w-1/2 min-h-screen">
+      <div class="card-container p-2">
+        <h2
+          *ngIf="titleProduct != '' && title == ''"
+          class="mt-2 text-center text-2xl font-bold leading-9 tracking-tight header-titles"
+        >
+          {{ titleProduct }}
+        </h2>
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+          <!--Start list here -->
+          <!--  <div class="bg-blue-900 text-white"> -->
+          <div *ngIf="title == ''">
+            <div class="py-8">
+              <div class="shadow-2xl bg-white">
+                <div
+                  (click)="gotoService('Breshna Bill Payments')"
+                  class="flex items-center justify-between px-4 py-2 border-b border-white shadow-2xl cursor-pointer"
+                >
+                  <div class="flex items-center space-x-4">
+                    <svg
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                    <span><b class="header-titles">Breshna Payments</b></span>
+                  </div>
+                  <svg
+                    class="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <!---payment option 2-->
+            <div class="py-8">
+              <div class="shadow-2xl bg-white">
+                <div
+                  (click)="gotoService('breshna')"
+                  class="flex items-center justify-between px-4 py-2 border-b border-white shadow-2xl cursor-pointer"
+                >
+                  <div class="flex items-center space-x-4">
+                    <svg
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                    <span
+                      ><b class="header-titles">Water Bill Payments</b></span
+                    >
+                  </div>
+                  <svg
+                    class="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <!---payment option 2-->
+            <div class="py-8">
+              <div class="shadow-2xl bg-white">
+                <div
+                  (click)="gotoService('breshna')"
+                  class="flex items-center justify-between px-4 py-2 border-b border-white shadow-2xl cursor-pointer"
+                >
+                  <div class="flex items-center space-x-4">
+                    <svg
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                    <span><b class="header-titles">DTH Payments</b></span>
+                  </div>
+                  <svg
+                    class="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <!---payment option 2-->
+            <div class="py-8">
+              <div class="shadow-2xl bg-white">
+                <div
+                  (click)="gotoService('breshna')"
+                  class="flex items-center justify-between px-4 py-2 border-b border-white shadow-2xl cursor-pointer"
+                >
+                  <div class="flex items-center space-x-4">
+                    <svg
+                      class="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                    <span><b class="header-titles">Oqaab Payments</b></span>
+                  </div>
+                  <svg
+                    class="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!------------------------------------------ Breshna Bill Payments ------------------------------------------>
+
+<div
+  *ngIf="title == 'Breshna Bill Payments'"
+  class="sm:mx-auto sm:w-full sm:max-w-sm min-h-full max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl mb-[10px]"
+>
+  <!-- <h2 class="mt-2 text-center text-2xl font-bold leading-9 tracking-tight header-titles">{{title}}
+    </h2> -->
+  <form
+    [formGroup]="searchBillForm"
+    class="space-y-6"
+    #loginForm="ngForm"
+    action="#"
+    method="POST"
+  >
+    <div>
+      <div class="flex gap-6 ml-[40px]">
+        <div class="mt-4 relative">
+          <span class="text-black text-sm">Enter Breshna Account Number</span>
+          <input
+            formControlName="accNumber"
+            type="text"
+            name="firstName"
+            autocomplete="current-password"
+            required
+            class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+            (input)="checkFeeCommission()"
+          />
+          <div class="flex gap-2">
+            <div class="mt-[4px]">
+              <img src="../../../assets/images/info 1.png" alt="" />
+            </div>
+            <div class="text-black text-sm">
+              {{ ensureText }}
+            </div>
+          </div>
+          <!-- <span class="text-red text-sm">Invalid Accont Number</span> -->
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg> -->
+          </div>
+        </div>
+
+        <div class="mt-4 relative">
+          <span class="text-black text-sm">Enter Customer Phone Number</span>
+          <input
+            formControlName="phoneNumber"
+            type="text"
+            name="firstName"
+            autocomplete="current-password"
+            required
+            class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+          />
+          <div
+            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+          >
+            <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+              </svg> -->
+          </div>
+        </div>
+        <div class="mt-4">
+          <app-spinner></app-spinner>
+          <button
+            type="submit"
+            (click)="searchBill()"
+            class="w-[100px] mt-[23px] justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Search Bill
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="py-3 text-grey-900" *ngIf="statusCode == 100">
+      <div class="py-3 text-grey-900 ml-[40px]">
+        <div class="lg:flex gap-[9.5rem]">
+          <p class="py-1 text-grey-900 font-semibold">
+            <b>Name :</b> <br />{{ name }}
+          </p>
+          <p class="py-1 text-grey-900 font-semibold">
+            <b>Date :</b> <br />{{ Date }}
+          </p>
+          <p class="py-1 text-grey-900 font-semibold">
+            <b>Address :</b> <br />{{ Address }}
+          </p>
+        </div>
+        <div class="lg:flex mt-[10px] gap-[9.5rem]">
+          <p class="py-1 text-grey-900 font-semibold">
+            <b>Account No :</b> <br />{{ AccontNumber }}
+          </p>
+          <p class="py-1 text-grey-900 font-semibold">
+            <b>Amount :</b> <br />{{ Amount }}
+          </p>
+        </div>
+
+        <div class="mt-[10px]">
+          <span class="text-black text-sm">Enter Transaction PIN</span>
+          <input
+            formControlName="transactionPIN"
+            pattern="^[0-9]{6}$"
+            maxlength="6"
+            required
+            type="password"
+            class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+          />
+        </div>
+
+        <div class="mt-4">
+          <button
+            [disabled]="searchBillForm.controls['transactionPIN'].invalid || Amount < 1"
+            *ngIf="showBillDetails"
+            (click)="payBill()"
+            class="flex w-[200px] justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Pay Bill
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!------------------------------------------ ownAccountTransfer ------------------------------------------>
+<div class="flex justify-center items-center min-h-screen">
+  <div
+    *ngIf="title !== 'Breshna Bill Payments'"
+    class="sm:mx-auto sm:w-full sm:max-w-sm min-h-full max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[41rem] mb-[10px]"
+  >
+    <div *ngIf="product == 'ownAccountTransfer'" class="mb-[20px]">
+      <div class="text-center text-xl font-semibold header-titles mt-[10px]">
+        Own Account Transfer
+      </div>
+      <div>
+        <form
+          [formGroup]="searchBillForm"
+          class="space-y-6"
+          #loginForm="ngForm"
+          action="#"
+          method="POST"
+        >
+          <div>
+            <div class="flex gap-6 ml-[40px]">
+              <div class="mt-4 relative">
+                <span class="text-black text-sm">Select Bank</span>
+                <select
+                  name="gender"
+                  required
+                  class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+                >
+                  <option class="text-greay-400" value="" disabled selected>
+                    Select Bank
+                  </option>
+
+                  <option value="0">Afghan United Bank</option>
+                </select>
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg> -->
+                </div>
+              </div>
+
+              <div class="mt-4 relative">
+                <span class="text-black text-sm">Amount to Add</span>
+                <input
+                  formControlName="phoneNumber"
+                  type="text"
+                  name="firstName"
+                  autocomplete="current-password"
+                  required
+                  class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+                />
+                <div
+                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                >
+                  <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg> -->
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 relative ml-[40px]">
+              <span class="text-black text-sm">Bank PIN</span>
+              <input
+                formControlName="phoneNumber"
+                type="text"
+                name="firstName"
+                autocomplete="current-password"
+                required
+                class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+              />
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                      </svg> -->
+              </div>
+            </div>
+            <div class="flex gap-[0.9rem]">
+              <div>
+                <div class="ml-[40px]">
+                  <button
+                    style="font-size: 12px"
+                    type="submit"
+                    class="w-[100px] tracking-wider mt-[23px] justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    PUSH
+                  </button>
+                </div>
+              </div>
+              <div>
+                <div class="">
+                  <button
+                    style="font-size: 12px"
+                    type="submit"
+                    class="w-[100px] tracking-wider mt-[23px] justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    PULL
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!------------------------------------------ airTimeTopUp ------------------------------------------>
+<div
+  *ngIf="title !== 'Breshna Bill Payments'"
+  class="sm:mx-auto sm:w-full sm:max-w-sm min-h-full max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[41rem] mb-[10px]"
+>
+  <div *ngIf="product == 'airTime'" class="mb-[20px]">
+    <div class="text-center text-xl font-semibold header-titles">
+      Air Time Topup
+    </div>
+    <div>
+      <form
+        [formGroup]="airtimeTopUp"
+        class="space-y-6"
+        #loginForm="ngForm"
+        action="#"
+        method="POST"
+      >
+        <div>
+          <div class="flex gap-6 ml-[40px]">
+            <div class="mt-4 relative">
+              <span class="text-black text-sm">Enter Mobile Number</span>
+              <input
+                formControlName="mobileNo"
+                id="phone"
+                [(ngModel)]="phone"
+                name="phone"
+                type="tel"
+                (keypress)="onKeyPress($event)"
+                required
+                class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+                (input)="checkFeeCommission()"
+              />
+              <!-- <div class="flex gap-2">
+              <div class="mt-[4px]">
+                <img src="../../../assets/images/info 1.png" alt="" />
+              </div>
+              <div class="text-black text-sm">
+                {{ ensureText }}
+              </div>
+            </div> -->
+              <!-- <span class="text-red text-sm">Invalid Accont Number</span> -->
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg> -->
+              </div>
+              <div
+                *ngIf="phone && phone.length < 9"
+                class="text-red-500 text-sm mt-1"
+              >
+                Invalid Phone Number{{ "profile.phoneNumber" | translate }}
+              </div>
+            </div>
+
+            <div class="mt-4 relative">
+              <span class="text-black text-sm">Amount</span>
+              <input
+                formControlName="amount"
+                type="text"
+                name="firstName"
+                autocomplete="current-password"
+                required
+                class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+              />
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                  stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                </svg> -->
+              </div>
+            </div>
+          </div>
+          <div class="flex gap-6">
+            <div class="mt-4 relative ml-[40px]">
+              <span class="text-black text-sm">Wallet Transfer PIN</span>
+              <input
+                formControlName="walletPIN"
+                pattern="^[0-9]{6}$"
+                maxlength="6"
+                required
+                type="password"
+                required
+                class="block w-[276px] h-[36px] border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2"
+              />
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <!-- <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                  </svg> -->
+              </div>
+            </div>
+            <div>
+              <div class="mt-4 text-center">
+                <app-spinner></app-spinner>
+                <button
+                  type="submit"
+                  [disabled]="
+                    airtimeTopUp.controls['mobileNo'].invalid ||
+                    airtimeTopUp.controls['walletPIN'].invalid ||
+                    airtimeTopUp.controls['amount'].invalid
+                  "
+                  class="w-[100px] mt-[23px] justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  (click)="topUpMoney()"
+                >
+                  Transfer
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!------------------------------------------ transactionHistory ------------------------------------------>
+<div
+  *ngIf="title !== 'Breshna Bill Payments'"
+  class="sm:mx-auto sm:w-full sm:max-w-sm min-h-full max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl mb-[10px] -mt-[20px]"
+>
+  <div *ngIf="product == 'transactionHistory'" class="mb-[20px] h-[400px]">
+    <div class="text-center text-xl font-semibold header-titles">
+      Transction History
+    </div>
+    <div>
+      <app-transaction-history></app-transaction-history>
+    </div>
+  </div>
+</div>
+
+<!------------------------------------------ thirdPartyTrasfer ------------------------------------------------>
+<div
+  *ngIf="title !== 'Breshna Bill Payments'"
+  class="sm:mx-auto -mt-[20px] sm:w-full sm:max-w-sm min-h-full max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl mb-[10px]"
+>
+  <div *ngIf="product == 'thirdPartyTrasfer'" class="mb-[20px]">
+    <div class="flex justify-center py-6">
+      <!-- <div class="flex mx-4"> -->
+      <a
+        class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
+      >
+        <div class="flex mx-4">
+          <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
+            <div class="py-6 px-20">
+              <div class="flex justify-center">
+                <img
+                  src="../../../assets/images/walleticon.png"
+                  alt=""
+                  width="120px"
+                  height="120px"
+                />
+              </div>
+            </div>
+            <div class="pl-[30px] mb-[40px]">
+              <p class="header-titles text-md w-[220px]">
+                ABMMC Wallet - Wallet Transfer
+              </p>
+              <p class="w-[220px]">
+                Mobile Wallet as virtual wallet, accessed and functioned via a
+                mobile application.
+              </p>
+            </div>
+          </div>
+        </div>
+      </a>
+      <!-- </div> -->
+      <a
+        class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105"
+      >
+        <div class="flex mx-4">
+          <div class="rounded-lg overflow-hidden shadow-2xl bg-white w-170">
+            <div class="pl-[30px] mb-[40px] pt-[30px]">
+              <p class="header-titles text-md w-[220px]">
+                AfPay Card - Afpay Card Transfer
+              </p>
+              <p class="w-[220px]">
+                Mobile Wallet as virtual wallet, accessed and functioned via a
+                mobile application.
+              </p>
+            </div>
+            <div class="py-6 px-20">
+              <div class="flex justify-center">
+                <img
+                  src="../../../assets/images/Transaction_History.png"
+                  alt=""
+                  width="120px"
+                  height="120px"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="flex h-full overflow-y-auto">
+    <!-- Main Content -->
+    <div class="w-full p-6 bg-gray-100">
+        <div class="grid grid-cols-3 gap-6 mb-6">
+            <!-- Content can go here -->
+        </div>
+
+        <div class="bg-white p-6 rounded-md shadow-md mb-6">
+            <div style="margin-top: 1px; padding: 10px; display: flex; justify-content: center;">
+                <div class="row" style="width: 100%;">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card" style="border-color: rgb(244, 248, 248); border-radius: 30px; width: 100%;">
+                            <div class="card-body">
+                                <h5 class="card-title p-1" style="color: rgb(0, 100, 162); font-weight: 600;">Cash Out Requests</h5>
+                                <table class="table" style="border: 1px solid #dee2e6; border-collapse: collapse; width: 100%;">
+                                    <thead>
+                                        <tr style="background-color: rgb(0, 100, 162); color: white;">
+                                            <th style="text-align: center; border: 1px solid #dee2e6; width: 17%;">Name</th>
+                                            <th style="text-align: center; border: 1px solid #dee2e6; width: 15%;">Phone Number</th>
+                                            <th style="text-align: center; border: 1px solid #dee2e6; width: 15%;">Type</th>
+                                            <th style="text-align: center; border: 1px solid #dee2e6; width: 15%;">Amount</th>
+                                            <th style="text-align: center; border: 1px solid #dee2e6; width: 20%;">Time</th>
+                                            <th style="text-align: center; border: 1px solid #dee2e6; width: 35%;">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <app-spinner></app-spinner>
+                                        <tr *ngFor="let item of reqData">
+                                            <td style="text-align: center; border: 1px solid #dee2e6;font-size: 14px;">{{ item?.firstName }} {{item?.lastName}}</td>
+                                            <td style="text-align: center; border: 1px solid #dee2e6;font-size: 14px;">{{ item?.phone }}</td>
+                                            <td style="text-align: center; border: 1px solid #dee2e6;font-size: 14px;">{{ item?.type }}</td>
+                                            <td style="text-align: center; border: 1px solid #dee2e6;font-size: 14px;">{{ item?.amount }}</td>
+                                            <td style="text-align: center; border: 1px solid #dee2e6;font-size: 14px;">{{ item?.time | date:'MMM d, y, h:mm:ss a' }}</td>
+                                            <td style="text-align: center; border: 1px solid #dee2e6;font-size: 14px;">
+                                                <div class="flex gap-2 items-center" style="padding: 10px;">
+                                                    <button (click)="onClickView(item)" style="font-size: 12px;" class=" h-5  w-[70px] text-center bg-[#3a72a0] text-white  rounded-md">
+                                                        Approve
+                                                    </button>
+                                                    <button (click)="rejectData(item)" style="font-size: 12px;" class="h-5 w-[70px] text-center bg-[#e24f4f] text-white  rounded-md">
+                                                        Reject
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="chart" class="h-64"></div>
+        </div>
+    </div>
+</div>

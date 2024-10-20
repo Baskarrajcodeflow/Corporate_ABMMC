@@ -1,0 +1,108 @@
+<div class="flex min-h-full flex-col justify-center ">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <div>
+            <img class="mx-auto h-[100px] w-[180px]" src="../../../assets/images/logo.png" alt="">
+            <h2 class="mt-8 text-center text-2xl font-bold leading-9 tracking-tight header-titles">{{'button.signup' |
+                translate}}</h2>
+        </div>
+
+
+
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form *ngIf="currentView === 'signup'" class="space-y-6"  #signupForm="ngForm" action="#" method="POST" (ngSubmit)="signup()">
+            <div>
+                <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
+                <div class="mt-2 relative ">
+                    <input id="phone" [(ngModel)]="phone" name="phone" type="tel" autocomplete="phone" pattern="[0-9]*" minlength="9" (keypress)="onKeyPress($event)" required
+                    class="block w-full  border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2 " placeholder="Phone Number ">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.5 1.5H8.25A2.25 2.25 0 0 0 6 3.75v16.5a2.25 2.25 0 0 0 2.25 2.25h7.5A2.25 2.25 0 0 0 18 20.25V3.75a2.25 2.25 0 0 0-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" />
+                        </svg>
+
+                    </div>
+                </div>
+                 <div *ngIf="phone && phone.length < 9" class="text-red-500 text-sm mt-1" >
+                     Invalid Phone Number
+                  </div> 
+            </div>
+
+            <div>
+                <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                <div
+                class="mt-2 relative">
+                <input id="email" name="email" [(ngModel)]="email" type="email" autocomplete="email" [pattern]=emailPattern  required
+                    class="block w-full  border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2 " placeholder="Email Id">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                    </svg>
+
+                    </div>
+                  
+                
+            </div>
+            <div *ngIf="email && !email.match(emailPattern)" class="text-red-500 text-sm mt-1" >
+                Invalid Email Id
+             </div> 
+
+               
+            </div>
+
+            
+            <div>
+                <button type="submit"  [disabled]="signupForm.invalid"
+                    class="flex w-full justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" (click)="requestOtp()">Request OTP</button>
+            </div>
+        </form>
+        <form *ngIf="currentView === 'otpVerification'" class="space-y-6" #loginForm="ngForm" action="#" method="POST" (ngSubmit)="verifyOtp()">
+            <div>
+                
+                <p class="text-center"> Enter the OTP sent to </p>
+                <p class="mt-1 mb-6 text-center font-semibold"> {{email}}</p>
+                <div class="flex px-8 justify-between w-full">
+                    <input type="text" class="w-10 h-10 border border-gray-300 rounded-md text-center text-lg font-semibold focus:outline-none focus:ring focus:border-blue-500" maxlength="1" (input)="onDigitInput(0, $event)">
+                    <input type="text" class="w-10 h-10 border border-gray-300 rounded-md text-center text-lg font-semibold focus:outline-none focus:ring focus:border-blue-500" maxlength="1" (input)="onDigitInput(1, $event)">
+                    <input type="text" class="w-10 h-10 border border-gray-300 rounded-md text-center text-lg font-semibold focus:outline-none focus:ring focus:border-blue-500" maxlength="1" (input)="onDigitInput(2, $event)">
+                    <input type="text" class="w-10 h-10 border border-gray-300 rounded-md text-center text-lg font-semibold focus:outline-none focus:ring focus:border-blue-500" maxlength="1" (input)="onDigitInput(3, $event)">
+                    <input type="text" class="w-10 h-10 border border-gray-300 rounded-md text-center text-lg font-semibold focus:outline-none focus:ring focus:border-blue-500" maxlength="1" (input)="onDigitInput(4, $event)">
+                    <input type="text" class="w-10 h-10 border border-gray-300 rounded-md text-center text-lg font-semibold focus:outline-none focus:ring focus:border-blue-500" maxlength="1" (input)="onDigitInput(5, $event)">
+                </div>
+                  
+            <div *ngIf="email && !email.match(emailPattern)" class="text-red-500 text-sm mt-1" >
+                Invalid OTP
+             </div> 
+
+               
+            </div>
+
+          
+
+            <div>
+                <button *ngIf="formatTime(timer) !== '00:00'" type="submit" [disabled]="loginForm.invalid" 
+                    class="flex w-full justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Verify</button>
+                    <button *ngIf="formatTime(timer) == '00:00'" type="submit" [disabled]="loginForm.invalid" 
+                    class="flex w-full justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Resend OTP</button>
+
+                    <!--  <div class="flex items-center">
+                        <p class="">OTP expires in </p>
+                        <p class="font-semibold font-bg-red">{{ formatTime(timer)}}</p>
+
+                    </div> -->
+                    <p class="text-center mt-2">OTP expires in <b class="text-red-600"> {{ formatTime(timer)}} </b> </p>
+            </div>
+        </form>
+
+        <p class="mt-10 text-center text-sm text-gray-500">
+            Already have an account?
+            <a href="#" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">{{'button.login'
+                | translate}}</a>
+        </p>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+{
+    "appName": "می پے",
+    "menu": {
+        "home": "کور",
+        "profile": "پروفایل",
+        "contact": "اړیکه"
+    },
+    "profile": {
+        "firstName": "لومړی نوم",
+        "lastName": "وروستی نوم",
+        "fathersName": "پلار نوم",
+        "tazkiraNumber": "تذکره نمبر",
+        "phoneNumber": "د تلیفون شمیره",
+        "nextKin": "راتلونکی خپلوان",
+        "email": "برېښنالیک",
+        "password": "پټنوم",
+        "confirmPassword": "پټنوم تائید کړئ",
+        "nationality": "ملیت",
+        "occupation": "مسلک",
+        "gender": "جنس",
+        "male": "نارینه",
+        "female": "ښځینه",
+        "language": "ژبه",
+        "English": "انګلیسی",
+        "Dari": "دری",
+        "Pashto": "پښتو",
+        "dob": "د زېږون نېټه",
+        "uploadPassport": "پاسپورت اپلوډ کړئ",
+        "uploadProfilePicture": "د پروفایل عکس اپلوډ کړئ",
+        "submit": "سپارل",
+        "selectGender": "جنس انتخاب کړئ",
+        "selectLanguage": "ژبه انتخاب کړئ"
+    },  "dashboard": {
+        "title": "ډشبورډ",
+        "welcomeBack": "بېرته راغلاست،",
+        "transferMoney": "پیسې لېږدول",
+        "accountBalance": "حساب توازن",
+        "recentTransactions": "ورستۍ معاملې",
+        "notifications": "خبرتیاوې",
+        "exchangeRates": "تبادلې نرخونه",
+        "usdToEur": "USD په EUR باندې"
+      }
+}

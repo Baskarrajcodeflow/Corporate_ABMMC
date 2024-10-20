@@ -1,0 +1,92 @@
+
+<div class="flex h-full overflow-y-auto">
+  
+  
+  <!-- Main Content -->
+  <div class="w-full p-6 bg-gray-100">
+      <div class="grid grid-cols-3 gap-6 mb-6">
+          <!-- Wallet Balance Card -->
+          <div class="bg-white p-4 rounded-md shadow-md text-center flex items-center justify-center flex-col">
+            <div class="flex items-center justify-center mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18a2 2 0 012 2v6a2 2 0 01-2 2H3a2 2 0 01-2-2V9a2 2 0 012-2zm0 4h18M7 7V5a2 2 0 012-2h6a2 2 0 012 2v2" />
+                </svg>
+                
+              <h3 class="text-lg font-semibold">Wallet Balance</h3>
+            </div>
+           <div class="-mt-[15px] mb-4">
+              <p *ngIf="totalAFN" class="text font-bold text-gray-700">{{totalAFN}} AFN</p>
+           </div>
+          </div>
+          <div class="bg-white p-4 rounded-md shadow-md text-center flex items-center justify-center flex-col">
+              <div class="flex items-center justify-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 11h18m-9 4h6a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2a2 2 0 012-2h6z" />
+                    </svg>                    
+                <h3 class="text-lg font-semibold">Wallet Number</h3>
+              </div>
+             <div class="-mt-[15px] mb-4">
+              <p class="text- font-bold text-gray-700">{{profileData?.walletAccount?.walletNo}}</p>
+             </div>
+            </div>
+            <div class="bg-white p-4 rounded-md shadow-md text-center flex items-center justify-center flex-col">
+              <div class="flex items-center justify-center mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l2 5v7l-2 2h11l-2-2v-7l2-5h2m-7 2h.01" />
+                    </svg>
+                    
+                  
+                <h3 class="text-lg font-semibold">Mobile</h3>
+              </div>
+             <div class="-mt-[15px] mb-4">
+              <p class="text- font-bold text-gray-700">{{profileData?.phone}}</p>
+             </div>
+            </div>
+        
+     
+        </div>
+        
+
+    <div class="bg-white p-6 rounded-md shadow-md mb-6">
+      <h3 class="text-lg font-semibold mb-4">Transaction History</h3>
+      <div id="chart" class="h-64"></div>
+    </div>
+
+    <div class="bg-white p-6 rounded-md shadow-md">
+      <h3 class="text-lg font-semibold mb-4">Your Transactions</h3>
+      <ul>
+        <li class="flex justify-between items-center mb-3">
+          <div>
+            <p class="font-semibold">Abdul Ghani</p>
+            <p class="text-sm text-gray-500">27 March 2024, 12:30 PM</p>
+          </div>
+          <p class="text-red-500 font-bold">-2,500 ો</p>
+        </li>
+        <li class="flex justify-between items-center mb-3">
+          <div>
+            <p class="font-semibold">Layeq</p>
+            <p class="text-sm text-gray-500">27 March 2024, 04:00 AM</p>
+          </div>
+          <p class="text-green-500 font-bold">+2,000 ો</p>
+        </li>
+        <li class="flex justify-between items-center mb-3">
+          <div>
+            <p class="font-semibold">Mikaward</p>
+            <p class="text-sm text-gray-500">26 March 2024, 12:30 AM</p>
+          </div>
+          <p class="text-green-500 font-bold">+750 ો</p>
+        </li>
+        <li class="flex justify-between items-center">
+          <div>
+            <p class="font-semibold">Naz Arfan</p>
+            <p class="text-sm text-gray-500">26 March 2024, 11:30 AM</p>
+          </div>
+          <p class="text-green-500 font-bold">+1,050 ો</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+

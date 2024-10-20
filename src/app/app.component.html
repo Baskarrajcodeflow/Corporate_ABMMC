@@ -1,0 +1,30 @@
+
+
+<div class="flex flex-col min-h-screen overflow-hidden">
+  <div *ngIf="!authService.logged; else loggedIn">
+<div *ngIf="!showLogin">
+  <app-home></app-home>
+</div>
+    <div *ngIf="showLogin">
+      <app-login></app-login>
+    </div>
+  </div>
+
+  
+  <ng-template #loggedIn>
+    <app-header></app-header>
+    <div class="flex bg-radial-gradient">
+      <div class="ml-4">
+        <app-sidebar class="mx-6 my-4 w-[23%]"></app-sidebar>
+      </div>
+      <div class="p-6 w-[77%]">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </ng-template>
+  <div *ngIf="!showLogin">
+    <app-footer></app-footer>
+  </div>
+</div>
+
+

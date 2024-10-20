@@ -1,0 +1,19 @@
+.carousel {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  
+  .slide {
+    display: inline-block;
+    width: 100%;
+    transition: transform 0.5s ease;
+  }
+  
+  .slide-image {
+    width: 100%;
+  }
+
+  .justify-evenly {
+    justify-content: space-evenly;
+  }
+  

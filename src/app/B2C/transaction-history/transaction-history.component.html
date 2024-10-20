@@ -1,0 +1,77 @@
+<div class="relative">
+  <div *ngIf="isLoadingResults" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div *ngFor="let item of tranactionHistory">
+    <div
+      (click)="openDialog(item)"
+      class="min-h-full mt-[8px] max-h-screen bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-[32rem] transition duration-300 ease-in-out transform hover:scale-105"
+    >
+      <div
+        class="flex justify-between mx-auto py-[0.5rem] px-[1.5rem]"
+        style="font-family: serif"
+      >
+        <div class="flex gap-1">
+          <div class="leading-6">
+            <p>{{ item?.transactionType }}</p>
+            <p>{{ item?.date | date : "dd-MM-yyyy hh:mm a" }}</p>
+          </div>
+          <div *ngIf="item?.status.startsWith('SUCCESS')">
+            <img
+              src="../../../assets/images/success.png"
+              alt=""
+              width="100%"
+              height="19px"
+            />
+          </div>
+          <div *ngIf="item?.status.startsWith('FAILED')">
+            <img
+              src="../../../assets/images/wrong.png"
+              alt=""
+              width="70%"
+              height="19px"
+            />
+          </div>
+        </div>
+        <div class="flex gap-1 my-auto ml-auto amount-container">
+          <div *ngIf="item?.amountStatus == 'DEBIT'" class="text-red-600">
+            -AFN {{ item?.amount }}
+          </div>
+          <div *ngIf="item?.amountStatus == 'CREDIT'" class="text-green-600">
+            +AFN {{ item?.amount }}
+          </div>
+          <div class="mt-[5px]">
+            <img src="../../../assets/images/info 1.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex gap-2 mt-[5px]"
+    style="align-items: center; justify-content: center"
+  >
+    <div>
+      <button
+        [disabled]="nextPage == 0"
+        (click)="getTranasctionHistory('previousPage')"
+        mat-button
+        matTooltip="Previous"
+        matTooltipPosition="above"
+      >
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+    </div>
+    <div>
+      <button
+        [disabled]="responseLength"
+        (click)="getTranasctionHistory('nextPage')"
+        mat-button
+        matTooltip="Next"
+        matTooltipPosition="above"
+      >
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

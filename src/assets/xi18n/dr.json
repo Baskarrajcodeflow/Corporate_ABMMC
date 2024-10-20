@@ -1,0 +1,43 @@
+{
+    "appName": "می پی",
+    "menu": {
+        "home": "خانه",
+        "profile": "پروفایل",
+        "contact": "تماس"
+    },
+    "profile": {
+        "firstName": "نام",
+        "lastName": "نام خانوادگی",
+        "fathersName": "نام پدر",
+        "tazkiraNumber": "شماره تذکره",
+        "phoneNumber": "شماره تلفن",
+        "nextKin": "نزدیک ترین خویشاوند",
+        "email": "ایمیل",
+        "password": "رمز عبور",
+        "confirmPassword": "تایید رمز عبور",
+        "nationality": "ملیت",
+        "occupation": "شغل",
+        "gender": "جنسیت",
+        "male": "مرد",
+        "female": "زن",
+        "language": "زبان",
+        "English": "انگلیسی",
+        "Dari": "دری",
+        "Pashto": "پشتو",
+        "dob": "تاریخ تولد",
+        "uploadPassport": "آپلود پاسپورت",
+        "uploadProfilePicture": "آپلود عکس پروفایل",
+        "submit": "ارسال",
+        "selectGender": "انتخاب جنسیت",
+        "selectLanguage": "انتخاب زبان"
+    }, "dashboard": {
+        "title": "داشبورد",
+        "welcomeBack": "خوش آمدید،",
+        "transferMoney": "انتقال پول",
+        "accountBalance": "تراز حساب",
+        "recentTransactions": "تراکنش‌های اخیر",
+        "notifications": "اطلاعیه‌ها",
+        "exchangeRates": "نرخ‌های تبادل",
+        "usdToEur": "USD به EUR"
+      }
+}

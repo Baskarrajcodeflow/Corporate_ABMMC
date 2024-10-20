@@ -1,0 +1,85 @@
+<div class="flex h-full overflow-y-auto">
+    <!-- Main Content -->
+    <div class="w-full p-6 bg-gray-100">
+      <div class="grid grid-cols-3 gap-6 mb-6">
+        <!-- Content can go here -->
+      </div>
+      <div class="container mx-auto p-4">
+        <div class="overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Wallet Details
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Holder Details
+                </th>
+                <!-- <th
+                  scope="col"
+                  class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Status/Action
+                </th> -->
+
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <ng-container
+                *ngFor="let wallet of wallets; let i = index"
+              >
+                <tr
+                  class="cursor-pointer transition duration-300 ease-in-out transform hover:bg-blue-50 hover:scale-102 hover:shadow-lg"
+                  [ngClass]="{
+                    'bg-orange-50': i % 2 === 0,
+                    'bg-white': i % 2 !== 0
+                  }"
+                >
+                  <td class="px-6 py-2 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <!-- <img [src]="transaction.profilePic" alt="Profile" class="w-10 h-10 rounded-full mr-4" /> -->
+                      <div class="text-medium font-medium text-gray-900">
+                        <span class="text-sm text-gray-500">Wallet No :</span>
+                        <span class="text-sm">
+                            {{ wallet?.walletAccount?.walletNo }}
+                        </span>
+                        <p class="text-sm text-gray-500">
+                          Created On :
+                          <span class="text-gray-900">{{
+                            wallet?.createdOn | date:'dd-MMM-yyyy hh:mm a'
+                          }}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-2 whitespace-nowrap">
+                    <div class="text-sm text-gray-900 py-1">
+                      <i class="fa fa-user px-2 text-gray-500"></i
+                        >
+                      {{ wallet?.firstName }} {{ wallet?.lastName }}
+                    </div>
+                    <div class="text-sm text-gray-900 py-1">
+                      <i class="fa fa-envelope px-2 text-gray-500"></i
+                      >{{ wallet?.email }}
+                    </div>
+                    <div class="text-sm text-gray-500 py-1">
+                      <i class="fa fa-phone px-2 text-gray-500"></i
+                      >{{ wallet?.phone }}
+                    </div>
+                  </td>
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  

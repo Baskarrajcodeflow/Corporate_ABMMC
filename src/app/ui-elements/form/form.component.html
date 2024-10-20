@@ -1,0 +1,47 @@
+<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form [formGroup]="formName" class="space-y-6" (ngSubmit)="onSubmitForm()">
+      <div *ngFor=" let control of formControlsData">
+        <div  class="mt-4 relative">
+<!--             <label>{{control.label}} : </label>
+ -->                <ng-container [ngSwitch]="control.type">
+                    <input *ngSwitchCase=" 'text'" [id]="control.id" [formControlName]="control.name" [placeholder]="control?.placeholder"  class="block w-full  border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2 ">
+                    <input *ngSwitchCase=" 'email'" [id]="control.id" [formControlName]="control.name" [placeholder]="control?.placeholder"  class="block w-full  border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2 ">
+                    <input *ngSwitchCase=" 'password'" [id]="control.id" [formControlName]="control.name" [placeholder]="control?.placeholder"  class="block w-full  border border-gray-300 rounded-md ring-inset py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400  sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2 ">
+
+                      
+                    <select *ngSwitchCase="'dropdown'" [id]="control.id" [formControlName]="control.name" class="block w-full  border border-gray-300 rounded-md ring-inset py-1.5 text-gray-400 shadow-sm  placeholder:text-gray-400  sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500 pl-12 pr-4 py-2">
+                        <option class="text-gray-900" *ngFor="let option of control?.options" [value]="option.key">{{ option.value }}</option>
+                    </select>
+
+                    <div *ngSwitchCase="'radio'">
+                        <div *ngFor="let option of control?.options">
+                          <input type="radio" [id]="option.key" [value]="option.key" [formControlName]="control.name" />
+                          <label [for]="option.key">{{ option.value }}</label>
+                        </div>
+                    </div>
+
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                          stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>        
+                    </div>
+
+                </ng-container>
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-6 h-6 mr-2 pl-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>        
+                </div>
+         </div>
+      </div>
+      <div class="mt-4">
+        <button type="submit" 
+          class="flex w-full justify-center rounded-md btn-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:button-primary-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit
+        </button>
+      </div>
+    </form>
+</div>

@@ -1,0 +1,287 @@
+
+
+
+<div class="flex justify-center py-6">
+    <div class="flex-1 mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl color-blue-login">
+            <div class="p-6">
+                <h3 class="text-white text-xl font-semibold mb-2">Total Deposit</h3>
+                <p class="text-white font-bold text-lg">5000 AFN</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex-1 mx-4">
+        <div class="rounded-lg overflow-hidden shadow-lg color-blue-login">
+            <div class="p-6">
+                <h3 class="text-xl font-semibold mb-2 text-white">Today's Withdrawal</h3>
+                <p class="text-white font-bold text-lg">200 AFN</p>
+            </div>
+        </div>
+    </div>
+    <div class="flex-1 mx-4">
+        <div class="rounded-lg overflow-hidden shadow-lg color-blue-login">
+            <div class="p-6">
+                <h3 class=" text-white text-xl font-semibold mb-2">Total Balance</h3>
+                <p class="text-white font-bold text-lg">4800 AFN</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="flex items-center justify-center">
+    <div class="flex-1 border-t border-gray-400"></div>
+    <div class="mx-4 text-xl font-semibold header-titles">Our Services</div>
+    <div class="flex-1 border-t border-gray-400"></div>
+</div>
+
+
+
+<div class="flex justify-center py-6">
+    <a (click)="gotoProductPage('AddMoney')"
+        class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105">
+        <div class="flex mx-4">
+            <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+                <div class="p-6 ">
+                    <div class="flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e" class="w-14 h-14">
+                            <path
+                                d="M2.273 5.625A4.483 4.483 0 0 1 5.25 4.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 3H5.25a3 3 0 0 0-2.977 2.625ZM2.273 8.625A4.483 4.483 0 0 1 5.25 7.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 6H5.25a3 3 0 0 0-2.977 2.625ZM5.25 9a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h13.5a3 3 0 0 0 3-3v-6a3 3 0 0 0-3-3H15a.75.75 0 0 0-.75.75 2.25 2.25 0 0 1-4.5 0A.75.75 0 0 0 9 9H5.25Z" />
+                        </svg>
+
+                    </div>
+                    <div class="flex justify-center">
+                        <p class="header-titles text-lg">Add Money </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </a>
+
+    <a href="#" class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105">
+        <div class="flex mx-4">
+            <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+                <div class="p-6 ">
+                    <div class="flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e" class="w-14 h-14">
+                            <path
+                                d="M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6Z" />
+                            <path fill-rule="evenodd"
+                                d="M20.25 10.332v9.918H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.918a.75.75 0 0 1 .634-.74A49.109 49.109 0 0 1 12 9c2.59 0 5.134.202 7.616.592a.75.75 0 0 1 .634.74Zm-7.5 2.418a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Zm3-.75a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 1-1.5 0v-6.75a.75.75 0 0 1 .75-.75ZM9 12.75a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Z"
+                                clip-rule="evenodd" />
+                            <path d="M12 7.875a1.125 1.125 0 1 0 0-2.25 1.125 1.125 0 0 0 0 2.25Z" />
+                        </svg>
+
+                    </div>
+                    <div class="flex justify-center">
+                        <p class="header-titles text-lg">Link Account </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </a>
+
+<a (click)="gotoProductPage('bankTransfer')" class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105">
+    <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+            <div class="p-6 ">
+                <div class="flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e" class="w-14 h-14">
+                        <path fill-rule="evenodd"
+                            d="M12 5.25c1.213 0 2.415.046 3.605.135a3.256 3.256 0 0 1 3.01 3.01c.044.583.077 1.17.1 1.759L17.03 8.47a.75.75 0 1 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 0 0-1.06-1.06l-1.752 1.751c-.023-.65-.06-1.296-.108-1.939a4.756 4.756 0 0 0-4.392-4.392 49.422 49.422 0 0 0-7.436 0A4.756 4.756 0 0 0 3.89 8.282c-.017.224-.033.447-.046.672a.75.75 0 1 0 1.497.092c.013-.217.028-.434.044-.651a3.256 3.256 0 0 1 3.01-3.01c1.19-.09 2.392-.135 3.605-.135Zm-6.97 6.22a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.752-1.751c.023.65.06 1.296.108 1.939a4.756 4.756 0 0 0 4.392 4.392 49.413 49.413 0 0 0 7.436 0 4.756 4.756 0 0 0 4.392-4.392c.017-.223.032-.447.046-.672a.75.75 0 0 0-1.497-.092c-.013.217-.028.434-.044.651a3.256 3.256 0 0 1-3.01 3.01 47.953 47.953 0 0 1-7.21 0 3.256 3.256 0 0 1-3.01-3.01 47.759 47.759 0 0 1-.1-1.759L6.97 15.53a.75.75 0 0 0 1.06-1.06l-3-3Z"
+                            clip-rule="evenodd" />
+                    </svg>
+
+
+
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Bank Transfer </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</a>
+
+<a (click)="gotoProductPage('ownAccountTransfer')" class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105">
+    <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+            <div class="p-6 ">
+                <div class="flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e" class="w-14 h-14">
+                        <path fill-rule="evenodd"
+                            d="M12 5.25c1.213 0 2.415.046 3.605.135a3.256 3.256 0 0 1 3.01 3.01c.044.583.077 1.17.1 1.759L17.03 8.47a.75.75 0 1 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 0 0-1.06-1.06l-1.752 1.751c-.023-.65-.06-1.296-.108-1.939a4.756 4.756 0 0 0-4.392-4.392 49.422 49.422 0 0 0-7.436 0A4.756 4.756 0 0 0 3.89 8.282c-.017.224-.033.447-.046.672a.75.75 0 1 0 1.497.092c.013-.217.028-.434.044-.651a3.256 3.256 0 0 1 3.01-3.01c1.19-.09 2.392-.135 3.605-.135Zm-6.97 6.22a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.752-1.751c.023.65.06 1.296.108 1.939a4.756 4.756 0 0 0 4.392 4.392 49.413 49.413 0 0 0 7.436 0 4.756 4.756 0 0 0 4.392-4.392c.017-.223.032-.447.046-.672a.75.75 0 0 0-1.497-.092c-.013.217-.028.434-.044.651a3.256 3.256 0 0 1-3.01 3.01 47.953 47.953 0 0 1-7.21 0 3.256 3.256 0 0 1-3.01-3.01 47.759 47.759 0 0 1-.1-1.759L6.97 15.53a.75.75 0 0 0 1.06-1.06l-3-3Z"
+                            clip-rule="evenodd" />
+                    </svg>
+
+
+
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Own Account </p>
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Transfer </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</a>
+    <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+            <div class="p-6 ">
+                <div class="flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e" class="w-14 h-14">
+                        <path fill-rule="evenodd"
+                            d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                            clip-rule="evenodd" />
+                        <path
+                            d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+                    </svg>
+
+
+
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Third Party </p>
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Transfer </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="flex justify-center py-6">
+    <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+            <div class="p-6 ">
+                <div class="flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e" class="w-14 h-14">
+                        <path
+                            d="M2.273 5.625A4.483 4.483 0 0 1 5.25 4.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 3H5.25a3 3 0 0 0-2.977 2.625ZM2.273 8.625A4.483 4.483 0 0 1 5.25 7.5h13.5c1.141 0 2.183.425 2.977 1.125A3 3 0 0 0 18.75 6H5.25a3 3 0 0 0-2.977 2.625ZM5.25 9a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h13.5a3 3 0 0 0 3-3v-6a3 3 0 0 0-3-3H15a.75.75 0 0 0-.75.75 2.25 2.25 0 0 1-4.5 0A.75.75 0 0 0 9 9H5.25Z" />
+                    </svg>
+
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Check Balance </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <a (click)="gotoProductPage('payBills')"
+        class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105">
+    <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+            <div class="p-6 ">
+                <div class="flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e" class="w-14 h-14">
+                        <path
+                            d="M11.584 2.376a.75.75 0 0 1 .832 0l9 6a.75.75 0 1 1-.832 1.248L12 3.901 3.416 9.624a.75.75 0 0 1-.832-1.248l9-6Z" />
+                        <path fill-rule="evenodd"
+                            d="M20.25 10.332v9.918H21a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1 0-1.5h.75v-9.918a.75.75 0 0 1 .634-.74A49.109 49.109 0 0 1 12 9c2.59 0 5.134.202 7.616.592a.75.75 0 0 1 .634.74Zm-7.5 2.418a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Zm3-.75a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 1-1.5 0v-6.75a.75.75 0 0 1 .75-.75ZM9 12.75a.75.75 0 0 0-1.5 0v6.75a.75.75 0 0 0 1.5 0v-6.75Z"
+                            clip-rule="evenodd" />
+                        <path d="M12 7.875a1.125 1.125 0 1 0 0-2.25 1.125 1.125 0 0 0 0 2.25Z" />
+                    </svg>
+
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Pay Your Bills </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </a>
+    <div class="flex justify-center py-6">
+        <a (click)="gotoBranchAddress()"
+            class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105">
+
+            <div class="flex mx-4">
+                <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+                    <div class="p-6 ">
+                        <div class="flex justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e"
+                                class="w-14 h-14">
+                                <path fill-rule="evenodd"
+                                    d="M12 5.25c1.213 0 2.415.046 3.605.135a3.256 3.256 0 0 1 3.01 3.01c.044.583.077 1.17.1 1.759L17.03 8.47a.75.75 0 1 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 0 0-1.06-1.06l-1.752 1.751c-.023-.65-.06-1.296-.108-1.939a4.756 4.756 0 0 0-4.392-4.392 49.422 49.422 0 0 0-7.436 0A4.756 4.756 0 0 0 3.89 8.282c-.017.224-.033.447-.046.672a.75.75 0 1 0 1.497.092c.013-.217.028-.434.044-.651a3.256 3.256 0 0 1 3.01-3.01c1.19-.09 2.392-.135 3.605-.135Zm-6.97 6.22a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.752-1.751c.023.65.06 1.296.108 1.939a4.756 4.756 0 0 0 4.392 4.392 49.413 49.413 0 0 0 7.436 0 4.756 4.756 0 0 0 4.392-4.392c.017-.223.032-.447.046-.672a.75.75 0 0 0-1.497-.092c-.013.217-.028.434-.044.651a3.256 3.256 0 0 1-3.01 3.01 47.953 47.953 0 0 1-7.21 0 3.256 3.256 0 0 1-3.01-3.01 47.759 47.759 0 0 1-.1-1.759L6.97 15.53a.75.75 0 0 0 1.06-1.06l-3-3Z"
+                                    clip-rule="evenodd" />
+                            </svg>
+
+
+
+                        </div>
+                        <div class="flex justify-center">
+                            <p class="header-titles text-lg">Branch Adresses </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="flex justify-center py-6">
+        <a (click)="gotoProductPage('airTime')"
+            class="flex justify-center transition duration-300 ease-in-out transform hover:scale-105">
+
+          
+    <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+            <div class="p-6 ">
+                <div class="flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e" class="w-14 h-14">
+                        <path fill-rule="evenodd"
+                            d="M12 5.25c1.213 0 2.415.046 3.605.135a3.256 3.256 0 0 1 3.01 3.01c.044.583.077 1.17.1 1.759L17.03 8.47a.75.75 0 1 0-1.06 1.06l3 3a.75.75 0 0 0 1.06 0l3-3a.75.75 0 0 0-1.06-1.06l-1.752 1.751c-.023-.65-.06-1.296-.108-1.939a4.756 4.756 0 0 0-4.392-4.392 49.422 49.422 0 0 0-7.436 0A4.756 4.756 0 0 0 3.89 8.282c-.017.224-.033.447-.046.672a.75.75 0 1 0 1.497.092c.013-.217.028-.434.044-.651a3.256 3.256 0 0 1 3.01-3.01c1.19-.09 2.392-.135 3.605-.135Zm-6.97 6.22a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 1 0 1.06 1.06l1.752-1.751c.023.65.06 1.296.108 1.939a4.756 4.756 0 0 0 4.392 4.392 49.413 49.413 0 0 0 7.436 0 4.756 4.756 0 0 0 4.392-4.392c.017-.223.032-.447.046-.672a.75.75 0 0 0-1.497-.092c-.013.217-.028.434-.044.651a3.256 3.256 0 0 1-3.01 3.01 47.953 47.953 0 0 1-7.21 0 3.256 3.256 0 0 1-3.01-3.01 47.759 47.759 0 0 1-.1-1.759L6.97 15.53a.75.75 0 0 0 1.06-1.06l-3-3Z"
+                            clip-rule="evenodd" />
+                    </svg>
+
+
+
+                </div>
+               
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Air Time </p>
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Topup </p>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </a>
+</div>
+    <div class="flex mx-4">
+        <div class="rounded-lg overflow-hidden shadow-2xl bg-white  w-170">
+            <div class="p-6 ">
+                <div class="flex justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4a517e" class="w-14 h-14">
+                        <path fill-rule="evenodd"
+                            d="M8.25 6.75a3.75 3.75 0 1 1 7.5 0 3.75 3.75 0 0 1-7.5 0ZM15.75 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM2.25 9.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0ZM6.31 15.117A6.745 6.745 0 0 1 12 12a6.745 6.745 0 0 1 6.709 7.498.75.75 0 0 1-.372.568A12.696 12.696 0 0 1 12 21.75c-2.305 0-4.47-.612-6.337-1.684a.75.75 0 0 1-.372-.568 6.787 6.787 0 0 1 1.019-4.38Z"
+                            clip-rule="evenodd" />
+                        <path
+                            d="M5.082 14.254a8.287 8.287 0 0 0-1.308 5.135 9.687 9.687 0 0 1-1.764-.44l-.115-.04a.563.563 0 0 1-.373-.487l-.01-.121a3.75 3.75 0 0 1 3.57-4.047ZM20.226 19.389a8.287 8.287 0 0 0-1.308-5.135 3.75 3.75 0 0 1 3.57 4.047l-.01.121a.563.563 0 0 1-.373.486l-.115.04c-.567.2-1.156.349-1.764.441Z" />
+                    </svg>
+
+
+
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">Transaction </p>
+                </div>
+                <div class="flex justify-center">
+                    <p class="header-titles text-lg">History </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<app-our-services></app-our-services>

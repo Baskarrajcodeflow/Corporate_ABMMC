@@ -1,0 +1,142 @@
+
+<div class="flex h-full overflow-y-auto">
+  <!-- Main Content -->
+  <div class="w-full p-6 bg-gray-100">
+    <div class="grid grid-cols-3 gap-6 mb-6">
+     
+    </div>
+
+    <div class="bg-white p-6 rounded-md shadow-md mb-6">
+      <div class="flex justify-center items-center">
+        <form [formGroup]="Walletform" class="w-full max-w-lg">
+        <h2 class="text-xl font-bold">Money Transfer</h2>
+      
+          <div *ngIf="nextPage != 1">
+            <div class="gap-4 mt-4">
+              <div>
+                <div class="mb-4">
+                  <label class="block text-gray-700 text-sm"
+                    >Mobile Number or Wallet Number</label
+                  >
+                  <input
+                    formControlName="walletNo"
+                    type="text"
+                    class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div>
+              <app-spinner></app-spinner>
+                  <button
+                  (click)="serchBill()"
+                  class="bg-orange-600 text-white py-2 px-4 rounded hover:bg-[rgb(244,122,32)]"
+                >
+                  Search
+                </button>
+                </div>
+                <div class="mb-4">
+                  <label class="block text-gray-700 text-sm">Pay From</label>
+                  <input readonly
+                    formControlName="payFrom"
+                    class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+      
+                </div>
+                <div class="mb-4">
+                  <label class="block text-gray-700 text-sm"
+                    >Destination User Info</label
+                  >
+                  <select 
+                    formControlName="payTo"
+                    class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option *ngFor="let item of payToArray" [value]="item.firstName">{{item?.walletNo}}</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <div class="mb-4">
+                  <label class="block text-gray-700 text-sm"
+                    >Enter Amount To be Transferred (AFN)</label
+                  >
+                  <input
+                    formControlName="amount"
+                    type="text"
+                    class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              <div>
+                <div class="mb-4">
+                  <label class="block text-gray-700 text-sm"
+                    >Additional Info (Optional)</label
+                  >
+                  <input
+                    formControlName="info"
+                    type="text"
+                    class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+      
+              <div  class="text-[rgb(244,122,32)]" style="font-weight: 600;" *ngIf="totalAmount">
+                <span>The Total Amount including Fees and Commission is</span>
+                {{totalAmount}} AFN
+              </div>
+            </div>
+            <div *ngIf="!totalAmount" class="mt-4 mb-2">
+              <app-spinner></app-spinner>
+              <button
+                (click)="CheckAFC()"
+                class="bg-orange-600 text-white py-2 px-4 rounded hover:bg-[rgb(244,122,32)]"
+              >
+                Check Fees & Commission
+              </button>
+            </div>
+            <div *ngIf="totalAmount" class="mt-4 mb-2">
+              <button
+                (click)="next()"
+                class="bg-orange-600 text-white py-2 px-4 rounded hover:bg-[rgb(244,122,32)]"
+              >
+                Transfer Money
+              </button>
+            </div>
+          </div>
+      
+          <div *ngIf="nextPage == 1">
+            <div><span>Paying To:</span> {{payToArray[0]?.firstName}} {{payToArray[0]?.lastName}}</div>
+            <div class="mt-[10px]"><span>Amount: </span>{{totalAmount}}</div>
+      
+            <div class="mb-4 mt-[10px]">
+              <label class="block text-gray-700 text-sm"
+                >Wallet PIN</label
+              >
+              <input
+                formControlName="PIN"
+                type="text"
+                class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div class="mt-4 mb-2">
+              <app-spinner></app-spinner>
+              <button
+                (click)="sendMoney()"
+                class="bg-orange-600 text-white py-2 px-4 rounded hover:bg-[rgb(244,122,32)]"
+              >
+                Transfer Money
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <div id="chart" class="h-64"></div>
+    </div>
+
+   
+    
+  
+  
+
+
+
+

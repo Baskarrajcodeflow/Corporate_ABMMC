@@ -1,0 +1,11 @@
+<div class="mb-[16px] mt-[16px] pl-[20px] text-sm">
+  <div class="text-center text-1xl font-bold">Transaction Details</div>
+  <div class="mt-[5px]">Transaction Id: {{data?.message?.transactionId}}</div>
+  <div class="mt-[1px]">Transaction Method: {{data?.message?.paymentMode}}</div>
+  <div class="mt-[1px]">Transaction Type: {{data?.message?.transactionType}}</div>
+  <div class="mt-[1px]">Date: {{data?.message?.date | date:'dd-MM-yyyy hh:mm a'}}</div>
+  <div class="mt-[1px]">Amount: {{data?.message?.amount}}</div>
+  <div class="mt-[1px] ">
+    Description: {{data?.message?.description}}
+  </div>
+</div>  

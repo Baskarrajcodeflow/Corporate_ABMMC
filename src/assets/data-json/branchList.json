@@ -1,0 +1,44 @@
+
+
+ [
+  {
+    "branchName": "Head Office",
+    "phoneNumber": "0789056056",
+    "alternativePhoneNumber": "",
+    "address": "Head Office #3, 2nd sub-street, 15-street of Wazir Mohammad Akber khan, Kabul, Afghanistan",
+    "city": "ABMMC HQ",
+    "latitude": 34.537122,
+    "longitude": 69.179923,
+    "email": "mailto:info@ABMMCaf.com"
+  },
+  {
+    "branchName": "Kart-e-Naw Branch",
+    "phoneNumber": "0700187229",
+    "alternativePhoneNumber": "",
+    "address": "Second floor, Karwan Mall, Beside Azizi Bank",
+    "city": "Kabul",
+    "latitude": 34.510278,
+    "longitude": 69.220972,
+    "email": "mailto:kartinaw@ABMMCaf.com"
+  },
+   {
+    "branchName": "Lese Maryam Branch",
+    "phoneNumber": "0786797888",
+    "alternativePhoneNumber": "",
+    "address": "2nd floor, Atlas business center, Khisht hokhtif.",
+    "city": "Kabul",
+    "latitude": 34.579250,
+    "longitude":  69.133194,
+    "email": "mailto:lice-maryam@ABMMCaf.com"
+  },
+   {
+    "branchName": "Macroyan Branch",
+    "phoneNumber": "0787677494",
+    "alternativePhoneNumber": "",
+    "address":  "Infront Of Old  Makroyan Market,Next to Omid Hospital,Under the Gulden Star Hotel",
+    "city": "Kabul",
+    "latitude": 34.523972,
+    "longitude":  69.202639,
+    "email": "mailto:macroyan@ABMMCaf.com"
+  }
+]

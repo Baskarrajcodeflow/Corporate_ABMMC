@@ -1,0 +1,78 @@
+{
+    "appName": "ABMMC Wallet",
+    "app-name-b2c" : "ABMMC Wallet",
+    "menu": {
+        "home": "Home",
+        "profile": "Profile",
+        "contact": "Contact",
+        "bank_transfer" : "Bank Transfer",
+        "airtime_topup" : "Air Time Top Up",
+        "pay_bills" : "Pay Bills",
+        "branch_addresses" : "Locate Branch",
+        "admin":"Admin"
+    },
+    "profile": {
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "fathersName": "Father's Name",
+        "tazkiraNumber": "Tazkira Number",
+        "phoneNumber": "Phone Number",
+        "nextKin": "Next of Kin",
+        "email": "Email",
+        "RegisteredEmail": "Registered Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "monthly_income" : "Monthly Income",
+        "nationality": "Nationality",
+        "occupation": "Occupation",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "language": "Language",
+        "English": "English",
+        "Dari": "Dari",
+        "Pashto": "Pashto",
+        "dob": "Date of Birth",
+        "uploadPassport": "Upload Passport",
+        "uploadProfilePicture": "Upload Profile Picture",
+        "submit": "Submit",
+        "selectGender": "Select Gender",
+        "selectLanguage": "Select Language",
+        "wallet_balance" : "Wallet Balance :  ",
+        "walletno" : "Wallet No : "
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "welcomeBack": "Welcome back,",
+        "transferMoney": "Transfer Money",
+        "accountBalance": "Account Balance",
+        "recentTransactions": "Recent Transactions",
+        "notifications": "Notifications",
+        "exchangeRates": "Exchange Rates",
+        "usdToEur": "USD to EUR"
+      },
+    "button":{
+        "login" : "Login",
+        "signup" : "Sign Up",
+        "create_account" : "Create Account"
+
+
+    },
+    "general":{
+        "create_account" : "Create an Account",
+        "forgotPassword" : "Forgot password?",
+        "not_a_member" : "Not a member?",
+        "already_have_an_account" : "Already have an account?",
+        "sign_in" : "sign in",
+        "reset_password" : "Reset password",
+        "otp_verification" : "OTP Verification",
+        "next" : "Next",
+        "back" : "Previous"
+
+    },
+    "footer":{
+        "AllRightsReserved" : "All Rights Reserved",
+        "PoweredByMindlabs" : "Powered by Mindlabs",
+        "2024_MiPay" : "2024 ABMMC"
+    }
+}

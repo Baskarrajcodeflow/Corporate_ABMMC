@@ -1,0 +1,126 @@
+
+
+
+
+<div class="flex h-full overflow-y-auto">
+  <!-- Main Content -->
+  <div class="w-full p-6 bg-gray-100">
+    <div class="grid grid-cols-3 gap-6 mb-6">
+     
+    </div>
+
+    <div class="bg-white p-6 rounded-md shadow-md mb-6">
+      <div class="min-h-screen flex items-center justify-center bg-gray-100">
+        <div class="w-full max-w-4xl bg-white p-8 rounded-lg shadow-md flex flex-col md:flex-row">
+          <div class="flex justify-center items-center mb-6 md:mb-0">
+            <img src="../../../assets/images/cashIn.jpg" alt="Cash Out Illustration" class="w-full h-auto md:max-w-md">
+          </div>
+          <div class="flex p-4">
+            <div class="flex justify-center items-center">
+              <form [formGroup]="breshna" class="w-full max-w-lg">
+                <h2 class="text-xl font-bold">Breshna Payments</h2>
+                <div>
+                  <div class="gap-4 mt-2">
+                    <div>
+                      <div class="mb-4">
+                        <label class=" text-gray-700 text-sm">BtnPayFrom</label>
+                        <input readonly
+                          formControlName="BtnPayFrom"
+                          type="text"
+                          class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div class="mb-4">
+                        <label class=" text-gray-700 text-sm">Enter Breshna Account Number</label>
+                        <input
+                          formControlName="AccNumber"
+                          class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div class="mb-4">
+                        <label class=" text-gray-700 text-sm">Enter Customer Phone Number</label>
+                        <input
+                          formControlName="CustomerAccNum"
+                          type="text"
+                          class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <app-spinner></app-spinner>
+                        <button
+                          (click)="searchBill()"
+                          class="bg-orange-600 text-white py-2 px-4 rounded hover:bg-[rgb(244,122,32)]"
+                        >
+                          Search Bill
+                        </button>
+                      </div>
+                    </div>
+                    <div *ngIf="searchBillDetails">
+                      <div class="mt-4 flex items-center">
+                        <mat-icon class="text-gray-600 mr-2">person</mat-icon>
+                        <span class="">Name:</span>
+                        <span style="font-size: 14px" class="ml-2">{{ searchBillDetails.NAME }}</span>
+                      </div>
+                      <div class="mt-4 flex items-center">
+                        <mat-icon class="text-gray-600 mr-2">credit_card</mat-icon>
+                        <span class="">Account Number:</span>
+                        <span style="font-size: 14px" class="ml-2">{{ searchBillDetails.ACNO }}</span>
+                      </div>
+                      <div class="mt-4 flex items-center">
+                        <mat-icon class="text-gray-600 mr-2">attach_money</mat-icon>
+                        <span class="">Amount:</span>
+                        <span style="font-size: 14px" class="ml-2">{{ searchBillDetails.AMOUNT }}</span>
+                      </div>
+                      <div class="mt-4 flex items-center">
+                        <mat-icon class="text-gray-600 mr-2">event</mat-icon>
+                        <span class="">Billing Date:</span>
+                        <span style="font-size: 14px" class="ml-2">{{ searchBillDetails.BILLDT }}</span>
+                      </div>
+                      <div class="mt-4 flex items-center">
+                        <mat-icon class="text-gray-600 mr-2">location_on</mat-icon>
+                        <span class="">Address:</span>
+                        <span class="ml-2" style="font-size: 14px">{{ searchBillDetails.ADD }}</span>
+                      </div>
+                      <div class="mt-4">
+                        <div>
+                          <div class="mb-4 mt-[10px]">
+                            <label class=" text-gray-700 text-sm">Account Transaction PIN</label>
+                            <input
+                              formControlName="PIN"
+                              type="password"
+                              class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+                          </div>
+                          <div class="mt-4 mb-2">
+                            <app-spinner></app-spinner>
+                            <button
+                              (click)="payBreshnaBill()"
+                              class="bg-orange-600 text-white py-2 px-4 rounded hover:bg-[rgb(244,122,32)]"
+                            >
+                              PAY NOW
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div id="chart" class="h-64"></div>
+    </div>
+
+   
+    
+  
+  
+
+
+
+
+
+

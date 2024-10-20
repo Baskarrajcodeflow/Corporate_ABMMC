@@ -1,0 +1,43 @@
+/* Base Theme A Styles */
+:root {
+  --logo-url: url('/assets/logos/06.jpg ');
+  --mls-url: url('/assets/logos/logo.svg');
+    /* Color Palette */
+    --color-primary: #4a517e; /* Primary color for interactive elements */
+    --color-secondary: #6c757d; /* Secondary color for UI elements */
+    --color-success: #28a745; /* Success state color, e.g., for alerts and buttons */
+    --color-info: #17a2b8; /* Informational state color */
+    --color-warning: #ffc107; /* Warning state color */
+    --color-danger: #dc3545; /* Danger state color, e.g., for errors */
+    --color-light: #f8f9fa; /* Light color, often used for backgrounds */
+    --color-dark: #343a40; /* Dark color, used for text */
+    --color-disabled : #9d9797;
+    --color-blue: #0064a2;
+    
+    /* Typography */
+   /*  --font-family-base: 'Open Sans', sans-serif; */ /* Base font family */
+    --font-famil-base: 'Roboto', "Helvetica Neue";
+    --font-size-base: 1rem; /* Base font size */
+    --font-size-lg: 1.25rem; /* Large font size */
+    --font-size-sm: 0.875rem; /* Small font size */
+    --heading-color: var(--color-primary); /* Color of headings (h1, h2, etc.) */
+    --text-color: var(--color-dark); /* Base text color */
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem; /* Extra small spacing */
+    --spacing-sm: 0.5rem; /* Small spacing */
+    --spacing-md: 1rem; /* Medium spacing */
+    --spacing-lg: 1.5rem; /* Large spacing */
+    --spacing-xl: 3rem; /* Extra large spacing */
+    
+    /* Borders */
+    --border-radius: 0.25rem; /* Border radius for elements like buttons, input */
+    --border-color: #dee2e6; /* Base border color */
+    
+    /* Breakpoints */
+    --breakpoint-sm: 576px; /* Small breakpoint for responsive design */
+    --breakpoint-md: 768px; /* Medium breakpoint for responsive design */
+    --breakpoint-lg: 992px; /* Large breakpoint for responsive design */
+    --breakpoint-xl: 1200px; /* Extra large breakpoint for responsive design */
+  }
+  

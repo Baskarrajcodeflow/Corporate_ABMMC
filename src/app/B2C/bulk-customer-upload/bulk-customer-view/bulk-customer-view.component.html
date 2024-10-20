@@ -1,0 +1,37 @@
+<div style="margin-top: 1px; padding: 10px; display: flex; justify-content: center;">
+    <div class="row" style="width: 100%;">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card" style="border-color: rgb(244, 248, 248); border-radius: 30px; width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title p-1" style="color: rgb(0, 100, 162);">Bulk Salary List</h5>
+                    <table class="table" style="border: 1px solid #dee2e6; border-collapse: collapse; width: 100%;">
+                        <thead>
+                            <tr style="background-color: rgb(0, 100, 162); color: white;">
+                                <th class="table-header">Wallet Number</th>
+                                <th class="table-header">Amount</th>
+                                <!-- <th class="table-header">Action</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of bulkSalaryData">
+                                <td class="table-data">{{ item?.['WALLET'] }}</td>
+                                <td class="table-data">{{ item?.['AMOUNT'] }}</td>
+                              
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mb-2 mt-2 flex justify-end space-x-2 w-full -ml-[20px]" style="margin-top: 450px;">
+                    <button (click)="authorizeCustomeronboarding(1)" class="h-10 px-4 text-center bg-[#3a72a0] text-white border border-indigo-400 rounded-md text-sm">
+                        Authorize
+                    </button>
+                    <button (click)="authorizeCustomeronboarding(0)" class="h-10 px-4 text-center bg-[#3a72a0] text-white border border-indigo-400 rounded-md text-sm">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

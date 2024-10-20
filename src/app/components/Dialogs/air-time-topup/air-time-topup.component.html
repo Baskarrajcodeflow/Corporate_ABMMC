@@ -1,0 +1,17 @@
+<div *ngIf="data?.message?.code == 100" style="display: flex;align-items: center;justify-content: center;padding: 10px;">
+    <img src="../../../../assets/images/check02.gif" alt="" width="140px" height="140px">
+</div>
+<div *ngIf="data?.message?.code != 100" style="display: flex;align-items: center;justify-content: center;padding: 10px;">
+    <img src="../../../../assets/images/failed.gif" alt="" width="60px" height="60px">
+</div>
+<div class="text-center">
+  <p
+    [style]="
+      data?.message?.code == 101
+        ? 'font-size: 14px;color: rgb(202, 61, 61);padding:10px'
+        : 'font-size: 14px;color: #418141;padding:10px'
+    "
+  >
+    {{ data?.message?.message }}
+  </p>
+</div>

@@ -1,0 +1,201 @@
+<div class="mt-[10px] mb-[10px]">
+  <form
+    [formGroup]="backOfficeForm"
+    class="max-w-lg mx-auto p-4 bg-white shadow-md rounded-lg"
+  >
+    <h2 class="text-xl font-bold text-center mb-4">User Registration</h2>
+    <div class="grid grid-cols-1 gap-2">
+      <div class="mb-6">
+        <label for="firstName" class="block text-sm font-medium text-gray-700"
+          >First Name</label
+        >
+        <input
+          id="firstName"
+          type="text"
+          formControlName="firstName"
+          class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('firstName')?.touched &&
+            backOfficeForm.get('firstName')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          First Name is required.
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="lastName" class="block text-sm font-medium text-gray-700"
+          >Last Name</label
+        >
+        <input
+          id="lastName"
+          type="text"
+          formControlName="lastName"
+          class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('lastName')?.touched &&
+            backOfficeForm.get('lastName')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Last Name is required.
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="email" class="block text-sm font-medium text-gray-700"
+          >Email</label
+        >
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('email')?.touched &&
+            backOfficeForm.get('email')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Email is required and must be a valid email address.
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="phone" class="block text-sm font-medium text-gray-700"
+          >Phone</label
+        >
+        <input
+          id="phone"
+          type="text"
+          formControlName="phone"
+          class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('phone')?.touched &&
+            backOfficeForm.get('phone')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Phone number is required and must be at least 9 digits.
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="userType" class="block text-sm font-medium text-gray-700"
+          >User Type</label
+        >
+        <select
+          id="userType"
+          formControlName="userType"
+          class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        >
+          <option value="Agent">Agent</option>
+          <option value="Merchant">Merchant</option>
+          <option value="CUSTOMER">CUSTOMER</option>
+        </select>
+        <div
+          *ngIf="
+            backOfficeForm.get('userType')?.touched &&
+            backOfficeForm.get('userType')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          User Type is required.
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="gender" class="block text-sm font-medium text-gray-700"
+          >Gender</label
+        >
+        <select
+          id="gender"
+          formControlName="gender"
+          class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        >
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+        </select>
+        <div
+          *ngIf="
+            backOfficeForm.get('gender')?.touched &&
+            backOfficeForm.get('gender')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Gender is required.
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="password" class="block text-sm font-medium text-gray-700"
+          >Password</label
+        >
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('password')?.touched &&
+            backOfficeForm.get('password')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Password is required.
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label
+          for="confirmPassword"
+          class="block text-sm font-medium text-gray-700"
+          >Confirm Password</label
+        >
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          class="mt-1 block w-full h-8 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+        />
+        <div
+          *ngIf="
+            backOfficeForm.get('confirmPassword')?.touched &&
+            backOfficeForm.get('confirmPassword')?.invalid
+          "
+          class="text-red-600 text-sm"
+        >
+          Confirm Password is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between mt-6">
+      <button
+        type="button"
+        class="px-4 py-2 bg-gray-300 text-black rounded-md shadow-sm hover:bg-gray-400"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+        style="background-color: #0a365a"
+        (click)="onSave()"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</div>
