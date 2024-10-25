@@ -47,4 +47,8 @@
     z-index: -1;
   }
   
+  .mdc-snackbar__surface {
+    background-color: blueviolet !important;
+    color: white !important;  /* Ensure text color contrasts well */
+  }
   

@@ -14,6 +14,7 @@ import { LoginComponent } from './B2C/login/login.component';
 import { SystemwalletComponent } from './B2C/wallet-management/systemwallet/systemwallet.component';
 import { PushPullMoneyComponent } from './B2C/wallet-management/push-pull-money/push-pull-money.component';
 import { CorporateUsersListComponent } from './B2C/wallet-management/corporate-users-list/corporate-users-list.component';
+import { TransactionHistoryComponent } from './B2C/transaction-history/transaction-history.component';
 
 // export const routes: Routes = [
 //     {
@@ -50,6 +51,7 @@ export const routes: Routes = [
   { path: 'bulkSalaryProcess', component: BulkCustomerUploadComponent },
   { path: 'corpsUser', component: CorporateUsersListComponent },
   { path: 'pushpull', component: PushPullMoneyComponent },
+  { path: 'tranactionHistory', component: TransactionHistoryComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,

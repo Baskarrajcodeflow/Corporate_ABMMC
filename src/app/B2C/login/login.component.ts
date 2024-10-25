@@ -14,10 +14,12 @@ import { AuthServices } from '../../core/authservice.service';
 import { OurServicesComponent } from "../../components/Our-Services/our-services.component";
 import { ApiService } from '../ApiService/api.service';
 import { DatasharingService } from '../../services/datasharing.service';
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule, OurServicesComponent],
+  imports: [CommonModule, TranslateModule, FormsModule, OurServicesComponent,MatSnackBarModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -63,6 +65,7 @@ newpassword: any;
     private auth : AuthService,
     private apiService: ApiService,
     private dataSharing:DatasharingService,
+    private snackBar:MatSnackBar
 
   ) {}
   ngOnInit() {
@@ -142,11 +145,16 @@ newpassword: any;
       next: (v: any) => {
         console.log(v);
         if(v?.responseCode == 200 || v?.responseCode == 2){
-          alert(v?.message);
+          alert('Success');
           this.openModal = false;
           this.auth.logged = true;
           this.getProfileData();
           let token = v?.token;
+          this.snackBar.open('Success', 'Close', {
+            duration: 5000,
+            panelClass: ['mdc-snackbar__surface']
+          });
+          
           const helper = new JwtHelperService();
           let decodedToken = helper.decodeToken(JSON.stringify(token));
           // console.log(decodedToken);
