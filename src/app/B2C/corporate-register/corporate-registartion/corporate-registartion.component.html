@@ -1,0 +1,1009 @@
+<div class="flex h-full overflow-y-auto bg-gradient-to-r from-blue-50 to-indigo-50 font-sans">
+  <div class="w-full p-2 ">
+
+    <div class="">
+      <div class="flex space-x-8 px-6 py-2 m-2 border-b-2 border-gray-200 bg-white">
+        <div *ngIf="isLoading" class="fixed inset-0 flex items-center justify-center z-50 bg-opacity-50 bg-gray-800">
+          <div class="w-16 h-16 border-4 border-solid border-gray-300 rounded-full animate-spin border-t-transparent">
+          </div>
+        </div>
+        <ng-container *ngFor="let tab of formTabs; let i = index">
+          <button
+            [disabled]="tab == 'Company Shareholder Details' && companyDetailsForm.get('shareholderCount')?.value == 0"
+            (click)="selectedTab(tab,i)"
+            class="pb-2 text-sm text-gray-600 font-semibold hover:text-black focus:outline-none transition-all duration-300"
+            [class]=" currentTab === i  ? 'border-b-4 border-blue-600' : 'border-b-4 border-transparent'">
+            {{tab}}
+          </button>
+        </ng-container>
+
+      </div>
+
+      <!-- <div *ngIf="tab == 'Basic Info'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="basicDetailsForm" (ngSubmit)="saveForm(tab)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+              <label for="type" class="block text-sm font-medium text-gray-700">Select Type<span
+                  class="text-red-500">*</span></label>
+              <select id="type" name="type" formControlName="type" placeholder="Select Type"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': basicDetailsForm.controls['type'].touched && basicDetailsForm.controls['type'].invalid,                  
+                }">
+                <option value="" disabled selected>Select</option>
+                <option value="CORPORATE">Corporate</option>
+                <option value="SUPPLIER">Supplier</option>
+                <option value="SYSTEM">System</option>
+
+              </select>
+
+
+              <label for="corporteLastName" class="mt-2 block text-sm font-medium text-gray-700">Corporate Account
+                Holder Last Name<span class="text-red-500">*</span></label>
+              <input type="text" id="corporteLastName" formControlName="corporteLastName" name="corporteLastName"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': basicDetailsForm.controls['corporteLastName'].touched && basicDetailsForm.controls['corporteLastName'].invalid,                  
+                }" placeholder="Corporate Account Holder Last Name">
+
+
+              <label for="corporatePhone" class="mt-2 block text-sm font-medium text-gray-700">Corporate Phone
+                Number<span class="text-red-500">*</span></label>
+              <input type="text" id="corporatePhone" formControlName="corporatePhone" name="corporatePhone" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': basicDetailsForm.controls['corporatePhone'].touched && basicDetailsForm.controls['corporatePhone'].invalid,                  
+                }" placeholder="Corporate Phone Number">
+
+              <label for="corporatePassword" class="mt-2 block text-sm font-medium text-gray-700">
+                Password<span class="text-red-500">*</span>
+              </label>
+              <div class="relative">
+                <input [type]="isPasswordVisible ? 'text' : 'password'" id="corporatePassword"
+                  formControlName="corporatePassword" name="corporatePassword" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm pr-10"
+                  [ngClass]="{
+                      'border-red-500': basicDetailsForm.controls['corporatePassword'].touched && basicDetailsForm.controls['corporatePassword'].invalid
+                    }" placeholder="Corporate Password" />
+                <span class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+                  (click)="togglePasswordVisibility()">
+                  <i [ngClass]="isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                </span>
+              </div>
+
+            </div>
+
+            <div class="flex flex-col">
+              <label for="corporteFirstName" class="block text-sm font-medium text-gray-700">Corporate Account Holder
+                First Name<span class="text-red-500">*</span></label>
+              <input type="text" id="corporteFirstName" formControlName="corporteFirstName" name="corporteFirstName"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': basicDetailsForm.controls['corporteFirstName'].touched && basicDetailsForm.controls['corporteFirstName'].invalid,                  
+                }" placeholder="Corporate Account Holder First Name">
+              <label for="corporateEmail" class="mt-2 block text-sm font-medium text-gray-700">Corporate Email<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="corporateEmail" formControlName="corporateEmail" name="corporateEmail" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': basicDetailsForm.controls['corporateEmail'].touched && basicDetailsForm.controls['corporateEmail'].invalid,                  
+                }" placeholder="Corporate Email">
+              <label for="corporateUserName" class="mt-2 block text-sm font-medium text-gray-700">Corporate
+                Username<span class="text-red-500">*</span></label>
+              <input type="text" id="corporateUserName" formControlName="corporateUserName" name="corporateUserName"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': basicDetailsForm.controls['corporateUserName'].touched && basicDetailsForm.controls['corporateUserName'].invalid,                  
+                }" placeholder="Corporate Username">
+
+              <label for="SalarythirdLevelAuth" class="mt-2 block text-sm font-medium text-gray-700">Require Third Level
+                Authentication for Salary Processing?<span class="text-red-500">*</span></label>
+              <select id="SalarythirdLevelAuth" name="SalarythirdLevelAuth" formControlName="SalarythirdLevelAuth"
+                placeholder="Select"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                'border-red-500': basicDetailsForm.controls['SalarythirdLevelAuth'].touched && basicDetailsForm.controls['SalarythirdLevelAuth'].invalid,                  
+              }">
+                <option value="" disabled selected>Select</option>
+                <option value=true>Yes</option>
+                <option value=false>No</option>
+
+              </select>
+
+
+            </div>
+
+
+
+
+          </form>
+
+
+
+
+
+
+        </div>
+      </div> -->
+      <div *ngIf="tab == 'Company Details'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="companyDetailsForm" (ngSubmit)="saveForm(tab)"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+
+              <label for="companyName" class="block text-sm font-medium text-gray-700">Company Name/Title<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="companyName" formControlName="companyName" name="companyName" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyDetailsForm.controls['companyName'].touched && companyDetailsForm.controls['companyName'].invalid,                  
+                }" placeholder="Company Name/Title">
+
+
+              <label for="contactpersonDesignation" class="mt-2 block text-sm font-medium text-gray-700">Contact Person
+                Designation<span class="text-red-500">*</span></label>
+              <input type="text" id="contactpersonDesignation" formControlName="contactpersonDesignation"
+                name="contactpersonDesignation" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyDetailsForm.controls['contactpersonDesignation'].touched && companyDetailsForm.controls['contactpersonDesignation'].invalid,                  
+                }" placeholder="Contact Person Designation">
+
+              <label for="contactPersonTazkiraPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach Contact
+                Person Tazkira/Passport Photo<span class="text-red-500">*</span></label>
+              <!-- <form ></form> -->
+              <input type="file" #contactPersonTazkiraPhoto id="contactPersonTazkiraPhoto"
+                name="contactPersonTazkiraPhoto" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Attach" (change)="onFileSelected($event,'contactPersonTazkiraPhoto', tab)">
+
+            </div>
+
+            <div class="flex flex-col">
+
+
+
+              <label for="contactPersonName" class="mt-2 block text-sm font-medium text-gray-700">Contact Person
+                Name<span class="text-red-500">*</span></label>
+              <input type="text" id="contactPersonName" formControlName="contactPersonName" name="contactPersonName"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyDetailsForm.controls['contactPersonName'].touched && companyDetailsForm.controls['contactPersonName'].invalid,                  
+                }" placeholder="Contact Person Name">
+
+              <label for="shareholderCount" class="mt-2 block text-sm font-medium text-gray-700">Number of Share
+                Holders<span class="text-red-500">*</span></label>
+              <input type="text" id="shareholderCount" formControlName="shareholderCount" name="shareholderCount"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyDetailsForm.controls['shareholderCount'].touched && companyDetailsForm.controls['shareholderCount'].invalid,                  
+                }" placeholder="Number of Share Holders" (blur)="addShareholder()">
+
+              <label for="contactPersonSign" class="mt-2 block text-sm font-medium text-gray-700">Attach Contact Person
+                Signature Photo<span class="text-red-500">*</span></label>
+              <input type="file" id="contactPersonSign" name="contactPersonSign" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Attach" (change)="onFileSelected($event,'contactPersonSign', tab)">
+
+
+            </div>
+
+
+
+          </form>
+
+
+
+        </div>
+
+
+
+
+
+      </div>
+      <div *ngIf="tab == 'Company Business License Details'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="businessLicenceDetailsForm" (ngSubmit)="saveForm(tab)"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+
+              <label for="licenceNumber" class="block text-sm font-medium text-gray-700">Company Licence Number<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="licenceNumber" formControlName="licenceNumber" name="licenceNumber" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessLicenceDetailsForm.controls['licenceNumber'].touched && businessLicenceDetailsForm.controls['licenceNumber'].invalid,                  
+                }" placeholder="Company Licence Number">
+
+              <label for="dateofIssue" class="mt-2 block text-sm font-medium text-gray-700">Date of Issue<span
+                  class="text-red-500">*</span></label>
+              <input type="date" id="dateofIssue" formControlName="dateofIssue" name="dateofIssue" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessLicenceDetailsForm.controls['dateofIssue'].touched && businessLicenceDetailsForm.controls['dateofIssue'].invalid,                  
+                }" placeholder="Date of Issue">
+
+              <label for="tinNumber" class="mt-2 block text-sm font-medium text-gray-700">TIN Number<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="tinNumber" formControlName="tinNumber" name="tinNumber" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessLicenceDetailsForm.controls['tinNumber'].touched && businessLicenceDetailsForm.controls['tinNumber'].invalid,                  
+                }" placeholder="TIN Number">
+
+
+
+            </div>
+
+            <div class="flex flex-col">
+
+              <label for="licenceIssueAuthority" class="block text-sm font-medium text-gray-700">License Issuance
+                Authority<span class="text-red-500">*</span></label>
+              <input type="text" id="licenceIssueAuthority" formControlName="licenceIssueAuthority"
+                name="licenceIssueAuthority" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessLicenceDetailsForm.controls['licenceIssueAuthority'].touched && businessLicenceDetailsForm.controls['licenceIssueAuthority'].invalid,                  
+                }" placeholder="License Issuance Authority">
+
+              <label for="dateofExpiry" class="mt-2 block text-sm font-medium text-gray-700">Date of Expiry<span
+                  class="text-red-500">*</span></label>
+              <input type="date" id="dateofExpiry" formControlName="dateofExpiry" name="dateofExpiry" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessLicenceDetailsForm.controls['dateofExpiry'].touched && businessLicenceDetailsForm.controls['dateofExpiry'].invalid,                  
+                }" placeholder="Date of Expiry">
+
+              <label for="businessLicencePhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach Business
+                Licence Photo<span class="text-red-500">*</span></label>
+              <input type="file" id="businessLicencePhoto" name="businessLicencePhoto" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Attach" (change)="onFileSelected($event,'businessLicencePhoto', tab)">
+
+
+            </div>
+
+          </form>
+
+        </div>
+
+
+
+
+      </div>
+
+      <div *ngIf="tab == 'Company Business Activities'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="businessActivityDetailsForm" (ngSubmit)="saveForm(tab)"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+
+              <label for="businessName" class="block text-sm font-medium text-gray-700">Business Name<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="businessName" formControlName="businessName" name="businessName" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessActivityDetailsForm.controls['businessName'].touched && businessActivityDetailsForm.controls['businessName'].invalid,                  
+                }" placeholder="Business Name">
+
+              <label for="monthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly Income<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="monthlyIncome" formControlName="monthlyIncome" name="monthlyIncome" required  (blur)="formatCurrency('monthlyIncome')"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessActivityDetailsForm.controls['monthlyIncome'].touched && businessActivityDetailsForm.controls['monthlyIncome'].invalid,                  
+                }" placeholder="Monthly Income">
+<!-- {{businessActivityDetailsForm.controls['monthlyIncome'].value ?? '' | currencyFormat }} -->
+
+              <label for="sourceofFund" class="mt-2 block text-sm font-medium text-gray-700">Source of Fund<span
+                  class="text-red-500">*</span></label>
+              <input  type="text" id="sourceofFund" formControlName="sourceofFund" name="sourceofFund" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessActivityDetailsForm.controls['sourceofFund'].touched && businessActivityDetailsForm.controls['sourceofFund'].invalid,                  
+                }" placeholder="Source of Fund">
+
+
+
+            </div>
+
+            <div class="flex flex-col">
+
+              <label for="natureofBusiness" class="block text-sm font-medium text-gray-700">Nature of Business<span
+                  class="text-red-500">*</span></label>
+              <!-- <input type="text" id="natureofBusiness" formControlName="natureofBusiness" name="natureofBusiness"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Nature of Business"> -->
+              <select id="natureofBusiness" name="natureofBusiness" formControlName="natureofBusiness"
+                placeholder="Select Nature of Business"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessActivityDetailsForm.controls['natureofBusiness'].touched && businessActivityDetailsForm.controls['natureofBusiness'].invalid,                  
+                }">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let businessType of natureofBusinesses" value="businessType.id">{{businessType.name}}
+                </option>
+              </select>
+
+              <label for="netWorth" class="mt-2 block text-sm font-medium text-gray-700">Net Worth<span
+                  class="text-red-500">*</span></label>
+              <input  (blur)="formatCurrency('netWorth')" type="text" id="netWorth" formControlName="netWorth" name="netWorth" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessActivityDetailsForm.controls['netWorth'].touched && businessActivityDetailsForm.controls['netWorth'].invalid,                  
+                }" placeholder="Net Worth">
+
+              <label for="monthlyTurnover" class="mt-2 block text-sm font-medium text-gray-700">Monthly Turnover<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="monthlyTurnover" formControlName="monthlyTurnover" name="monthlyTurnover" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': businessActivityDetailsForm.controls['monthlyTurnover'].touched && businessActivityDetailsForm.controls['monthlyTurnover'].invalid,                  
+                }" placeholder="Monthly Turnover">
+
+
+            </div>
+
+
+
+
+          </form>
+
+        </div>
+      </div>
+      <div *ngIf="tab == 'Company Address'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="companyAddressDetailsForm" (ngSubmit)="saveForm(tab)"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+
+              <label for="officePhone" class="block text-sm font-medium text-gray-700">Office Phone Number<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="officePhone" formControlName="officePhone" name="officePhone" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyAddressDetailsForm.controls['officePhone'].touched && companyAddressDetailsForm.controls['officePhone'].invalid,                  
+                }" placeholder="Office Phone Number">
+
+
+              <label for="country" class="mt-2 block text-sm font-medium text-gray-700">Country<span
+                  class="text-red-500">*</span></label>
+              <select id="country" name="country" formControlName="country" placeholder="Select Country"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyAddressDetailsForm.controls['country'].touched && companyAddressDetailsForm.controls['country'].invalid,                  
+                }">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let nationality of nationalities" [value]="nationality?.name">{{nationality?.name}}
+                </option>
+              </select>
+
+              <label for="province" class="mt-2 block text-sm font-medium text-gray-700">Province<span
+                  class="text-red-500">*</span></label>
+              <select id="province" name="province" formControlName="province" placeholder="Select Province"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyAddressDetailsForm.controls['province'].touched && companyAddressDetailsForm.controls['province'].invalid,                  
+                }" (change)="onSelectProvince($event)">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+              </select>
+
+              <label for="location" class="mt-2 block text-sm font-medium text-gray-700">Location<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="location" formControlName="location" name="location" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                'border-red-500': companyAddressDetailsForm.controls['location'].touched && companyAddressDetailsForm.controls['location'].invalid,                  
+              }" placeholder="Location">
+
+              <label for="addressProof" class="mt-2 block text-sm font-medium text-gray-700">Attach Address Proof
+                Photo<span class="text-red-500">*</span></label>
+              <input type="file" id="addressProof" name="addressProof" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Attach" (change)="onFileSelected($event,'addressProof', tab)">
+
+
+
+            </div>
+
+            <div class="flex flex-col">
+
+              <label for="officeEmail" class="block text-sm font-medium text-gray-700">Office Email<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="officeEmail" formControlName="officeEmail" name="officeEmail" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyAddressDetailsForm.controls['officeEmail'].touched && companyAddressDetailsForm.controls['officeEmail'].invalid,                  
+                }" placeholder="Office Email">
+
+              <label for="streetNumber" class="mt-2 block text-sm font-medium text-gray-700">Street Number<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="streetNumber" formControlName="streetNumber" name="streetNumber" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyAddressDetailsForm.controls['streetNumber'].touched && companyAddressDetailsForm.controls['streetNumber'].invalid,                  
+                }" placeholder="Street Number">
+
+              <label for="houseNumber" class="mt-2 block text-sm font-medium text-gray-700">House Number</label>
+              <input type="text" id="houseNumber" formControlName="houseNumber" name="houseNumber"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyAddressDetailsForm.controls['houseNumber'].touched && companyAddressDetailsForm.controls['houseNumber'].invalid,                  
+                }" placeholder="House Number">
+
+              <label for="district" class="mt-2 block text-sm font-medium text-gray-700">District<span
+                  class="text-red-500">*</span></label>
+              <select id="district" name="district" formControlName="district" placeholder="Select District"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': companyAddressDetailsForm.controls['district'].touched && companyAddressDetailsForm.controls['district'].invalid,                  
+                }">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+              </select>
+
+
+
+
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+      <div *ngIf="tab == 'Company Shareholder Details'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <!-- <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2> -->
+
+          <form [formGroup]="shareHolderDetailsForm" (ngSubmit)="saveForm(tab)">
+            <div formArrayName="shareHolders">
+              <div *ngFor="let shareholder of shareHoldersFormArray.controls; let i = index" [formGroupName]="i"
+                class="mb-6">
+                <h2 class="text-xl font-semibold mb-6 text-gray-800">Shareholder {{ i + 1 }} Details </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="flex flex-col">
+
+                    <label for="shareholderFirstName" class="block text-sm font-medium text-gray-700">First Name<span
+                        class="text-red-500">*</span></label>
+                    <input type="text" id="shareholderFirstName" formControlName="shareholderFirstName"
+                      name="shareholderFirstName" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderFirstName')?.touched && shareholder.get('shareholderFirstName')?.invalid,                  
+                        }" placeholder="First Name">
+
+                    <label for="shareholderFatherName" class="mt-2 block text-sm font-medium text-gray-700">Father
+                      Name<span class="text-red-500">*</span></label>
+                    <input type="text" id="shareholderFatherName" formControlName="shareholderFatherName"
+                      name="shareholderFatherName" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderFatherName')?.touched && shareholder.get('shareholderFatherName')?.invalid,                  
+                        }" placeholder="Father Name">
+
+                    <label for="shareholderDOB" class="mt-2 block text-sm font-medium text-gray-700">Date of Birth<span
+                        class="text-red-500">*</span></label>
+                    <input type="date" id="shareholderDOB" formControlName="shareholderDOB" name="shareholderDOB"
+                      required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderDOB')?.touched && shareholder.get('shareholderDOB')?.invalid,                  
+                        }" placeholder="Date of Birth">
+                        <!-- <div *ngIf="shareholder.get('shareholderDOB')?.hasError('underage')">
+                          <small style="color: red;">You must be at least 18 years old.</small>
+                        </div> -->
+
+                    <label for="shareholderNationality"
+                      class="mt-2 block text-sm font-medium text-gray-700">Nationality<span
+                        class="text-red-500">*</span></label>
+                    <!-- <input type="text" id="shareholderNationality" formControlName="shareholderNationality" name="shareholderNationality" required
+                        class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                        [ngClass]="{
+                          'border-red-500': shareholder.controls['shareholderNationality'].touched && shareholder.controls['shareholderNationality'].invalid,                  
+                        }" placeholder="Nationality">  -->
+                    <select id="shareholderNationality" name="shareholderNationality"
+                      formControlName="shareholderNationality" placeholder="Nationality"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderNationality')?.touched && shareholder.get('shareholderNationality')?.invalid,                  
+                        }">
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let nationality of nationalities" [value]="nationality?.name">
+                        {{nationality?.name}}
+                      </option>
+                    </select>
+
+                    <label for="shareholdingPercentage" class="mt-2 block text-sm font-medium text-gray-700">Share
+                      Holding Percentage<span class="text-red-500">*</span></label>
+                    <input type="text" id="shareholdingPercentage" formControlName="shareholdingPercentage"
+                      name="shareholdingPercentage" required (blur)="formatPercentage($event)"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholdingPercentage')?.touched && shareholder.get('shareholdingPercentage')?.invalid,                  
+                        }" placeholder="Share Holding Percentage">
+
+                    <label for="shareholderRelationship"
+                      class="mt-2 block text-sm font-medium text-gray-700">Relationship<span
+                        class="text-red-500">*</span></label>
+                    <select id="shareholderRelationship" name="shareholderRelationship"
+                      formControlName="shareholderRelationship" placeholder="Select Relationship"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderRelationship')?.touched && shareholder.get('shareholderRelationship')?.invalid,                  
+                        }">
+                      <option value="" disabled selected>Select</option>
+                      <option value="PRESIDENT">President</option>
+                      <option value="VICE_PRESIDENT">Vice Precident</option>
+                      <option value="SHAREHOLDER">Share holder</option>
+
+
+                    </select>
+
+                    <label for="shareholderPhone" class="mt-2 block text-sm font-medium text-gray-700">Phone Number<span
+                        class="text-red-500">*</span></label>
+                    <input type="text" id="shareholderPhone" formControlName="shareholderPhone" name="shareholderPhone"
+                      required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderPhone')?.touched && shareholder.get('shareholderPhone')?.invalid,                  
+                        }" placeholder="Phone Number">
+
+                    <label for="shareholderCurrentlocation" class="mt-2 block text-sm font-medium text-gray-700">Current
+                      Location<span class="text-red-500">*</span></label>
+                    <input type="text" id="shareholderCurrentlocation" formControlName="shareholderCurrentlocation"
+                      name="shareholderCurrentlocation" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderCurrentlocation')?.touched && shareholder.get('shareholderCurrentlocation')?.invalid,                  
+                        }" placeholder="Current Location">
+
+                    <label for="shareholderCurrentDistrict" class="mt-2 block text-sm font-medium text-gray-700">Current
+                      District<span class="text-red-500">*</span></label>
+                    <select id="shareholderCurrentDistrict" name="shareholderCurrentDistrict"
+                      formControlName="shareholderCurrentDistrict" placeholder="Select District"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderCurrentDistrict')?.touched && shareholder.get('shareholderCurrentDistrict')?.invalid,                  
+                        }">
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+                    </select>
+
+                    <label for="shareholderPermanantProvince" class="mt-2 block text-sm font-medium text-gray-700">
+                      permanent Province<span class="text-red-500">*</span></label>
+                    <select id="shareholderPermanantProvince" name="shareholderPermanantProvince"
+                      formControlName="shareholderPermanantProvince" placeholder="Select Province"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderPermanantProvince')?.touched && shareholder.get('shareholderPermanantProvince')?.invalid,                  
+                        }" (change)="onSelectProvince($event)">
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+                    </select>
+
+                    <label for="shareholderTazkiraPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach
+                      Tazkira/Passport Photo
+                      <span class="text-red-500">*</span></label>
+                    <input type="file" id="shareholderTazkiraPhoto" name="shareholderTazkiraPhoto" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      placeholder="Attach" (change)="onFileSelected($event,'shareholderTazkiraPhoto', tab)">
+
+
+
+
+
+                  </div>
+
+                  <div class="flex flex-col">
+
+                    <label for="shareholderLastName" class="block text-sm font-medium text-gray-700">Last Name<span
+                        class="text-red-500">*</span></label>
+                    <input type="text" id="shareholderLastName" formControlName="shareholderLastName"
+                      name="shareholderLastName" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderLastName')?.touched && shareholder.get('shareholderLastName')?.invalid,                  
+                        }" placeholder="Last Name">
+
+                    <label for="shareholdertazkiraNo"
+                      class="mt-2 block text-sm font-medium text-gray-700">Tazkira/Passport Number<span
+                        class="text-red-500">*</span></label>
+                    <input type="text" id="shareholdertazkiraNo" formControlName="shareholdertazkiraNo"
+                      name="shareholdertazkiraNo" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholdertazkiraNo')?.touched && shareholder.get('shareholdertazkiraNo')?.invalid,                  
+                        }" placeholder="Tazkira/Passport Number">
+
+                    <label for="shareholderPlaceofBirth" class="mt-2 block text-sm font-medium text-gray-700">Place of
+                      Birth<span class="text-red-500">*</span></label>
+                    <input type="text" id="shareholderPlaceofBirth" formControlName="shareholderPlaceofBirth"
+                      name="shareholderPlaceofBirth" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderPlaceofBirth')?.touched && shareholder.get('shareholderPlaceofBirth')?.invalid,                  
+                        }" placeholder="Place of Birth">
+
+                    <label for="shareholderMonthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly
+                      Income<span class="text-red-500">*</span></label>
+                    <input type="text" id="shareholderMonthlyIncome" formControlName="shareholderMonthlyIncome"
+                      name="shareholderMonthlyIncome" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderMonthlyIncome')?.touched && shareholder.get('shareholderMonthlyIncome')?.invalid,                  
+                        }" placeholder="Monthly Income">
+
+                    <label for="shareholdingOtherSource" class="mt-2 block text-sm font-medium text-gray-700">Other
+                      Source of Income</label>
+                    <input type="text" id="shareholdingOtherSource" formControlName="shareholdingOtherSource"
+                      name="shareholdingOtherSource"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholdingOtherSource')?.touched && shareholder.get('shareholdingOtherSource')?.invalid,                  
+                        }" placeholder="Other Source of Income">
+
+                    <label for="shareholderTin" class="mt-2 block text-sm font-medium text-gray-700">TIN Number</label>
+                    <input type="text" id="shareholderTin" formControlName="shareholderTin" name="shareholderTin"
+                      required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderTin')?.touched && shareholder.get('shareholderTin')?.invalid,                  
+                        }" placeholder="TIN Number">
+
+                    <label for="shareholderCurrentCountry" class="mt-2 block text-sm font-medium text-gray-700"> Current
+                      Country<span class="text-red-500">*</span></label>
+                    <select id="shareholderCurrentCountry" name="shareholderCurrentCountry"
+                      formControlName="shareholderCurrentCountry" placeholder="Select Current Country"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderCurrentCountry')?.touched && shareholder.get('shareholderCurrentCountry')?.invalid,                  
+                        }">
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let nationality of nationalities" [value]="nationality?.name">
+                        {{nationality?.name}}
+                      </option>
+                    </select>
+
+
+
+                    <label for="shareholderCurrentProvince" class="mt-2 block text-sm font-medium text-gray-700">
+                      Current Province<span class="text-red-500">*</span></label>
+                    <select id="shareholderCurrentProvince" name="shareholderCurrentProvince"
+                      formControlName="shareholderCurrentProvince" placeholder="Select Province"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderCurrentProvince')?.touched && shareholder.get('shareholderCurrentProvince')?.invalid,                  
+                        }" (change)="onSelectProvince($event)">
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+                    </select>
+
+                    <label for="shareholderPermanantCountry" class="mt-2 block text-sm font-medium text-gray-700">
+                      permanent Country<span class="text-red-500">*</span></label>
+                    <select id="shareholderPermanantCountry" name="shareholderPermanantCountry"
+                      formControlName="shareholderPermanantCountry" placeholder="Select Current Country"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderPermanantCountry')?.touched && shareholder.get('shareholderPermanantCountry')?.invalid,                  
+                        }">
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let nationality of nationalities" [value]="nationality?.name">
+                        {{nationality?.name}}
+                      </option>
+                    </select>
+
+                    <label for="shareholderPermanantDistrict"
+                      class="mt-2 block text-sm font-medium text-gray-700">permanent District<span
+                        class="text-red-500">*</span></label>
+                    <select id="shareholderPermanantDistrict" name="shareholderPermanantDistrict"
+                      formControlName="shareholderPermanantDistrict" placeholder="Select District"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderPermanantDistrict')?.touched && shareholder.get('shareholderPermanantDistrict')?.invalid,                  
+                        }">
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+                    </select>
+
+
+
+
+                  </div>
+
+                </div>
+
+
+
+
+
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+      <div *ngIf="tab == 'Authorized Signatory Details'" class="py-6 px-8 mx-4">
+        <div class="mt-6">
+          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+
+          <form [formGroup]="authorizedDetailsForm" (ngSubmit)="saveForm(tab)"
+            class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="flex flex-col">
+
+              <label for="authorizedFirstName" class="block text-sm font-medium text-gray-700">First Name<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="authorizedFirstName" formControlName="authorizedFirstName"
+                name="authorizedFirstName" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedFirstName'].touched && authorizedDetailsForm.controls['authorizedFirstName'].invalid,                  
+                }" placeholder="First Name">
+
+              <label for="authorizedtazkiraNo" class="mt-2 block text-sm font-medium text-gray-700">Tazkira/Passport
+                Number<span class="text-red-500">*</span></label>
+              <input type="text" id="authorizedtazkiraNo" formControlName="authorizedtazkiraNo"
+                name="authorizedtazkiraNo" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedtazkiraNo'].touched && authorizedDetailsForm.controls['authorizedtazkiraNo'].invalid,                  
+                }" placeholder="Tazkira/Passport Number">
+
+              <label for="authorizedPlaceofBirth" class="mt-2 block text-sm font-medium text-gray-700">Place of
+                Birth<span class="text-red-500">*</span></label>
+              <input type="text" id="authorizedPlaceofBirth" formControlName="authorizedPlaceofBirth"
+                name="authorizedPlaceofBirth" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedPlaceofBirth'].touched && authorizedDetailsForm.controls['authorizedPlaceofBirth'].invalid,                  
+                }" placeholder="Place of Birth">
+
+              <label for="authorizedDesignation" class="mt-2 block text-sm font-medium text-gray-700">Designation<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="authorizedDesignation" formControlName="authorizedDesignation"
+                name="authorizedDesignation" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedDesignation'].touched && authorizedDetailsForm.controls['authorizedDesignation'].invalid,                  
+                }" placeholder="Designation">
+
+              <label for="authorizedMonthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly
+                Income<span class="text-red-500">*</span></label>
+              <input type="text" id="authorizedMonthlyIncome" formControlName="authorizedMonthlyIncome"
+                name="authorizedMonthlyIncome" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedMonthlyIncome'].touched && authorizedDetailsForm.controls['authorizedMonthlyIncome'].invalid,                  
+                }" placeholder="Monthly Income">
+
+              <label for="authorizedPhone" class="mt-2 block text-sm font-medium text-gray-700">Phone Number<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="authorizedPhone" formControlName="authorizedPhone" name="authorizedPhone" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedPhone'].touched && authorizedDetailsForm.controls['authorizedPhone'].invalid,                  
+                }" placeholder="Phone Number">
+
+              <label for="authorizedPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach Signatory
+                Photo</label>
+              <input type="file" id="authorizedPhoto" name="authorizedPhoto" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Attach" (change)="onFileSelected($event,'authorizedPhoto', tab)">
+
+              <label for="authorizedzkiraPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach
+                Tazkira/Passport Photo<span class="text-red-500">*</span></label>
+              <input type="file" id="authorizedzkiraPhoto" name="authorizedzkiraPhoto" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Attach" (change)="onFileSelected($event,'authorizedzkiraPhoto', tab)">
+
+
+
+            </div>
+
+            <div class="flex flex-col">
+
+              <label for="authorizedLastName" class="block text-sm font-medium text-gray-700">Last
+                Name<span class="text-red-500">*</span></label>
+              <input type="text" id="authorizedLastName" formControlName="authorizedLastName" name="authorizedLastName"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedLastName'].touched && authorizedDetailsForm.controls['authorizedLastName'].invalid,                  
+                }" placeholder="Last Name">
+
+              <label for="authorizedDOB" class="mt-2 block text-sm font-medium text-gray-700">Date
+                of Birth<span class="text-red-500">*</span></label>
+              <input type="date" id="authorizedDOB" formControlName="authorizedDOB" name="authorizedDOB" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedDOB'].touched && authorizedDetailsForm.controls['authorizedDOB'].invalid,                  
+                }" placeholder="Date of Birth">
+
+              <!-- <div *ngIf="authorizedDetailsForm.get('authorizedDOB')?.hasError('underage')">
+                <small style="color: red;">You must be at least 18 years old.</small>
+              </div> -->
+
+              <label for="authorizedNationality" class="mt-2 block text-sm font-medium text-gray-700">Nationality<span
+                  class="text-red-500">*</span></label>
+              <!-- <input type="text" id="authorizedNationality" formControlName="authorizedNationality"
+                name="authorizedNationality" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedNationality'].touched && authorizedDetailsForm.controls['authorizedNationality'].invalid,                  
+                }" placeholder="Nationality"> -->
+              <select id="authorizedNationality" name="authorizedNationality" formControlName="authorizedNationality"
+                placeholder="Nationality"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedNationality'].touched && authorizedDetailsForm.controls['authorizedNationality'].invalid,                  
+                }">
+                <option value="" disabled selected>Select</option>
+                <option *ngFor="let nationality of nationalities" [value]="nationality?.name">{{nationality?.name}}
+                </option>
+              </select>
+
+              <label for="authorizedlocation" class="mt-2 block text-sm font-medium text-gray-700">Location<span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="authorizedlocation" formControlName="authorizedlocation" name="authorizedlocation"
+                required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedlocation'].touched && authorizedDetailsForm.controls['authorizedlocation'].invalid,                  
+                }" placeholder="Location">
+
+              <label for="authorizedSourceofIncome" class="mt-2 block text-sm font-medium text-gray-700">Source of
+                Income<span class="text-red-500">*</span></label>
+              <input type="text" id="authorizedSourceofIncome" formControlName="authorizedSourceofIncome"
+                name="authorizedSourceofIncome" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedSourceofIncome'].touched && authorizedDetailsForm.controls['authorizedSourceofIncome'].invalid,                  
+                }" placeholder="Source of Income">
+
+              <label for="authorizedType" class="mt-2 block text-sm font-medium text-gray-700">Authorized Signatory
+                Type<span class="text-red-500">*</span></label>
+              <!-- <input type="file" id="authorizedType" formControlName="authorizedType" name="authorizedType" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Authorized Signatory Type"> -->
+              <select id="authorizedType" name="authorizedType" formControlName="authorizedType"
+                placeholder="Select Type"
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                  'border-red-500': authorizedDetailsForm.controls['authorizedType'].touched && authorizedDetailsForm.controls['authorizedType'].invalid,                  
+                }">
+                <option value="" disabled selected>Select</option>
+                <option value="SINGLE">Single</option>
+                <option value="JOINT">Joint</option>
+
+
+              </select>
+
+
+              <label for="authorizedSign" class="mt-2 block text-sm font-medium text-gray-700">Attach Signature
+                Photo<span class="text-red-500">*</span></label>
+              <input type="file" id="authorizedSign" name="authorizedSign" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Attach" (change)="onFileSelected($event,'authorizedSign', tab)">
+
+              <label for="authorizedLetter" class="mt-2 block text-sm font-medium text-gray-700">Attach Authorization/
+                Power of Attony Photo<span class="text-red-500">*</span></label>
+              <input type="file" id="authorizedLetter" name="authorizedLetter" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Attach" (change)="onFileSelected($event,'authorizedLetter', tab)">
+
+
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+      <div *ngIf="tab == 'Final Submission'" class="py-6 px-8 mx-4">
+        <div class="space-y-6">
+          <!-- Loop through each section -->
+          <div *ngFor="let tab of formTabs; let i = index"
+            class="flex items-center justify-between p-4 border rounded-lg shadow-sm">
+            <!-- Section Title -->
+            <div class="flex items-center space-x-4">
+              <!-- Status Icon -->
+              <span *ngIf="formCompleted(tab)" class="text-green-500">
+                <!-- Icon for Completed -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <span *ngIf="!formCompleted(tab)" class="text-red-500">
+                <!-- Icon for Incomplete -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </span>
+              <!-- Section Title -->
+              <h3 class="text-lg font-semibold" [ngClass]="formCompleted(tab) ? 'text-green-600' : 'text-gray-800'">
+                {{ tab }}
+              </h3>
+            </div>
+
+            <!-- Action Button for Incomplete Sections -->
+            <div *ngIf="!formCompleted(tab)">
+              <button (click)="selectedTab(tab,i)"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Click Here to Complete
+              </button>
+            </div>
+          </div>
+          <!-- //section for Documents -->
+          <div class="flex items-center space-x-4">
+            <div class="flex items-center justify-between p-4 border rounded-lg shadow-sm">
+              <span *ngIf="allDocumentsAttached()" class="text-green-500">
+                <!-- Icon for Completed -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </span>
+              <span *ngIf="!allDocumentsAttached()" class="text-red-500">
+                <!-- Icon for Incomplete -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </span>
+              <!-- Section Title -->
+              <h3 class="text-lg font-semibold" [ngClass]="allDocumentsAttached()
+               ? 'text-green-600' : 'text-gray-800'">
+                Documents
+              </h3>
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="flex float-right">
+
+        <button *ngIf="tab != 'Final Submission'" type="submit" (click)="resetForm(tab)"
+          class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+          Reset
+        </button>
+        <button *ngIf="tab == 'Final Submission'" type="submit" (click)="submitKYCForm()"
+          class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+          Submit
+        </button>
+        <!--  [disabled]="!(basicDetailsForm.valid && companyDetailsForm.valid && businessLicenceDetailsForm.valid && businessActivityDetailsForm && companyAddressDetailsForm && shareHolderDetailsForm && authorizedDetailsForm)"   <button type="submit" (click)="saveForm(tab)"
+        class=" mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+        Save
+        </button> -->
+
+      </div>
+
+
+
+
+
+    </div>
+
+
+  </div>
+</div>

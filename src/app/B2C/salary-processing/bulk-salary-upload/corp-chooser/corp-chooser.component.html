@@ -1,0 +1,49 @@
+<div class="p-4">
+  <div  class="flex flex-col items-center  mt-8">
+    <div class="w-full bg-white shadow-lg border-t-2 border-green-500 rounded-lg overflow-hidden ">
+      <!-- Card Content with Side-by-Side Layout -->
+      <div class="p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div>
+          <span class="text-gray-500 text-xs uppercase">ID:</span>
+          <p class="text-gray-900 text-sm font-medium">{{ corpData.id }}</p>
+        </div>
+        <div>
+          <span class="text-gray-500 text-xs uppercase">Corporate Name:</span>
+          <p class="text-gray-900 text-sm font-medium">{{ corpData.firstName }} {{ corpData.lastName }}</p>
+        </div>
+        <div>
+          <span class="text-gray-500 text-xs uppercase">Account Number:</span>
+          <p class="text-gray-900 text-sm font-medium">{{ corpData.accountNumber }}</p>
+        </div>
+        <div>
+          <span class="text-gray-500 text-xs uppercase">Email:</span>
+          <p class="text-gray-900 text-sm font-medium">{{ corpData.email }}</p>
+        </div>
+        <div>
+          <span class="text-gray-500 text-xs uppercase">Phone Number:</span>
+          <p class="text-gray-900 text-sm font-medium">{{ corpData.phone }}</p>
+        </div>
+        <div>
+          <span class="text-gray-500 text-xs uppercase">Gender:</span>
+          <p class="text-gray-900 text-sm font-medium">{{ corpData.gender }}</p>
+        </div>
+        <div>
+          <span class="text-gray-500 text-xs uppercase">Corporate Type:</span>
+          <p class="text-gray-900 text-sm font-medium">{{ corpData.corpType }}</p>
+        </div>
+        <div>
+          <span class="text-gray-500 text-xs uppercase">Created On:</span>
+          <p class="text-gray-900 text-sm font-medium">{{ corpData.createdOn | date:'MMM d, y, h:mm:ss a' }}</p>
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+  
+
+<div class="mt-8">
+<app-csv-upload></app-csv-upload>
+</div>
+</div>
+<app-loader *ngIf="isLoading"></app-loader>

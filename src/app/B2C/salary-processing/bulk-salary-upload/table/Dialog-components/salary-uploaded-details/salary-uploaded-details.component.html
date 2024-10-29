@@ -1,0 +1,175 @@
+<div class="dialog-container">
+  <button mat-icon-button class="close-icon" (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div *ngIf="this.data?.id == 0" class="overflow-x-auto mt-[10px]">
+    <div class="table-container-uploaded">
+      <div class="scroll-table">
+        <table class="min-w-full border border-gray-200 text-left">
+          <thead style="background-color: rgb(10, 54, 90)">
+            <tr class="cursor-pointer divide-x divide-gray-200">
+              <th class="py-2 px-4 border">Name</th>
+              <th class="py-2 px-4 border">Account</th>
+              <th class="py-2 px-4 border">Amount</th>
+              <th class="py-2 px-4 border">Email</th>
+              <th class="py-2 px-4 border">Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let row of parsedData"
+              class="hover:bg-gray-100 cursor-pointer divide-x divide-gray-200"
+            >
+              <td class="py-2 px-4 border">{{ row["name"] }}</td>
+              <td class="py-2 px-4 border">{{ row["account"] }}</td>
+              <td class="py-2 px-4 border">{{ row["amount"] }}</td>
+              <td class="py-2 px-4 border">{{ row["email"] }}</td>
+              <td class="py-2 px-4 border">{{ row["phone#"] }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="this.data?.id == 2" class="overflow-x-auto mt-[10px]">
+    <!-- <table class="min-w-full h-[200px] border border-gray-200 text-left">
+    
+        </table> -->
+    <div class="table-container">
+      <div class="scroll-table">
+        <table>
+          <thead style="background-color: rgb(10, 54, 90)">
+            <tr class="cursor-pointer divide-x divide-gray-200">
+              <th class="py-2 px-4 border">KYC Name</th>
+              <th class="py-2 px-4 border">KYC Phone</th>
+              <th class="py-2 px-4 border">KYC Email</th>
+              <th class="py-2 px-4 border">Wallet Status</th>
+              <th class="py-2 px-4 border">Actual Name</th>
+              <th class="py-2 px-4 border">Account</th>
+              <th class="py-2 px-4 border">Amount</th>
+              <th class="py-2 px-4 border">Actual Email</th>
+              <th class="py-2 px-4 border">Actual Phone</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let result of comparisonResults"
+              class="hover:bg-gray-100 cursor-pointer divide-x divide-gray-200"
+            >
+              <td class="py-6 px-4 border font-medium text-sm">
+                {{ result.kycName }}
+              </td>
+              <td class="py-6 px-4 border font-medium text-sm">
+                {{ result.kycPhone }}
+              </td>
+              <td class="py-6 px-4 border font-medium text-sm">
+                {{ result.kycEmail }}
+              </td>
+              <td class="py-6 px-4 border font-medium text-sm">
+                {{ result.walletStatus }}
+              </td>
+              <td
+                class="py-6 px-4 border font-medium text-sm"
+                [ngClass]="{ 'bg-red-100 text-red-600': result.nameMismatch }"
+              >
+                {{ result.actualName }}
+              </td>
+              <td class="py-6 px-4 border font-medium text-sm">
+                {{ result.actualAccount }}
+              </td>
+              <td class="py-6 px-4 border font-medium text-sm">
+                {{ result.actualAmount }}
+              </td>
+              <td
+                class="py-6 px-4 border font-medium text-sm"
+                [ngClass]="{ 'bg-red-100 text-red-600': result.emailMismatch }"
+              >
+                {{ result.actualEmail }}
+              </td>
+              <td
+                class="py-6 px-4 border font-medium text-sm"
+                [ngClass]="{ 'bg-red-100 text-red-600': result.phoneMismatch }"
+              >
+                {{ result.actualPhone }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="this.data?.id == 4" class="overflow-x-auto mt-[10px]">
+    <div class="table-container-uploaded">
+      <div class="scroll-table">
+        <table class="min-w-full border border-gray-200 text-left">
+          <thead style="background-color: rgb(10, 54, 90)">
+            <tr class="cursor-pointer divide-x divide-gray-200">
+              <th class="py-2 px-4 border">Name</th>
+              <th class="py-2 px-4 border">Account No</th>
+              <th class="py-2 px-4 border">Amount</th>
+              <th class="py-2 px-4 border">Email</th>
+              <th class="py-2 px-4 border">Phone</th>
+              <th class="py-2 px-4 border">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let row of completedStatus"
+              class="hover:bg-gray-100 cursor-pointer divide-x divide-gray-200"
+            >
+              <td class="py-2 px-4 border">{{ row["name"] }}</td>
+              <td class="py-2 px-4 border">{{ row["accountNumber"] }}</td>
+              <td class="py-2 px-4 border">{{ row["amount"] }}</td>
+              <td class="py-2 px-4 border">{{ row["email"] }}</td>
+              <td class="py-2 px-4 border">{{ row["phone"] }}</td>
+              <td class="py-2 px-4 border">
+                <span
+                  [ngClass]="{
+                    'bg-green-100 text-green-700':
+                      row.processed == true,
+                    'bg-yellow-100 text-yellow-700':
+                      row.processed == false
+                  }"
+                  class="px-3 py-1 rounded-full font-medium text-sm inline-block"
+                >
+                  {{
+                    row.processed == true
+                      ? "Processed"
+                      : "Not Processed"
+                  }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="makerCheckerRestriction == 'CHECKER'">
+  <div
+    *ngIf="this.data?.id == 2"
+    class="w-full"
+    style="display: flex; justify-content: flex-end; margin-left: -16px"
+  >
+    <button
+      (click)="authorize()"
+      type="submit"
+      class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+      style="background-color: #0a365a; margin-right: 10px"
+    >
+      Authorize
+    </button>
+    <button
+      (click)="confirmDialog()"
+      type="submit"
+      class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+      style="background-color: #0a365a"
+    >
+      Reject
+    </button>
+  </div>
+</ng-container>
+
+<app-loader *ngIf="isLoading"></app-loader>

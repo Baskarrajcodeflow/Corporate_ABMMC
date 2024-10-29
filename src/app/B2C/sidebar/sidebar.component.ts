@@ -28,7 +28,8 @@ export class SidebarComponent implements OnInit {
 
   isSubMenuOpen = false;
   isSubMenuOpenUser = false;
-
+  bulkSalary = false;
+  isSubMenuOpenUserkyc = false
   toggleSubMenu() {
     this.isSubMenuOpen = !this.isSubMenuOpen;
   }
@@ -37,4 +38,11 @@ export class SidebarComponent implements OnInit {
     this.isSubMenuOpenUser = !this.isSubMenuOpenUser;
   }
 
+  toggleBulkSalary() {
+    this.bulkSalary = !this.bulkSalary;
+  }
+
+  toggleKyc() {
+    this.isSubMenuOpenUserkyc = !this.isSubMenuOpenUserkyc;
+  }
 }

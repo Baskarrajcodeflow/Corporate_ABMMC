@@ -1,0 +1,208 @@
+<div class="flex justify-center items-center p-10 bg-gray-200">
+  <div class="py-10 px-8 bg-white rounded-lg shadow-xl w-[85%]">
+    <h6 class="text-xl font-bold text-gray-400 ">Corporate Registration</h6>
+    <div class="mt-6">
+      <form
+        [formGroup]="basicDetailsForm"
+        class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-100 p-8 rounded-lg"
+      >
+        <div class="flex flex-col">
+          <label for="type" class="block text-sm font-medium text-gray-700"
+            >Select Type<span class="text-red-500">*</span></label
+          >
+          <select
+            id="type"
+            name="type"
+            formControlName="type"
+            placeholder="Select Type"
+            class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+            [ngClass]="{
+              'border-red-500':
+                basicDetailsForm.controls['type'].touched &&
+                basicDetailsForm.controls['type'].invalid
+            }"
+          >
+            <option value="" disabled selected>Select</option>
+            <option value="CORPORATE">Corporate</option>
+            <option value="SUPPLIER">Supplier</option>
+            <option value="SYSTEM">System</option>
+          </select>
+
+          <label
+            for="corporteLastName"
+            class="mt-4 block text-sm font-medium text-gray-700"
+            >Corporate Account Holder Last Name<span class="text-red-500"
+              >*</span
+            ></label
+          >
+          <input
+            type="text"
+            id="corporteLastName"
+            formControlName="corporteLastName"
+            name="corporteLastName"
+            required
+            class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+            [ngClass]="{
+              'border-red-500':
+                basicDetailsForm.controls['corporteLastName'].touched &&
+                basicDetailsForm.controls['corporteLastName'].invalid
+            }"
+            placeholder="Corporate Account Holder Last Name"
+          />
+
+          <label
+            for="corporatePhone"
+            class="mt-4 block text-sm font-medium text-gray-700"
+            >Corporate Phone Number<span class="text-red-500">*</span></label
+          >
+          <input
+            type="text"
+            id="corporatePhone"
+            formControlName="corporatePhone"
+            name="corporatePhone"
+            required
+            class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+            [ngClass]="{
+              'border-red-500':
+                basicDetailsForm.controls['corporatePhone'].touched &&
+                basicDetailsForm.controls['corporatePhone'].invalid
+            }"
+            placeholder="Corporate Phone Number"
+          />
+
+          <label
+            for="corporatePassword"
+            class="mt-4 block text-sm font-medium text-gray-700"
+            >Password<span class="text-red-500">*</span></label
+          >
+          <div class="relative">
+            <input
+              [type]="isPasswordVisible ? 'text' : 'password'"
+              id="corporatePassword"
+              formControlName="corporatePassword"
+              name="corporatePassword"
+              required
+              class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm pr-10"
+              [ngClass]="{
+                'border-red-500':
+                  basicDetailsForm.controls['corporatePassword'].touched &&
+                  basicDetailsForm.controls['corporatePassword'].invalid
+              }"
+              placeholder="Corporate Password"
+            />
+            <span
+              class="absolute inset-y-0 right-3 flex items-center cursor-pointer"
+              (click)="togglePasswordVisibility()"
+            >
+              <i
+                [ngClass]="
+                  isPasswordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'
+                "
+              ></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="flex flex-col">
+          <label
+            for="corporteFirstName"
+            class="block text-sm font-medium text-gray-700"
+            >Corporate Account Holder First Name<span class="text-red-500"
+              >*</span
+            ></label
+          >
+          <input
+            type="text"
+            id="corporteFirstName"
+            formControlName="corporteFirstName"
+            name="corporteFirstName"
+            required
+            class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+            [ngClass]="{
+              'border-red-500':
+                basicDetailsForm.controls['corporteFirstName'].touched &&
+                basicDetailsForm.controls['corporteFirstName'].invalid
+            }"
+            placeholder="Corporate Account Holder First Name"
+          />
+
+          <label
+            for="corporateEmail"
+            class="mt-4 block text-sm font-medium text-gray-700"
+            >Corporate Email<span class="text-red-500">*</span></label
+          >
+          <input
+            type="text"
+            id="corporateEmail"
+            formControlName="corporateEmail"
+            name="corporateEmail"
+            required
+            class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+            [ngClass]="{
+              'border-red-500':
+                basicDetailsForm.controls['corporateEmail'].touched &&
+                basicDetailsForm.controls['corporateEmail'].invalid
+            }"
+            placeholder="Corporate Email"
+          />
+
+          <label
+            for="corporateUserName"
+            class="mt-4 block text-sm font-medium text-gray-700"
+            >Corporate Username<span class="text-red-500">*</span></label
+          >
+          <input
+            type="text"
+            id="corporateUserName"
+            formControlName="corporateUserName"
+            name="corporateUserName"
+            required
+            class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+            [ngClass]="{
+              'border-red-500':
+                basicDetailsForm.controls['corporateUserName'].touched &&
+                basicDetailsForm.controls['corporateUserName'].invalid
+            }"
+            placeholder="Corporate Username"
+          />
+
+          <label
+            for="SalarythirdLevelAuth"
+            class="mt-4 block text-sm font-medium text-gray-700"
+            >Require Third Level Authentication for Salary Processing?<span
+              class="text-red-500"
+              >*</span
+            ></label
+          >
+          <select
+            id="SalarythirdLevelAuth"
+            name="SalarythirdLevelAuth"
+            formControlName="SalarythirdLevelAuth"
+            placeholder="Select"
+            class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+            [ngClass]="{
+              'border-red-500':
+                basicDetailsForm.controls['SalarythirdLevelAuth'].touched &&
+                basicDetailsForm.controls['SalarythirdLevelAuth'].invalid
+            }"
+          >
+            <option value="" disabled selected>Select</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+        <div class="flex gap-2 justify-end mt-2 md:col-span-2">
+            <button (click)="gotoLogin()" type="submit"
+            class=" bg-gradient-to-r from-blue-500 to-blue-700 text-white px-[1rem] py-[0.3rem] rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+            Cancel
+            </button>
+            <button [disabled]="basicDetailsForm.invalid" (click)="createPayload()" type="submit"
+            class="disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-[1rem] py-[0.3rem] rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+            Register
+            </button>
+          </div>
+      </form>
+    </div>
+  </div>
+  <app-loader *ngIf="isLoading"></app-loader>
+</div>

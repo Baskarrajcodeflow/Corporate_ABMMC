@@ -15,6 +15,9 @@ import { SystemwalletComponent } from './B2C/wallet-management/systemwallet/syst
 import { PushPullMoneyComponent } from './B2C/wallet-management/push-pull-money/push-pull-money.component';
 import { CorporateUsersListComponent } from './B2C/wallet-management/corporate-users-list/corporate-users-list.component';
 import { TransactionHistoryComponent } from './B2C/transaction-history/transaction-history.component';
+import { SalaryDashboardComponent } from './B2C/salary-processing/bulk-salary-upload/salary-dashboard/salary-dashboard.component';
+import { RegisterCorporateComponent } from './B2C/corporate-register/register-corporate/register-corporate.component';
+import { CorporateRegistartionComponent } from './B2C/corporate-register/corporate-registartion/corporate-registartion.component';
 
 // export const routes: Routes = [
 //     {
@@ -52,6 +55,9 @@ export const routes: Routes = [
   { path: 'corpsUser', component: CorporateUsersListComponent },
   { path: 'pushpull', component: PushPullMoneyComponent },
   { path: 'tranactionHistory', component: TransactionHistoryComponent },
+  { path: 'bulkSalaryProcessNew', component: SalaryDashboardComponent },
+  { path: 'corporateRegister', component: RegisterCorporateComponent },
+  { path: 'corpKyc', component: CorporateRegistartionComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,

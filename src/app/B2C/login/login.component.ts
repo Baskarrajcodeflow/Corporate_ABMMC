@@ -11,15 +11,24 @@ import { LoginService } from '../../services/login.service';
 import * as CryptoJS from 'crypto-js';
 import { Router } from '@angular/router';
 import { AuthServices } from '../../core/authservice.service';
-import { OurServicesComponent } from "../../components/Our-Services/our-services.component";
+import { OurServicesComponent } from '../../components/Our-Services/our-services.component';
 import { ApiService } from '../ApiService/api.service';
 import { DatasharingService } from '../../services/datasharing.service';
-import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { RegisterCorporateComponent } from '../corporate-register/register-corporate/register-corporate.component';
+import { DataSharingService } from '../dataSharing/data-sharing.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, TranslateModule, FormsModule, OurServicesComponent,MatSnackBarModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    FormsModule,
+    OurServicesComponent,
+    MatSnackBarModule,
+    RegisterCorporateComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -34,7 +43,7 @@ export class LoginComponent {
   email: string = '';
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  currentView: 'login' | 'forgotPassword' | 'otpVerification' | 'newPassword' =
+  currentView: 'login' | 'forgotPassword' | 'otpVerification' | 'newPassword' | 'OTP' | 'OTPVerify' | 'resetPwd' =
     'login';
   result: any;
   key: any;
@@ -46,15 +55,19 @@ export class LoginComponent {
   timer!: number;
   customerId: any;
   loginId: any;
-  openModal :boolean = true;
-oldpassword: any;
-newpassword: any;
-  resetPwdData: any;
+  openModal: boolean = true;
+  oldpassword: any;
+  newpassword: any;
+  resetPwdData:any= false
   otpVerify: any;
   otp: any;
   resetPwd: any;
   loginformData: any;
   value: any;
+  oldpasswordreset: any;
+  newpasswordreset: any;
+otpnew: any;
+newPassword: any;
 
   constructor(
     private sharedService: SharedService,
@@ -62,20 +75,22 @@ newpassword: any;
     private authService: AuthServices,
     private loginService: LoginService,
     private router: Router,
-    private auth : AuthService,
+    private auth: AuthService,
     private apiService: ApiService,
-    private dataSharing:DatasharingService,
-    private snackBar:MatSnackBar
-
+    private dataSharing: DatasharingService,
+    private dataSharingService: DataSharingService,
+    private snackBar: MatSnackBar
   ) {}
   ngOnInit() {
+    this.dataSharingService.corpKyc$.subscribe((res) => {
+      this.viewCorporateRegister = res;
+    });
     this.key = 'DAdHr3nBFT@hR3QdRK!XwAgA*M!mBB7Qso2J^4dHAN0tAIZg7A';
     this.salt = 'f9Nj*7ZjK!5qJiV@*bIC%5b$7305EDAeZRYy8PYa95!9&ur50';
   }
 
-  closeModal(){
+  closeModal() {
     this.openModal = false;
-
   }
 
   onKeyPress(event: KeyboardEvent): void {
@@ -144,7 +159,7 @@ newpassword: any;
     this.authService.login(this.username, this.password).subscribe({
       next: (v: any) => {
         console.log(v);
-        if(v?.responseCode == 200 || v?.responseCode == 2){
+        if (v?.responseCode == 200) {
           alert('Success');
           this.openModal = false;
           this.auth.logged = true;
@@ -152,54 +167,59 @@ newpassword: any;
           let token = v?.token;
           this.snackBar.open('Success', 'Close', {
             duration: 5000,
-            panelClass: ['mdc-snackbar__surface']
+            panelClass: ['mdc-snackbar__surface'],
           });
-          
+
           const helper = new JwtHelperService();
           let decodedToken = helper.decodeToken(JSON.stringify(token));
           // console.log(decodedToken);
           this.router.navigateByUrl('/dashboard');
-        }else if(v?.responseCode == 2){
-          this.changePassword = true
-          alert(v?.message)
-        }else{
-          alert(v?.message)
+        } else if (v?.responseCode == 2) {
+          this.currentView = 'newPassword';
+          this.changePassword = true;
+          alert(v?.message);
+        } else {
+          alert(v?.message);
         }
-
-        
-      },error:()=>{
-        alert('Something Went Wrong')
-      }
+      },
+      error: () => {
+        alert('Something Went Wrong');
+      },
     });
   }
 
   getProfileData() {
     this.apiService.getUserProfile().subscribe((res) => {
       console.log(res);
-      this.sharedService.liginDeatilsData(res?.data)
+      this.sharedService.liginDeatilsData(res?.data);
       sessionStorage.setItem('SenderUserId', res?.data?.id);
       sessionStorage.setItem(
         'profileWalletNo',
         res?.data?.walletAccount?.walletNo
       );
+      sessionStorage.setItem('walletId', res?.data?.walletAccount?.id);
       sessionStorage.setItem(
-        'walletId',
-        res?.data?.walletAccount?.id
+        'basrUserId',
+        res?.data?.walletAccount?.baseUserId
       );
       sessionStorage.setItem('Role', res?.data?.corpUserRole);
       this.apiService
         .getPayFromAccountDetails(res?.data?.walletAccount?.walletNo)
         .subscribe((res) => {
           console.log(res);
-          this.dataSharing.setcurrencyData(res?.data)
+          this.dataSharing.setcurrencyData(res?.data);
           sessionStorage.setItem('WalletAmount', res?.data);
-    
+
           // this.dataSharing.currentBalanceData(res?.data)
         });
     });
   }
   navigate() {
-    this.router.navigateByUrl('signUp')
+    this.router.navigateByUrl('signUp');
+  }
+  viewCorporateRegister: boolean = false;
+  gotoRegister(event: any) {
+    this.viewCorporateRegister = event;
   }
 
   changePasswordApi() {
@@ -212,18 +232,18 @@ newpassword: any;
     this.apiService.changePassword(body).subscribe({
       next: (res) => {
         console.log(res);
-        if(res?.responseCode == 200){
-          alert(res?.data)
-          this.changePassword = false
-        }else{
-          alert(res?.error)
+        if (res?.responseCode == 200) {
+          alert(res?.data);
+          this.changePassword = false;
+        } else {
+          alert(res?.error);
         }
       },
     });
   }
 
   switchView(
-    view: 'login' | 'forgotPassword' | 'otpVerification' | 'newPassword'
+    view: 'login' | 'forgotPassword' | 'otpVerification' | 'newPassword' | 'OTP' | 'OTPVerify' | 'resetPwd'
   ) {
     this.currentView = view;
   }
@@ -231,28 +251,30 @@ newpassword: any;
   sendOtp() {
     let body = {
       email: this.email,
-      userType: "CUSTOMER"
+      userType: 'CORPORATE',
     };
     this.dataSharing.show();
     this.apiService.forgotOtp(body).subscribe({
-      next:(res)=>{
-          if (res?.responseCode == 200) {
-            this.dataSharing.hide();
-            this.otpVerify = false;
-            this.resetPwd = false;
-            this.loginformData = false
-            this.otpVerify = true
-            this.value = false
-            alert('OTP has sent to your mail');
-          } else {
-            this.dataSharing.hide();
-            alert(res?.error);
-          }
-      },error:()=>{
-        this.dataSharing.hide()
-        alert('Error Try Again')
-      }
-    })
+      next: (res) => {
+        if (res?.responseCode == 200) {
+          this.dataSharing.hide();
+          this.otpVerify = false;
+          this.resetPwd = false;
+          this.loginformData = false;
+          this.otpVerify = true;
+          this.value = false;
+          this.currentView = 'OTPVerify'
+          alert('OTP has sent to your mail');
+        } else {
+          this.dataSharing.hide();
+          alert(res?.error);
+        }
+      },
+      error: () => {
+        this.dataSharing.hide();
+        alert('Error Try Again');
+      },
+    });
   }
   onSaveOtp() {
     let email = this.email;
@@ -262,21 +284,23 @@ newpassword: any;
       otp: this.otp,
     };
     this.apiService.verifyOtp(body).subscribe({
-      next:(res)=>{
-          if (res?.responseCode == 200) {
-            this.resetPwdData = true;
-            this.otpVerify = false
-            this.resetPwdData = true
-            this.dataSharing.hide()
-            alert('OTP Verified Successfully');
-          } else {
-            alert(res?.error);
-          }
-      },error:()=>{
-        this.dataSharing.hide()
-        alert('Error Try Again')
-      }
-    })
+      next: (res) => {
+        if (res?.responseCode == 200) {
+          this.resetPwdData = true;
+          this.otpVerify = false;
+          this.resetPwdData = true;
+          this.currentView = 'resetPwd'
+          this.dataSharing.hide();
+          alert('OTP Verified Successfully');
+        } else {
+          alert(res?.error);
+        }
+      },
+      error: () => {
+        this.dataSharing.hide();
+        alert('Error Try Again');
+      },
+    });
   }
   formatTime(seconds: number): string {
     const minutes = Math.floor(seconds / 60);
@@ -289,5 +313,81 @@ newpassword: any;
     /*  this.authService.loggedIn.next(false);
     this.authService.logged = false; */
     this.openModal = false;
+  }
+
+  resetPwdApi() {
+    let data = {
+      email:this.username,
+      userType: 'CORPORATE',
+    };
+    this.apiService.forgotOtp(data).subscribe({
+      next: (res) => {
+        console.log(res);
+        if(res?.responseCode == 200){
+          alert('OTP has sent to your mail.Confirm it to change Password')
+          this.currentView = 'OTP'
+        }else{
+          alert(res?.error)
+        }
+      },error:()=>{
+        alert('Something Went Wrong')
+      }
+    });
+  }
+
+  setNewpwd() {
+    let data = {
+      email:this.username,
+      password:this.newpasswordreset,
+      userType: 'CORPORATE',
+      otp:this.otpnew
+    };
+    this.apiService.resetPwd(data).subscribe({
+      next: (res) => {
+        console.log(res);
+        if(res?.responseCode == 200){
+          alert('Password Changed Successfully')
+          this.currentView = 'login'
+        }else{
+          alert(res?.error)
+        }
+      },error:()=>{
+        alert('Something Went Wrong')
+      }
+    });
+  }
+
+  pwdReset() {
+    let body = {
+      email: this.email,
+      password: this.newPassword,
+      userType:'CORPORATE'
+    };
+    console.log(body);
+    
+    this.dataSharing.show()
+    this.apiService.forgotOtp(body).subscribe({
+      next:(res)=>{
+          if(res?.responseCode == 200){
+            alert('Password Reset Successful')
+            this.dataSharing.hide()
+            // this.otpVerify = false
+            this.resetPwdData = false;
+            // this.resetPwd = false;
+            setTimeout(() => {
+              this.value = true
+              this.currentView = 'login';
+              console.log("Current View after password reset:", this.currentView);
+              // this.cdr.detectChanges();
+            }, 0); 
+          }else{
+            this.dataSharing.hide()
+            alert(res?.error)
+          }
+      },error:()=>{
+        this.dataSharing.hide()
+        alert('Error Try Again')
+      }
+    })
   }
 }

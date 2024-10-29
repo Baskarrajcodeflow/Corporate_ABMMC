@@ -15,6 +15,22 @@
         </span>
         <a class="btn text-sm font-semibold leading-7 text-gray-700">Dashboard</a>
       </li>
+      <li class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
+        <div class="flex items-center space-x-3" (click)="toggleKyc()">
+          <span class="bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+            <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+          </span>
+          <a class="btn text-sm font-semibold leading-7 text-gray-700">Complete Kyc</a>
+          <span class="ml-auto">▼</span> 
+        </div>
+        
+        <ul *ngIf="isSubMenuOpenUserkyc" class="ml-12 space-y-2">
+          <li class="hover:bg-blue-50 rounded-md p-1">
+            <a (click)="navigate('/corpKyc')" class="text-sm font-medium leading-6 text-gray-600">Complete Kyc</a>
+          </li>
+        </ul>
+      </li>
+
       <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
@@ -59,6 +75,22 @@
         <ul *ngIf="isSubMenuOpenUser" class="ml-12 space-y-2">
           <li class="hover:bg-blue-50 rounded-md p-1">
             <a (click)="navigate('/corpsUser')" class="text-sm font-medium leading-6 text-gray-600">Corporate Users</a>
+          </li>
+        </ul>
+      </li>
+
+      <li class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
+        <div class="flex items-center space-x-3" (click)="toggleBulkSalary()">
+          <span class="bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+            <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+          </span>
+          <a class="btn text-sm font-semibold leading-7 text-gray-700">Bulk Salary Process</a>
+          <span class="ml-auto">▼</span> 
+        </div>
+        
+        <ul *ngIf="bulkSalary" class="ml-12 space-y-2">
+          <li class="hover:bg-blue-50 rounded-md p-1">
+            <a (click)="navigate('/bulkSalaryProcessNew')" class="text-sm font-medium leading-6 text-gray-600">Bulk Salary Process</a>
           </li>
         </ul>
       </li>
