@@ -111,4 +111,12 @@ export class DataSharingService {
   corpKycData(status: boolean) {
     this.corpKyc.next(status);
   }
+
+  
+  private kyclevel = new BehaviorSubject<any>(null);
+  kyclevel$ = this.kyclevel.asObservable();
+
+  setkyclevelData(currency: any) {
+    this.kyclevel.next(currency);
+  }
 }

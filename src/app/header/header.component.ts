@@ -15,11 +15,20 @@ import { DatasharingService } from '../services/datasharing.service';
 })
 export class HeaderComponent implements OnInit {
   userName: any;
+  userRole: any;
+  enail: any;
+  phone: any;
+  corpType: any;
 
   ngOnInit(): void {
       this.sharedService.loginDeatails$.subscribe((res:any)=>{
         if(res)
-        this.userName = `${res?.firstName} ${res?.lastName}`
+        this.userName = `${res?.firstName} ${res?.lastName}`,
+      this.userRole = res?.corpUserRole,
+      this.enail = res?.email,
+      this.corpType = res?.corpType,
+      console.log(res,'userName');
+      
       })
   }
   loggedIn: boolean = false;

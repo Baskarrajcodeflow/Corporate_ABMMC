@@ -5,11 +5,12 @@ import { BulkSalaryProcessComponent } from '../bulk-salary-process/bulk-salary-p
 import { SharedService } from '../../services/shared.service';
 import { DatasharingService } from '../../services/datasharing.service';
 import { CommonModule } from '@angular/common';
+import { TransactionHistoryComponent } from "../transaction-history/transaction-history.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [OurServicesComponent,RouterOutlet,BulkSalaryProcessComponent,CommonModule],
+  imports: [OurServicesComponent, RouterOutlet, BulkSalaryProcessComponent, CommonModule, TransactionHistoryComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -26,7 +27,7 @@ export class DashboardComponent {
   ngOnInit(){
     this.data.currency$.subscribe({
       next:(res)=>{
-        this.totalAFN = res
+        this.totalAFN = Math.round(res)
       },error:()=>{
         this.totalAFN = null
       }

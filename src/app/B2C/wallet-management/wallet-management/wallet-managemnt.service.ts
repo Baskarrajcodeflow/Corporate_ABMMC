@@ -125,7 +125,16 @@ public getWalletBalance(phoneOrWalletNo: any) {
 }
 
 
- 
+public getLinkedRecords() {
+  let url =`${environment.apiUrl}um/bank/accounts`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+  const headers: HttpHeaders = this.getHeaders(); // Get the headers with the authorization token
+
+  return this.httpClient.get<any>(url, {headers});
+}
 
   
 }

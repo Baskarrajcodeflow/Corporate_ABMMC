@@ -13,7 +13,7 @@
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
-        <a class="btn text-sm font-semibold leading-7 text-gray-700">Dashboard</a>
+        <a  (click)="navigate('/dashboard')" class="btn text-sm font-semibold leading-7 text-gray-700">Dashboard</a>
       </li>
       <li class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
         <div class="flex items-center space-x-3" (click)="toggleKyc()">
@@ -31,39 +31,52 @@
         </ul>
       </li>
 
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li  
+      [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'"
+      class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
-        <a (click)="navigate('/moneyTransfer')" class="btn text-sm font-semibold leading-7 text-gray-700">Money Transfer</a>
+        <a *ngIf="kyclevel != 'NONE'" (click)="navigate('/moneyTransfer')" class="btn text-sm font-semibold leading-7 text-gray-700">Money Transfer</a>
+        <a *ngIf="kyclevel == 'NONE'" class="btn text-sm font-semibold leading-7 text-gray-700">Money Transfer</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'"class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
-        <a (click)="navigate('/breshnaPay')" class="btn text-sm font-semibold leading-7 text-gray-700">Breshna Payments</a>
+        <a  *ngIf="kyclevel != 'NONE'"  (click)="navigate('/breshnaPay')" class="btn text-sm font-semibold leading-7 text-gray-700">Breshna Payments</a>
+        <a   *ngIf="kyclevel == 'NONE'"  class="btn text-sm font-semibold leading-7 text-gray-700">Breshna Payments</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'"class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
-        <a (click)="navigate('/cashoutRequests')" class="btn text-sm font-semibold leading-7 text-gray-700">Cash Out Reuests</a>
+        <a  *ngIf="kyclevel != 'NONE'"  (click)="navigate('/cashoutRequests')" class="btn text-sm font-semibold leading-7 text-gray-700">Cash Out Reuests</a>
+        <a  *ngIf="kyclevel == 'NONE'"   class="btn text-sm font-semibold leading-7 text-gray-700">Cash Out Reuests</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'"class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
-        <a (click)="navigate('/bulkCustomerUpload')" class="btn text-sm font-semibold leading-7 text-gray-700">Bulk Customer Upload</a>
+        <a  *ngIf="kyclevel != 'NONE'"  (click)="navigate('/bulkCustomerUpload')" class="btn text-sm font-semibold leading-7 text-gray-700">Bulk Customer Upload</a>
+        <a  *ngIf="kyclevel == 'NONE'"  class="btn text-sm font-semibold leading-7 text-gray-700">Bulk Customer Upload</a>
       </li>
 
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'"class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
-        <a (click)="navigate('/bulkSalaryProcess')" class="btn text-sm font-semibold leading-7 text-gray-700">Bulk Salary Process</a>
+        <a  *ngIf="kyclevel != 'NONE'"  (click)="navigate('/bulkSalaryProcess')" class="btn text-sm font-semibold leading-7 text-gray-700">Bulk Salary Process</a>
+        <a  *ngIf="kyclevel == 'NONE'"   class="btn text-sm font-semibold leading-7 text-gray-700">Bulk Salary Process</a>
       </li>
 
-      <li class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
         <div class="flex items-center space-x-3" (click)="toggleSubMenuUser()">
           <span class="bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
             <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
@@ -74,12 +87,14 @@
         
         <ul *ngIf="isSubMenuOpenUser" class="ml-12 space-y-2">
           <li class="hover:bg-blue-50 rounded-md p-1">
-            <a (click)="navigate('/corpsUser')" class="text-sm font-medium leading-6 text-gray-600">Corporate Users</a>
+            <a  *ngIf="kyclevel != 'NONE'"  (click)="navigate('/corpsUser')" class="text-sm font-medium leading-6 text-gray-600">Corporate Users</a>
+            <a  *ngIf="kyclevel == 'NONE'"   class="text-sm font-medium leading-6 text-gray-600">Corporate Users</a>
           </li>
         </ul>
       </li>
 
-      <li class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'"class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
         <div class="flex items-center space-x-3" (click)="toggleBulkSalary()">
           <span class="bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
             <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
@@ -88,15 +103,18 @@
           <span class="ml-auto">▼</span> 
         </div>
         
-        <ul *ngIf="bulkSalary" class="ml-12 space-y-2">
+        <ul   [class.opacity-50]="kyclevel == 'NONE'" 
+        [class.cursor-not-allowed]="kyclevel == 'NONE'" *ngIf="bulkSalary" class="ml-12 space-y-2">
           <li class="hover:bg-blue-50 rounded-md p-1">
-            <a (click)="navigate('/bulkSalaryProcessNew')" class="text-sm font-medium leading-6 text-gray-600">Bulk Salary Process</a>
+            <a  *ngIf="kyclevel != 'NONE'"  (click)="navigate('/bulkSalaryProcessNew')" class="text-sm font-medium leading-6 text-gray-600">Bulk Salary Process</a>
+            <a *ngIf="kyclevel == 'NONE'"  class="text-sm font-medium leading-6 text-gray-600">Bulk Salary Process</a>
           </li>
         </ul>
       </li>
       
 
-      <li class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
         <div class="flex items-center space-x-3" (click)="toggleSubMenu()">
           <span class="bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
             <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
@@ -105,62 +123,93 @@
           <span class="ml-auto">▼</span> 
         </div>
         
-        <ul *ngIf="isSubMenuOpen" class="ml-12 space-y-2">
+        <ul   [class.opacity-50]="kyclevel == 'NONE'" 
+        [class.cursor-not-allowed]="kyclevel == 'NONE'" *ngIf="isSubMenuOpen" class="ml-12 space-y-2">
           <li class="hover:bg-blue-50 rounded-md p-1">
-            <a (click)="navigate('/pushpull')" class="text-sm font-medium leading-6 text-gray-600">Bank Operations</a>
+            <a *ngIf="kyclevel != 'NONE'"  (click)="navigate('/pushpull')" class="text-sm font-medium leading-6 text-gray-600">Bank Operations</a>
+            <a *ngIf="kyclevel == 'NONE'"  class="text-sm font-medium leading-6 text-gray-600">Bank Operations</a>
+          </li>
+        </ul>
+      </li>
+
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex flex-col px-6 items-start space-y-1 p-2 hover:bg-blue-100 rounded-md cursor-pointer">
+        <div class="flex items-center space-x-3" (click)="accountStatement()">
+          <span class="bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
+            <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
+          </span>
+          <a class="btn text-sm font-semibold leading-7 text-gray-700">Reports</a>
+          <span class="ml-auto">▼</span> 
+        </div>
+        
+        <ul   [class.opacity-50]="kyclevel == 'NONE'" 
+        [class.cursor-not-allowed]="kyclevel == 'NONE'" *ngIf="isAccountStatement" class="ml-12 space-y-2">
+          <li class="hover:bg-blue-50 rounded-md p-1">
+            <a *ngIf="kyclevel != 'NONE'"  (click)="navigate('/accountStatement')" class="text-sm font-medium leading-6 text-gray-600">Account Statement</a>
+            <a *ngIf="kyclevel == 'NONE'"  class="text-sm font-medium leading-6 text-gray-600">Account Statement</a>
           </li>
         </ul>
       </li>
       
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
         <a class="btn text-sm font-semibold leading-7 text-gray-700">AirTime Topup</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
         <a class="btn text-sm font-semibold leading-7 text-gray-700">Add Money</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
-        <a (click)="navigate('/tranactionHistory')"  class="btn text-sm font-semibold leading-7 text-gray-700">Transaction History</a>
+        <a *ngIf="kyclevel != 'NONE'"  (click)="navigate('/tranactionHistory')"  class="btn text-sm font-semibold leading-7 text-gray-700">Transaction History</a>
+        <a  *ngIf="kyclevel == 'NONE'"  class="btn text-sm font-semibold leading-7 text-gray-700">Transaction History</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
         <a class="btn text-sm font-semibold leading-7 text-gray-700">Link Account</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
         <a class="btn text-sm font-semibold leading-7 text-gray-700">Bank Transfer</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
         <a class="btn text-sm font-semibold leading-7 text-gray-700">Own Account Transfer</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
         <a class="btn text-sm font-semibold leading-7 text-gray-700">Third Party Transfer</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>
         <a class="btn text-sm font-semibold leading-7 text-gray-700">Pay Bills</a>
       </li>
-      <li class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
+      <li   [class.opacity-50]="kyclevel == 'NONE'" 
+      [class.cursor-not-allowed]="kyclevel == 'NONE'" class="flex px-6 items-center space-x-3 p-2 hover:bg-blue-100 rounded-md cursor-pointer" >
         <span  class=" bg-dashboard-icons w-9 h-9 shadow-lg rounded-lg flex items-center p-2">
           <img src="assets/images/dashboard-icon.png" class="w-6 h-6" alt="Dashboard">
         </span>

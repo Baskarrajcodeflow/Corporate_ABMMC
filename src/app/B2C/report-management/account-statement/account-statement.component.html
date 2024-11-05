@@ -1,0 +1,205 @@
+<div class="flex h-full w-full overflow-y-auto bg-gradient-to-r from-blue-50 to-indigo-50 font-sans">
+    <div class="w-full p-2 ">
+        <div >
+            <div class="py-10 px-8 bg-white rounded-lg shadow-xl w-full">
+                <div style="display: flex;align-items: center;justify-content: center;">
+                    <form [formGroup]="dateForm">
+                        <div class="flex gap-4">
+                          <input
+                            formControlName="fromDate"
+                            type="date"
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            id="start-date"
+                          />
+                    
+                          <input
+                            formControlName="toDate"
+                            type="date"
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            id="end-date"
+                          />
+                          <ng-container >
+                            <input readonly
+                              placeholder="Enter Account Number"
+                              formControlName="accNo"
+                              type="text"
+                              class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              id="end-date"
+                            />
+                          </ng-container>
+                    
+                          <button
+                            (click)="search()"
+                            class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+                            style="background-color: #0a365a"
+                          >
+                            Search
+                          </button>
+                    
+                         <ng-container >
+                            <img
+                            class="cursor-pointer"
+                            (click)="makePdf()"
+                            src="../../../assets/images/download.png"
+                            alt=""
+                            width="40px"
+                            height="40px"
+                          />
+                         </ng-container>
+            
+                         
+                        </div>
+                      </form>
+                </div>
+              
+            <div  #content> 
+                <div 
+                *ngIf="accountStatementDetails"
+                class="max-w-5xl mx-auto bg-white p-8 shadow-lg mt-[10px] border border-gray-200 print"
+              >
+                <!-- Header Section -->
+                <div class="flex justify-between header-section">
+                  <div class="w-1/3">
+                    <img
+                      src="../../../assets/images/logo.png"
+                      alt="Bank Logo"
+                      class="mb-4 w-28 h-auto"
+                    />
+                    <p class="text-sm text-gray-700">
+                      Afghan Besim Mobile Money Company,<br />
+                      Darulaman Road, Hajari Najari,<br />
+                      KABUL, AFGHANISTAN
+                    </p>
+                  </div>
+                  <div class="w-1/3 text-right">
+                    <h2 class="text-xl font-semibold text-[#f47a20] text-left">
+                      Your Statement
+                    </h2>
+                    <!-- <p class="text-sm text-gray-700 text-left"><strong>Statement 10</strong> (Page 1 of 1)</p> -->
+                    <p class="text-sm text-gray-700 text-left">
+                      <strong>Name</strong>:
+                      {{ accountStatementDetails?.userDetailsPojo?.name }}
+                    </p>
+                    <!-- <p class="text-sm text-gray-700 text-left">
+                      <strong>Email</strong>:
+                      {{ accountStatementDetails?.userDetailsPojo?.email }}
+                    </p> -->
+                    <p class="text-sm text-gray-700 text-left">
+                      <strong>Account Number</strong>:
+                      {{ accountStatementDetails?.userDetailsPojo?.accNo }}
+                    </p>
+                    <p class="text-sm text-gray-700 text-left">
+                      <strong>Statement Period</strong>:
+                      {{ this.dateForm.controls["fromDate"].value }} to
+                      {{ this.dateForm.controls["toDate"].value }}
+                    </p>
+                    <p class="text-sm text-gray-700 text-left">
+                      <strong>Current Balance</strong>:
+                      {{ accountStatementDetails?.userDetailsPojo?.closingBalance }}
+                    </p>
+                    <!-- <p class="text-sm text-gray-700 text-left">
+                      <strong>Opening Balance</strong>:
+                      {{ accountStatementDetails?.userDetailsPojo?.openingBalance }}
+                    </p> -->
+                    <!-- <p class="text-sm text-gray-700 text-left">
+                      <strong>Phone</strong>:
+                      {{ accountStatementDetails?.userDetailsPojo?.phone }}
+                    </p> -->
+                  </div>
+                </div>
+          
+                <div class="mt-8 overflow-x-auto table-section ">
+                  <table class="w-full table-auto border-collapse ">
+                    <thead>
+                      <tr class="bg-[#f47a20] text-white text-left text-sm">
+                        <th class="p-2 border border-gray-200 text-center">Date</th>
+                        <th class="p-2 border border-gray-200 text-center">
+                          Service Name
+                        </th>
+                        <th class="p-2 border border-gray-200 text-center">
+                          Description
+                        </th>
+                        <th class="p-2 border border-gray-200 text-center"> TxnID</th>
+                        <!-- <th class="p-2 border border-gray-200 text-center">Gl Type</th> -->
+                        <th class="p-2 border border-gray-200 text-center">Credit</th>
+                        <th class="p-2 border border-gray-200 text-center">Debit</th>
+                        <th class="p-2 border border-gray-200 text-center">Contra Acc</th>
+                        <th class="p-2 border border-gray-200 text-center">Closing Balance</th>
+                      </tr>
+                      
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="let item of accountStatementDetails?.accStatementPojo"
+                        class="text-sm text-gray-700"
+                      >
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.txnDate }}</td>
+                        <td class="p-2 border border-gray-200  whitespace-nowrap">
+                        <ng-container *ngIf="item?.serviceName == 'SALARY_PROCES'">
+                          SALARY PAYMENT
+                        </ng-container>
+                        <ng-container *ngIf="item?.serviceName != 'SALARY_PROCES'">
+                          {{ item?.serviceName }}
+                        </ng-container>
+                        </td>
+                        <td class="p-2 border border-gray-200 w-[70%]">
+                          {{ item?.description }}
+                        </td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.batchId }}</td>
+                        <!-- <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.glType }}</td> -->
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.credit }}</td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.debit }}</td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.contraAcc }}</td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.runningBal }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+        <hr class="border-t-1 border-black my-4" />
+        <!-- <div class="w-full px-2 mb-4">
+          <strong>Total Credit:</strong>
+          <span class="pl-1 text-sm text-gray-700">{{totalCredit | number:'1.2-2'}}</span>
+          <strong>Total Debit:</strong>
+          <span class="pl-1 text-sm text-gray-700">{{totalDebit | number:'1.2-2'}}</span>
+        </div> -->
+        <div class="w-full flex justify-between items-center text-lg font-bold">
+          <div class="text-md text-gray-700">
+            <p>Total Credit:</p>
+            <p>Total Debit:</p>
+            <p>Total Credit Count:</p>
+            <p>Total Debit Count:</p>
+            <p>Closing Balance:</p>
+            <p class="opacity-0">ss</p>
+          </div>
+          <div class="flex flex-col space-y-2">
+            <div class="flex justify-between">
+              <span class="text-sm text-gray-700">{{totalCredit | number:'1.2-2'}}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-sm text-gray-700">{{totalDebit | number:'1.2-2'}}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-sm text-gray-700">{{totalCreditCount }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-sm text-gray-700">{{totalDebitCount}}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-sm text-gray-700">{{accountStatementDetails?.userDetailsPojo?.closingBalance}}</span>
+            </div>
+            <div class="flex justify-between opacity-0">
+              <span>ssf</span>
+            </div>
+          </div>
+        
+        </div>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          
+
+    </div>
+  </div>
+
+  <app-loader *ngIf="isLoading"></app-loader>

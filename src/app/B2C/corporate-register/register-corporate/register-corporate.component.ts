@@ -22,7 +22,7 @@ export class RegisterCorporateComponent {
   isLoading:boolean = false
   isPasswordVisible: boolean = false;
   basicDetailsForm!: FormGroup<{
-    type: FormControl<string | null>;
+    // type: FormControl<string | null>;
     corporteFirstName: FormControl<string | null>;
     corporteLastName: FormControl<string | null>;
     corporateEmail: FormControl<string | null>;
@@ -30,13 +30,15 @@ export class RegisterCorporateComponent {
     corporateUserName: FormControl<string | null>;
     corporatePassword: FormControl<string | null>;
     SalarythirdLevelAuth: FormControl<any | null>;
+    corpname: FormControl<any | null>;
   }>;
   constructor(private fb: FormBuilder, private apiService: ApiService,private dataSgaring:DataSharingService) {}
   ngOnInit(): void {
     this.basicDetailsForm = this.fb.group({
-      type: ['', [Validators.required]],
+      // type: ['', [Validators.required]],
       corporteFirstName: ['', Validators.required],
       corporteLastName: ['', Validators.required],
+      corpname: ['', Validators.required],
       corporateEmail: [
         '',
         [
@@ -50,16 +52,21 @@ export class RegisterCorporateComponent {
       ],
       //gender: ['',Validators.required],
       corporateUserName: ['', Validators.required],
-      corporatePassword: ['', Validators.required],
+      corporatePassword: ['',
+        Validators.required,
+        Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9]).{6,12}$/)
+      ],
       SalarythirdLevelAuth: ['', Validators.required],
     });
+
+    this.basicDetailsForm.controls['corpname'].setValue('CORPORATE')
   }
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
   createPayload() {
     let reqbasic = {
-        corpType: this.basicDetailsForm.controls['type'].value,
+        corpType: 'CORPORATE',
         email: this.basicDetailsForm.controls['corporateEmail'].value,
         username: this.basicDetailsForm.controls['corporateEmail'].value,
         firstName: this.basicDetailsForm.controls['corporteFirstName'].value,

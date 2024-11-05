@@ -18,6 +18,7 @@ import { TransactionHistoryComponent } from './B2C/transaction-history/transacti
 import { SalaryDashboardComponent } from './B2C/salary-processing/bulk-salary-upload/salary-dashboard/salary-dashboard.component';
 import { RegisterCorporateComponent } from './B2C/corporate-register/register-corporate/register-corporate.component';
 import { CorporateRegistartionComponent } from './B2C/corporate-register/corporate-registartion/corporate-registartion.component';
+import { AccountStatementComponent } from './B2C/report-management/account-statement/account-statement.component';
 
 // export const routes: Routes = [
 //     {
@@ -58,6 +59,7 @@ export const routes: Routes = [
   { path: 'bulkSalaryProcessNew', component: SalaryDashboardComponent },
   { path: 'corporateRegister', component: RegisterCorporateComponent },
   { path: 'corpKyc', component: CorporateRegistartionComponent },
+  { path: 'accountStatement', component: AccountStatementComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,

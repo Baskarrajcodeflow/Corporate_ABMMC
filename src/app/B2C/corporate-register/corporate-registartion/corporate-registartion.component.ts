@@ -1,10 +1,20 @@
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import {
-  AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators, ValidationErrors, ValidatorFn
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+  ValidationErrors,
+  ValidatorFn,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CurrencyFormatPipe } from '../../pipe/currency-format.pipe';
+import { catchError, concatMap, map, Observable, of, toArray } from 'rxjs';
 import { ApiService } from '../../ApiService/api.service';
 
 @Component({
@@ -12,12 +22,12 @@ import { ApiService } from '../../ApiService/api.service';
   standalone: true,
   imports: [NgIf, NgClass, NgFor, FormsModule, ReactiveFormsModule],
   templateUrl: './corporate-registartion.component.html',
-  styleUrl: './corporate-registartion.component.css'
+  styleUrl: './corporate-registartion.component.css',
 })
 export class CorporateRegistartionComponent {
   @Output() cancel = new EventEmitter<void>();
   public corporateForm: FormGroup = new FormGroup({});
-  showTooltip: boolean = false; 
+  showTooltip: boolean = false;
   formTabs: string[] = [];
   currentTab: number = 0;
   nationalities: any;
@@ -28,13 +38,62 @@ export class CorporateRegistartionComponent {
   initForm: any;
   tab!: string;
   isLoading: boolean = false;
-  basicDetailsForm!: FormGroup<{ type: FormControl<string | null>; corporteFirstName: FormControl<string | null>; corporteLastName: FormControl<string | null>; corporateEmail: FormControl<string | null>; corporatePhone: FormControl<string | null>; corporateUserName: FormControl<string | null>; corporatePassword: FormControl<string | null>; SalarythirdLevelAuth: FormControl<any | null>; }>;
-  companyDetailsForm!: FormGroup<{ companyName: FormControl<string | null>; contactPersonName: FormControl<string | null>; contactpersonDesignation: FormControl<string | null>; shareholderCount: FormControl<any>; }>;
-  businessLicenceDetailsForm!: FormGroup<{ licenceNumber: FormControl<string | null>; licenceIssueAuthority: FormControl<string | null>; dateofIssue: FormControl<string | null>; dateofExpiry: FormControl<string | null>; tinNumber: FormControl<string | null>; }>;
-  businessActivityDetailsForm!: FormGroup<{ businessName: FormControl<string | null>; natureofBusiness: FormControl<string | null>; monthlyIncome: FormControl<string | null>; netWorth: FormControl<string | null>; sourceofFund: FormControl<string | null>; monthlyTurnover: FormControl<string | null>; }>;
-  companyAddressDetailsForm!: FormGroup<{ location: FormControl<string | null>; streetNumber: FormControl<string | null>; houseNumber: FormControl<string | null>; district: FormControl<string | null>; province: FormControl<string | null>; country: FormControl<string | null>; officePhone: FormControl<string | null>; officeEmail: FormControl<string | null>; }>;
-  shareHolderDetailsForm !: FormGroup;
-  authorizedDetailsForm!: FormGroup<{ authorizedFirstName: FormControl<string | null>; authorizedLastName: FormControl<string | null>; authorizedtazkiraNo: FormControl<string | null>; authorizedDOB: FormControl<string | null>; authorizedPlaceofBirth: FormControl<string | null>; authorizedNationality: FormControl<string | null>; authorizedDesignation: FormControl<string | null>; authorizedlocation: FormControl<string | null>; authorizedMonthlyIncome: FormControl<string | null>; authorizedSourceofIncome: FormControl<string | null>; authorizedPhone: FormControl<string | null>; authorizedType: FormControl<string | null>; }>;
+  basicDetailsForm!: FormGroup<{
+    type: FormControl<string | null>;
+    corporteFirstName: FormControl<string | null>;
+    corporteLastName: FormControl<string | null>;
+    corporateEmail: FormControl<string | null>;
+    corporatePhone: FormControl<string | null>;
+    corporateUserName: FormControl<string | null>;
+    corporatePassword: FormControl<string | null>;
+    SalarythirdLevelAuth: FormControl<any | null>;
+  }>;
+  companyDetailsForm!: FormGroup<{
+    companyName: FormControl<string | null>;
+    contactPersonName: FormControl<string | null>;
+    contactpersonDesignation: FormControl<string | null>;
+    shareholderCount: FormControl<any>;
+  }>;
+  businessLicenceDetailsForm!: FormGroup<{
+    licenceNumber: FormControl<string | null>;
+    licenceIssueAuthority: FormControl<string | null>;
+    dateofIssue: FormControl<string | null>;
+    dateofExpiry: FormControl<string | null>;
+    tinNumber: FormControl<string | null>;
+  }>;
+  businessActivityDetailsForm!: FormGroup<{
+    businessName: FormControl<string | null>;
+    natureofBusiness: FormControl<string | null>;
+    monthlyIncome: FormControl<string | null>;
+    netWorth: FormControl<string | null>;
+    sourceofFund: FormControl<string | null>;
+    monthlyTurnover: FormControl<string | null>;
+  }>;
+  companyAddressDetailsForm!: FormGroup<{
+    location: FormControl<string | null>;
+    streetNumber: FormControl<string | null>;
+    houseNumber: FormControl<string | null>;
+    district: FormControl<string | null>;
+    province: FormControl<string | null>;
+    country: FormControl<string | null>;
+    officePhone: FormControl<string | null>;
+    officeEmail: FormControl<string | null>;
+  }>;
+  shareHolderDetailsForm!: FormGroup;
+  authorizedDetailsForm!: FormGroup<{
+    authorizedFirstName: FormControl<string | null>;
+    authorizedLastName: FormControl<string | null>;
+    authorizedtazkiraNo: FormControl<string | null>;
+    authorizedDOB: FormControl<string | null>;
+    authorizedPlaceofBirth: FormControl<string | null>;
+    authorizedNationality: FormControl<string | null>;
+    authorizedDesignation: FormControl<string | null>;
+    authorizedlocation: FormControl<string | null>;
+    authorizedMonthlyIncome: FormControl<string | null>;
+    authorizedSourceofIncome: FormControl<string | null>;
+    authorizedPhone: FormControl<string | null>;
+    authorizedType: FormControl<string | null>;
+  }>;
   passwordMatch!: boolean;
   //attachmentsList : any[] =[];
   attachedFiles: { [key: string]: File } = {};
@@ -44,7 +103,7 @@ export class CorporateRegistartionComponent {
   fileName!: string;
   userId: any;
   file2!: File;
-  file3 !: File;
+  file3!: File;
   file4!: File;
   file5!: File;
   file6!: File;
@@ -66,16 +125,16 @@ export class CorporateRegistartionComponent {
   registerResponse: any;
   isPasswordVisible: boolean = false;
 
-  constructor(private corporate: ApiService,
+  constructor(
+    private corporate: ApiService,
     private fb: FormBuilder,
-  private router:Router,private currencyFormatPipe: CurrencyFormatPipe) { }
+    private router: Router,
+    private currencyFormatPipe: CurrencyFormatPipe
+  ) {}
 
   ngOnInit(): void {
+    console.log('New Form Value');
 
-  console.log('New Form Value');
-
-
-  
     this.formTabs = [
       'Company Details',
       'Company Business License Details',
@@ -83,12 +142,12 @@ export class CorporateRegistartionComponent {
       'Company Address',
       'Company Shareholder Details',
       'Authorized Signatory Details',
-      'Final Submission'
-    ]
+      'Final Submission',
+    ];
     this.tab = 'Company Details';
 
     this.getCountries();
-    this.getDistricts
+    this.getDistricts;
     this.getProvinces();
     this.getNatureofBusiness();
 
@@ -96,85 +155,143 @@ export class CorporateRegistartionComponent {
       type: ['', [Validators.required]],
       corporteFirstName: ['', Validators.required],
       corporteLastName: ['', Validators.required],
-      corporateEmail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
-      corporatePhone: ['', [Validators.required, Validators.pattern(/.*(7\d{8})$/)]],
+      corporateEmail: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'),
+        ],
+      ],
+      corporatePhone: [
+        '',
+        [Validators.required, Validators.pattern(/.*(7\d{8})$/)],
+      ],
       //gender: ['',Validators.required],
       corporateUserName: ['', Validators.required],
       corporatePassword: ['', Validators.required],
       SalarythirdLevelAuth: ['', Validators.required],
-
-    })
+    });
 
     this.companyDetailsForm = this.fb.group({
-      companyName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      contactPersonName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      contactpersonDesignation: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      shareholderCount: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Strictly Numerical
+      companyName: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      contactPersonName: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      contactpersonDesignation: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      shareholderCount: [
+        '',
+        [Validators.required, Validators.pattern('^[0-9]+$')],
+      ], // Strictly Numerical
       //contactPersonTazkiraPhoto: ['',Validators.required],
       //contactPersonSign: ['',Validators.required],
     });
 
     this.businessLicenceDetailsForm = this.fb.group({
-      licenceNumber: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
+      licenceNumber: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
       licenceIssueAuthority: ['', [Validators.required]], // Strictly Numerical
       dateofIssue: ['', Validators.required], // Date
       dateofExpiry: ['', Validators.required], // Date
       tinNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Strictly Numerical
       //businessLicencePhoto: ['', Validators.required]
-    })
+    });
 
     this.businessActivityDetailsForm = this.fb.group({
-      businessName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
+      businessName: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
       natureofBusiness: ['', Validators.required],
       monthlyIncome: ['', Validators.required], // Strictly Numerical
-      netWorth: ['',Validators.required, ], // Strictly Numerical
-      sourceofFund: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric 
-      monthlyTurnover: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Strictly Numerical
-    })
+      netWorth: ['', Validators.required], // Strictly Numerical
+      sourceofFund: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      monthlyTurnover: ['', Validators.required], // Strictly Numerical
+    });
 
     this.companyAddressDetailsForm = this.fb.group({
-      location: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
+      location: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
       streetNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Strictly Numerical
       houseNumber: ['', [Validators.pattern('^[0-9]+$')]], // Strictly Numerical
       district: ['', [Validators.required]],
       province: ['', [Validators.required]],
       country: ['', [Validators.required]],
-      officePhone: ['', [Validators.required, Validators.pattern(/.*(7\d{8})$/)]],
-      officeEmail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
+      officePhone: [
+        '',
+        [Validators.required, Validators.pattern(/.*(7\d{8})$/)],
+      ],
+      officeEmail: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'),
+        ],
+      ],
       //addressProof: ['', [Validators.required]],
-    })
-
-    this.shareHolderDetailsForm = this.fb.group({
-      shareHolders: this.fb.array([this.createShareholderGroup()]) // Initialize with one shareholder
     });
 
+    this.shareHolderDetailsForm = this.fb.group({
+      shareHolders: this.fb.array([this.createShareholderGroup()]), // Initialize with one shareholder
+    });
 
     this.authorizedDetailsForm = this.fb.group({
-
-      authorizedFirstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      authorizedLastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      authorizedtazkiraNo: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
+      authorizedFirstName: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      authorizedLastName: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      authorizedtazkiraNo: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
       authorizedDOB: ['', [Validators.required, this.ageValidator()]], // Date
-      authorizedPlaceofBirth: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
+      authorizedPlaceofBirth: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
       authorizedNationality: ['', [Validators.required]],
-      authorizedDesignation: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      authorizedlocation: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      authorizedMonthlyIncome: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      authorizedDesignation: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      authorizedlocation: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      authorizedMonthlyIncome: ['', Validators.required],
       authorizedSourceofIncome: ['', [Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      authorizedPhone: ['', [Validators.required, Validators.pattern(/.*(7\d{8})$/)]],
+      authorizedPhone: [
+        '',
+        [Validators.required, Validators.pattern(/.*(7\d{8})$/)],
+      ],
       authorizedType: ['', Validators.required],
       //authorizedSign: ['', Validators.required],
       //authorizedLetter: ['', Validators.required],
       //authorizedPhoto: ['', Validators.required],
       //authorizedzkiraPhoto: ['', Validators.required],
-    })
-
+    });
 
     /* this.contactDetailsForm = this.fb.group({
       contactPersonName: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]], // Alphanumeric (Only Letters)
       contactPersonPhone: ['', [Validators.required, Validators.pattern('^[0-9]+$')]], // Strictly Numerical
     }); */
-
   }
   ageValidator(): (control: AbstractControl) => ValidationErrors | null {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -192,18 +309,16 @@ export class CorporateRegistartionComponent {
 
       return isUnderage ? { underage: { value: control.value } } : null;
     };
-
-    
   }
   // onMonthlyIncomeChange(event: Event) {
   //   const inputElement = event.target as HTMLInputElement;
   // let rawValue = inputElement.value;
   // this.businessActivityDetailsForm.controls['monthlyIncome'].setValue(rawValue, { emitEvent: false });
-  // inputElement.value = rawValue; 
+  // inputElement.value = rawValue;
   // }
 
-  formatCurrency(formControlName: string): string | null {
-    const formCurrency = this.businessActivityDetailsForm.get(formControlName);
+  formatCurrency(form: FormGroup, formControlName: string): string | null {
+    const formCurrency = form.get(formControlName);
     if (formCurrency) {
       const value = formCurrency.value;
       if (value) {
@@ -215,29 +330,65 @@ export class CorporateRegistartionComponent {
     }
     return null;
   }
-  
 
+  formatCurrencyForShareholders(formArrayName: string, index: number, formControlName: string): void {
+    const formArray = this.shareHolderDetailsForm.get(formArrayName) as FormArray;
+    const formControl = formArray.at(index).get(formControlName);
+  
+    if (formControl) {
+      const value = formControl.value;
+      if (value) {
+        (formControl as any)['rawValue'] = value;
+        const formattedValue = this.currencyFormatPipe.transform(value);
+        formControl.setValue(formattedValue);
+      }
+    }
+  }
 
   createShareholderGroup(): FormGroup {
     return this.fb.group({
       //this.shareHolderDetailsForm = this.fb.group({
-      shareholderFirstName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      shareholderLastName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      shareholderFatherName: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      shareholdertazkiraNo: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
-      shareholderDOB: ['', [Validators.required,this.ageValidator()]], // Date
-      shareholderPlaceofBirth: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
+      shareholderFirstName: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      shareholderLastName: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      shareholderFatherName: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      shareholdertazkiraNo: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
+      shareholderDOB: ['', [Validators.required, this.ageValidator()]], // Date
+      shareholderPlaceofBirth: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
       shareholderNationality: ['', [Validators.required]],
-      shareholderMonthlyIncome: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      shareholderMonthlyIncome: [
+        '',
+        [Validators.required,],
+      ],
       shareholdingPercentage: ['', [Validators.required]],
       shareholdingOtherSource: ['', [Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
       shareholderRelationship: ['', [Validators.required]],
-      shareholderPhone: ['', [Validators.required, Validators.pattern(/.*(7\d{8})$/)]], // Strictly Numerical
+      shareholderPhone: [
+        '',
+        [Validators.required, Validators.pattern(/.*(7\d{8})$/)],
+      ], // Strictly Numerical
       shareholderTin: ['', [Validators.pattern('^[0-9]+$')]], // Strictly Numerical
-      shareholderTazkiraPhoto: ['', [Validators.required]],
+      // shareholderTazkiraPhoto: ['', [Validators.required]],
       //currentAddresss
 
-      shareholderCurrentlocation: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')]], // Alphanumeric
+      shareholderCurrentlocation: [
+        '',
+        [Validators.required, Validators.pattern('^[a-zA-Z0-9 ]+$')],
+      ], // Alphanumeric
       shareholderCurrentDistrict: ['', [Validators.required]],
       shareholderCurrentProvince: ['', [Validators.required]],
       shareholderCurrentCountry: ['', [Validators.required]],
@@ -246,9 +397,7 @@ export class CorporateRegistartionComponent {
       shareholderPermanantDistrict: ['', [Validators.required]],
       shareholderPermanantProvince: ['', [Validators.required]],
       shareholderPermanantCountry: ['', [Validators.required]],
-
-
-    })
+    });
   }
   get shareHoldersFormArray(): FormArray {
     return this.shareHolderDetailsForm.get('shareHolders') as FormArray;
@@ -258,10 +407,13 @@ export class CorporateRegistartionComponent {
     console.log(this.shareHolderDetailsForm);
     this.shareHoldersFormArray.clear();
 
-    for (let i = 0; i < Number(this.companyDetailsForm.controls['shareholderCount'].value); i++) {
+    for (
+      let i = 0;
+      i < Number(this.companyDetailsForm.controls['shareholderCount'].value);
+      i++
+    ) {
       this.shareHoldersFormArray.push(this.createShareholderGroup());
     }
-
   }
 
   selectedTab(selected: string, i: number) {
@@ -301,50 +453,46 @@ export class CorporateRegistartionComponent {
     } else if (section === 'Company Address') {
       return this.companyAddressDetailsForm.valid;
     } else if (section === 'Authorized Signatory Details') {
-      console.log("authorizedDetailsForm", this.authorizedDetailsForm);
+      console.log('authorizedDetailsForm', this.authorizedDetailsForm);
       return this.authorizedDetailsForm.valid;
     } else if (section === 'Company Shareholder Details') {
       console.log(this.shareHolderDetailsForm);
 
       return this.shareHolderDetailsForm.valid;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   allDocumentsAttached() {
-    if (Object.keys(this.attachedFiles).includes('contactPersonTazkiraPhoto') &&
+    if (
+      Object.keys(this.attachedFiles).includes('contactPersonTazkiraPhoto') &&
       Object.keys(this.attachedFiles).includes('contactPersonSign') &&
       Object.keys(this.attachedFiles).includes('businessLicencePhoto') &&
       Object.keys(this.attachedFiles).includes('addressProof') &&
       Object.keys(this.attachedFiles).includes('shareholderTazkiraPhoto') &&
-      Object.keys(this.attachedFiles).includes('authorizedzkiraPhoto')) {
+      Object.keys(this.attachedFiles).includes('authorizedzkiraPhoto')
+    ) {
       return true;
-
-    }
-    else
-      return false;
+    } else return false;
   }
 
   resetForm(section: string) {
     if (section === 'Basic Info') {
       this.basicDetailsForm.reset();
-
     } else if (section === 'Company Details') {
-      //this.isContactDetailsSaved = this.contactDetailsForm.valid;
+      this.companyDetailsForm.reset();
     } else if (section === 'Company Business License Details') {
-      //this.isAccountDetailsSaved = this.accountDetailsForm.valid;
+      this.businessLicenceDetailsForm.reset();
     } else if (section === 'Company Business Activities') {
-      // this.isAccountDetailsSaved = this.accountDetailsForm.valid;
+      this.businessActivityDetailsForm.reset();
     } else if (section === 'Company Address') {
-      // this.isAccountDetailsSaved = this.accountDetailsForm.valid;
+      this.companyAddressDetailsForm.reset();
     } else if (section === 'Authorized Signatory') {
-      //this.isAccountDetailsSaved = this.accountDetailsForm.valid;
+      this.shareHolderDetailsForm.reset();
     } else if (section === 'Company Address') {
-      // this.isAccountDetailsSaved = this.accountDetailsForm.valid;
+      this.authorizedDetailsForm.reset();
     }
-
   }
 
   submitKYCForm() {
@@ -356,8 +504,7 @@ export class CorporateRegistartionComponent {
     //console.log(password)
     if (this.basicDetailsForm.controls['corporatePassword'].value == password) {
       this.passwordMatch = true;
-    }
-    else {
+    } else {
       this.passwordMatch = false;
     }
   }
@@ -381,7 +528,6 @@ export class CorporateRegistartionComponent {
   goToStep(step: number) {
     // this.currentStep = step;
   }
-
 
   //new
   /* isCurrentPageValid(): boolean {
@@ -605,15 +751,14 @@ export class CorporateRegistartionComponent {
     this.corporate.getAllFirmType().subscribe({
       next: (data: any) => {
         this.natureofBusinesses = data?.data;
-      }
+      },
     });
-
   }
   getCountries() {
     this.corporate.getCountries().subscribe({
       next: (data: any) => {
         this.nationalities = data?.data;
-      }
+      },
     });
   }
 
@@ -621,12 +766,14 @@ export class CorporateRegistartionComponent {
     this.corporate.getprovinces().subscribe({
       next: (data: any) => {
         this.provinces = data?.data;
-      }
+      },
     });
   }
   onSelectProvince($event: any) {
     this.provinceId = $event.target.value;
-    const filteredProvinces = this.provinces.filter((province: any) => province.name === this.provinceId);
+    const filteredProvinces = this.provinces.filter(
+      (province: any) => province.name === this.provinceId
+    );
     if (filteredProvinces && filteredProvinces.length > 0) {
       this.selectedProvinceName = filteredProvinces[0].id;
     }
@@ -636,264 +783,30 @@ export class CorporateRegistartionComponent {
     this.corporate.getdistricts(provinceId).subscribe({
       next: (data: any) => {
         this.districts = data?.data;
-      }
+      },
     });
   }
 
   onFileSelected(event: any, formControlName: string, tab: string) {
     //const input = event.target as HTMLInputElement;
     if (event.target.files[0]) {
-      console.log(this.attachedFiles)
+      console.log(this.attachedFiles);
       const file = event.target.files[0];
       this.attachedFiles[formControlName] = file;
-      this.file1 = file
-      this.fileName = formControlName
-      console.log("formControlName", formControlName)
-      console.log("this.attachedFiles", this.attachedFiles)
+      this.file1 = file;
+      this.fileName = formControlName;
+      console.log('formControlName', formControlName);
+      console.log('this.attachedFiles', this.attachedFiles);
     }
   }
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible; // Toggle the visibility
   }
-  uploadDocuments() {
-    let userId = sessionStorage.getItem('SenderUserId')
-    console.log("this.attachedFiles", this.attachedFiles)
-    let keys = Object.keys(this.attachedFiles);
-    console.log("keys", keys)
-    this.file1 = this.attachedFiles['contactPersonTazkiraPhoto']; // For authorizedSign file
-    console.log("this.file1", this.file1)
-    this.file2 = this.attachedFiles['contactPersonSign']; // 
-    console.log("this.file2", this.file2)
-    this.file3 = this.attachedFiles['businessLicencePhoto'];
-    this.file4 = this.attachedFiles['addressProof'];
-    this.file5 = this.attachedFiles['shareholderTazkiraPhoto'];
-    this.file6 = this.attachedFiles['authorizedPhoto'];
-    this.file7 = this.attachedFiles['authorizedzkiraPhoto'];
-    this.file8 = this.attachedFiles['authorizedSign'];
-    this.file9 = this.attachedFiles['authorizedLetter'];
-
-    for (let item of keys) {
-      if (item == "contactPersonSign") {
-        this.mapping2 = "contactPersonSignature"
-      }
-      if (item == "businessLicencePhoto") {
-        this.mapping3 = "bizLicensePhoto"
-      }
-
-      if (item == "addressProof") {
-        this.mapping4 = "addressProofPhoto"
-      }
-      if (item == "shareholderTazkiraPhoto") {
-        this.mapping5 = "idProofFrontPhoto"
-      }
-      if (item == "authorizedPhoto") {
-        this.mapping6 = "signatoryPhoto"
-      }
-
-      if (item == "authorizedzkiraPhoto") {
-        this.mapping7 = "signatoryIdProofFrontPhoto"
-      }
-      if (item == "authorizedSign") {
-        this.mapping8 = "signatorySignature"
-      }
-      if (item == "authorizedLetter") {
-        this.mapping9 = "authorizationLetterPhoto"
-      }
-      if (item == "contactPersonTazkiraPhoto") {
-        this.mapping1 = "contactPersonIdProofFrontPhoto"
-        this.corporate.submitCorporateKYCFiles(userId, this.mapping1, this.file1).subscribe(
-          (data: any) => {
-            console.log("File submitted successfully", this.file1);
-            if (data?.responseCode == 200) {
-              this.corporate.submitCorporateKYCFiles(userId, this.mapping2, this.file2).subscribe(
-                (data: any) => {
-                  console.log("File submitted successfully", this.file2);
-                  if (data?.responseCode == 200) {
-                    this.corporate.submitCorporateKYCFiles(userId, this.mapping3, this.file3).subscribe(
-                      (data: any) => {
-                        console.log("File submitted successfully", this.file3);
-                        if (data?.responseCode == 200) {
-                          this.corporate.submitCorporateKYCFiles(userId, this.mapping4, this.file4).subscribe(
-                            (data: any) => {
-                              console.log("File submitted successfully", this.file4);
-                              if (data?.responseCode == 200) {
-                                this.corporate.submitCorporateKYCFiles(userId, this.mapping6, this.file6).subscribe(
-                                  (data: any) => {
-                                    console.log("File submitted successfully", this.file6);
-                                    if (data?.responseCode == 200) {
-                                      this.corporate.submitCorporateKYCFiles(userId, this.mapping7, this.file7).subscribe(
-                                        (data: any) => {
-                                          console.log("File submitted successfully", this.file7);
-                                          if (data?.responseCode == 200) {
-                                            this.corporate.submitCorporateKYCFiles(userId, this.mapping8, this.file8).subscribe(
-                                              (data: any) => {
-                                                console.log("File submitted successfully", this.file8);
-                                                if (data?.responseCode == 200) {
-                                                  this.corporate.submitCorporateKYCFiles(userId, this.mapping9, this.file9).subscribe(
-                                                    (data: any) => {
-                                                      console.log("File submitted successfully", this.file9);
-                                                      if (data?.responseCode == 200) {
-                                                        // this.corporate.submitCorporateKYCFiles(this.userId, this.mapping5, this.file5).subscribe(
-                                                        //   (data: any) => {
-                                                        //     console.log("File submitted successfully", this.file5);
-                                                        //   },
-                                                        //   (error: any) => {
-                                                        //     console.error("Error submitting file", error);
-                                                        //   }
-                                                        // );
-                                                        this.addShareholderImage();
-                                                      }
-                                                    },
-                                                    (error: any) => {
-                                                      console.error("Error submitting file", error);
-                                                    }
-                                                  );
-                                                }
-                                              },
-                                              (error: any) => {
-                                                console.error("Error submitting file", error);
-                                              }
-                                            );
-                                          }
-                                        },
-                                        (error: any) => {
-                                          console.error("Error submitting file", error);
-                                        }
-                                      );
-                                    }
-                                  },
-                                  (error: any) => {
-                                    console.error("Error submitting file", error);
-                                  }
-                                );
-                              }
-                            },
-                            (error: any) => {
-                              console.error("Error submitting file", error);
-                            }
-                          );
-                        }
-                      },
-                      (error: any) => {
-                        console.error("Error submitting file", error);
-                      }
-                    );
-                  }
-                },
-                (error: any) => {
-                  console.error("Error submitting file", error);
-                }
-              );
-            }
-          },
-          (error: any) => {
-            console.error("Error submitting file", error);
-          }
-        );
-      }
-      // if (item == "contactPersonSign") {
-      //   this.mapping = "contactPersonSignature"
-      //   this.corporate.submitCorporateKYCFiles(this.userId, this.mapping, this.file2).subscribe(
-      //     (data: any) => {
-      //       console.log("File submitted successfully", this.file2);
-      //     },
-      //     (error: any) => {
-      //       console.error("Error submitting file", error);
-      //     }
-      //   );
-      // }
-      // if (item == "businessLicencePhoto") {
-      //   this.mapping = "bizLicensePhoto"
-      //   this.corporate.submitCorporateKYCFiles(this.userId, this.mapping, this.file3).subscribe(
-      //     (data: any) => {
-      //       console.log("File submitted successfully", this.file3);
-      //     },
-      //     (error: any) => {
-      //       console.error("Error submitting file", error);
-      //     }
-      //   );
-      // }
-      // if (item == "addressProof") {
-      //   this.mapping = "addressProofPhoto"
-      //   this.corporate.submitCorporateKYCFiles(this.userId, this.mapping, this.file4).subscribe(
-      //     (data: any) => {
-      //       console.log("File submitted successfully", this.file4);
-      //     },
-      //     (error: any) => {
-      //       console.error("Error submitting file", error);
-      //     }
-      //   );
-      // }
-      // if (item == "shareholderTazkiraPhoto") {
-      //   this.mapping = "signatoryIdProofFrontPhoto"
-      //   this.corporate.submitCorporateKYCFiles(this.userId, this.mapping5, this.file5).subscribe(
-      //     (data: any) => {
-      //       console.log("File submitted successfully", this.file5);
-      //     },
-      //     (error: any) => {
-      //       console.error("Error submitting file", error);
-      //     }
-      //   );
-      // }
-      // if (item == "authorizedPhoto") {
-      //   this.mapping = "signatoryPhoto"
-      //   this.corporate.submitCorporateKYCFiles(this.userId, this.mapping, this.file6).subscribe(
-      //     (data: any) => {
-      //       console.log("File submitted successfully", this.file6);
-      //     },
-      //     (error: any) => {
-      //       console.error("Error submitting file", error);
-      //     }
-      //   );
-      // }
-      // if (item == "authorizedzkiraPhoto") {
-      //   this.mapping = "signatoryIdProofFrontPhoto"
-      //   this.corporate.submitCorporateKYCFiles(this.userId, this.mapping, this.file7).subscribe(
-      //     (data: any) => {
-      //       console.log("File submitted successfully", this.file7);
-      //     },
-      //     (error: any) => {
-      //       console.error("Error submitting file", error);
-      //     }
-      //   );
-      // }
-      // if (item == "authorizedSign") {
-      //   this.mapping = "signatorySignature"
-      //   this.corporate.submitCorporateKYCFiles(this.userId, this.mapping, this.file8).subscribe(
-      //     (data: any) => {
-      //       console.log("File submitted successfully", this.file8);
-      //     },
-      //     (error: any) => {
-      //       console.error("Error submitting file", error);
-      //     }
-      //   );
-      // }
-      // if (item == "authorizedLetter") {
-      //   this.mapping = "authorizationLetterPhoto"
-      //   this.corporate.submitCorporateKYCFiles(this.userId, this.mapping, this.file9).subscribe(
-      //     (data: any) => {
-      //       console.log("File submitted successfully", this.file9);
-      //     },
-      //     (error: any) => {
-      //       console.error("Error submitting file", error);
-      //     }
-      //   );
-      // }
-    }
-
-  }
-  // this.corporate.submitCorporateKYCShareholderFiles( this.mapping5,this.userId,this.shareHolderId, this.file5).subscribe(
-  //   (data: any) => {
-  //     console.log(`File submitted successfully for shareholder ${i}`, this.file5);
-  //   },
-  //   (error: any) => {
-  //     console.error(`Error submitting file for shareholder ${i}`, error);
-  //   }
-  // );
   addShareholderImage() {
-    let userId = sessionStorage.getItem('SenderUserId')
+    let userId = sessionStorage.getItem('SenderUserId');
 
-    this.shareholderCount1 = this.companyDetailsForm.get('shareholderCount')?.value;
+    this.shareholderCount1 =
+      this.companyDetailsForm.get('shareholderCount')?.value;
 
     // Convert shareholderCount to a number
     this.shareholderImgCount = parseInt(this.shareholderCount1, 10);
@@ -909,14 +822,27 @@ export class CorporateRegistartionComponent {
             const shareholderId = shareholders[i].id; // Get the shareholder ID
 
             // Submit file for each shareholder using their respective ID
-            this.corporate.submitCorporateKYCShareholderFiles(this.mapping5, userId, shareholderId, this.file5).subscribe(
-              (data: any) => {
-                console.log(`File submitted successfully for shareholder ${i + 1}`, this.file5);
-              },
-              (error: any) => {
-                console.error(`Error submitting file for shareholder ${i + 1}`, error);
-              }
-            );
+            this.corporate
+              .submitCorporateKYCShareholderFiles(
+                this.mapping5,
+                userId,
+                shareholderId,
+                this.file5
+              )
+              .subscribe(
+                (data: any) => {
+                  console.log(
+                    `File submitted successfully for shareholder ${i + 1}`,
+                    this.file5
+                  );
+                },
+                (error: any) => {
+                  console.error(
+                    `Error submitting file for shareholder ${i + 1}`,
+                    error
+                  );
+                }
+              );
           } else {
             console.error(`No shareholder data found for index ${i}`);
           }
@@ -929,24 +855,30 @@ export class CorporateRegistartionComponent {
     }
   }
 
-
   createPayload() {
-    let userId = sessionStorage.getItem('SenderUserId')
-    let shareholdersList: any[] = [];
+    let userId = sessionStorage.getItem('SenderUserId');
 
-    for (let item of this.shareHolderDetailsForm.controls['shareHolders'].value) {
-      console.log("Item -", item);
-      let shareholders =
-      {
+    let shareholdersList: any[] = [];
+    for (let item of this.shareHolderDetailsForm.controls['shareHolders']
+      .value) {
+        const formArray = this.shareHolderDetailsForm.controls['shareHolders'] as FormArray;
+  const index = this.shareHolderDetailsForm.controls['shareHolders'].value.indexOf(item);
+
+  const monthlyIncomeControl = formArray.at(index).get('shareholderMonthlyIncome');
+  const monthlyIncome = monthlyIncomeControl && (monthlyIncomeControl as any)['rawValue'] !== undefined 
+                        ? (monthlyIncomeControl as any)['rawValue'] 
+                        : monthlyIncomeControl?.value;
+      console.log('Item -', item);
+      let shareholders = {
         firstName: item.shareholderFirstName,
         lastName: item.shareholderLastName,
         fatherName: item.shareholderFatherName,
-        idProofType: "E_TAZKIRA",
+        idProofType: 'E_TAZKIRA',
         idProofNumber: item.shareholdertazkiraNo,
         dob: item.shareholderDOB,
         placeOfBirth: item.shareholderPlaceofBirth,
         nationality: item.shareholderNationality,
-        monthlyIncome: item.shareholderMonthlyIncome,
+        monthlyIncome: monthlyIncome,
         shareholdingPercentage: item.shareholdingPercentage,
         sourceOfIncome: item.shareholdingOtherSource,
         relationship: item.shareholderRelationship,
@@ -959,129 +891,225 @@ export class CorporateRegistartionComponent {
         permDistrict: item.shareholderPermanantDistrict,
         permProvince: item.shareholderPermanantProvince,
         permCountry: item.shareholderPermanantCountry,
-      }
-
+      };
 
       shareholdersList.push(shareholders);
-      console.log("List", shareholdersList);
+      console.log('List', shareholdersList);
     }
-    let req = {
-      kycType: "CORPORATE",
+    const req = {
+      kycType: 'CORPORATE',
       submittedFor: userId,
       corporateKyc: {
         companyName: this.companyDetailsForm.controls['companyName'].value,
         //companyWalletNumber: this.companyDetailsForm.controls['mmwalletNumber'].value,
-        // companyAccOpenDate: this.companyDetailsForm.controls['accountOpeningDate'].value,
-        contactPersonName: this.companyDetailsForm.controls['contactPersonName'].value,
-        contactPersonDesignation: this.companyDetailsForm.controls['contactpersonDesignation'].value,
-        companyNoOfShareholders: this.companyDetailsForm.controls['shareholderCount'].value,
+        companyAccOpenDate: '',
+        contactPersonName:
+          this.companyDetailsForm.controls['contactPersonName'].value,
+        contactPersonDesignation:
+          this.companyDetailsForm.controls['contactpersonDesignation'].value,
+        companyNoOfShareholders:
+          this.companyDetailsForm.controls['shareholderCount'].value,
 
-        bizLicenseNumber: this.businessLicenceDetailsForm.controls['licenceNumber'].value,
-        bizLicenseAuthority: this.businessLicenceDetailsForm.controls['licenceIssueAuthority'].value,
-        bizLicenseDateOfIssue: this.businessLicenceDetailsForm.controls['dateofIssue'].value,
-        bizLicenseDateOfExpiry: this.businessLicenceDetailsForm.controls['dateofExpiry'].value,
-        bizLicenseTinNumber: this.businessLicenceDetailsForm.controls['tinNumber'].value,
+        bizLicenseNumber:
+          this.businessLicenceDetailsForm.controls['licenceNumber'].value,
+        bizLicenseAuthority:
+          this.businessLicenceDetailsForm.controls['licenceIssueAuthority']
+            .value,
+        bizLicenseDateOfIssue:
+          this.businessLicenceDetailsForm.controls['dateofIssue'].value,
+        bizLicenseDateOfExpiry:
+          this.businessLicenceDetailsForm.controls['dateofExpiry'].value,
+        bizLicenseTinNumber:
+          this.businessLicenceDetailsForm.controls['tinNumber'].value,
 
-        bizName: this.businessActivityDetailsForm.controls['businessName'].value,
-        natureOfBiz: this.businessActivityDetailsForm.controls['natureofBusiness'].value,
-        monthlyIncome: (this.businessActivityDetailsForm.controls['monthlyIncome'] as any)['rawValue'] ?? this.businessActivityDetailsForm.controls['monthlyIncome'].value,
-        netWorth:  (this.businessActivityDetailsForm.controls['netWorth'] as any)['rawValue'] ?? this.businessActivityDetailsForm.controls['netWorth'].value,
-        sourceOfFund: this.businessActivityDetailsForm.controls['sourceofFund'].value,
-        monthlyTurnover: this.businessActivityDetailsForm.controls['monthlyTurnover'].value,
+        bizName:
+          this.businessActivityDetailsForm.controls['businessName'].value,
+        natureOfBiz:
+          this.businessActivityDetailsForm.controls['natureofBusiness'].value,
+        monthlyIncome:
+          (this.businessActivityDetailsForm.controls['monthlyIncome'] as any)[
+            'rawValue'
+          ] ?? this.businessActivityDetailsForm.controls['monthlyIncome'].value,
+        netWorth:
+          (this.businessActivityDetailsForm.controls['netWorth'] as any)[
+            'rawValue'
+          ] ?? this.businessActivityDetailsForm.controls['netWorth'].value,
+        sourceOfFund:
+          this.businessActivityDetailsForm.controls['sourceofFund'].value,
+        monthlyTurnover:
+          (this.businessActivityDetailsForm.controls['monthlyTurnover'] as any)[
+            'rawValue'
+          ] ??
+          this.businessActivityDetailsForm.controls['monthlyTurnover'].value,
 
-
-        companyLocation: this.companyAddressDetailsForm.controls['location'].value,
-        companyStreet: this.companyAddressDetailsForm.controls['streetNumber'].value,
-        companyHouseNumber: this.companyAddressDetailsForm.controls['houseNumber'].value,
-        companyDistrict: this.companyAddressDetailsForm.controls['district'].value,
-        companyProvince: this.companyAddressDetailsForm.controls['province'].value,
-        companyCountry: this.companyAddressDetailsForm.controls['country'].value,
-        companyOfficePhone: this.companyAddressDetailsForm.controls['officePhone'].value,
-        companyEmail: this.companyAddressDetailsForm.controls['officeEmail'].value,
+        companyLocation:
+          this.companyAddressDetailsForm.controls['location'].value,
+        companyStreet:
+          this.companyAddressDetailsForm.controls['streetNumber'].value,
+        companyHouseNumber:
+          this.companyAddressDetailsForm.controls['houseNumber'].value,
+        companyDistrict:
+          this.companyAddressDetailsForm.controls['district'].value,
+        companyProvince:
+          this.companyAddressDetailsForm.controls['province'].value,
+        companyCountry:
+          this.companyAddressDetailsForm.controls['country'].value,
+        companyOfficePhone:
+          this.companyAddressDetailsForm.controls['officePhone'].value,
+        companyEmail:
+          this.companyAddressDetailsForm.controls['officeEmail'].value,
         shareholders: shareholdersList,
 
+        signatoryFirstName:
+          this.authorizedDetailsForm.controls['authorizedFirstName'].value,
+        signatoryLastName:
+          this.authorizedDetailsForm.controls['authorizedLastName'].value,
+        signatoryIdProofType: 'E_TAZKIRA',
+        signatoryIdProofNumber:
+          this.authorizedDetailsForm.controls['authorizedtazkiraNo'].value,
+        signatoryDOB:
+          this.authorizedDetailsForm.controls['authorizedDOB'].value,
+        signatoryPlaceOfBirth:
+          this.authorizedDetailsForm.controls['authorizedPlaceofBirth'].value,
+        signatoryNationality:
+          this.authorizedDetailsForm.controls['authorizedNationality'].value,
+        signatoryDesignation:
+          this.authorizedDetailsForm.controls['authorizedDesignation'].value,
+        signatoryResidentAddress:
+          this.authorizedDetailsForm.controls['authorizedlocation'].value,
+        signatoryPhone:
+          this.authorizedDetailsForm.controls['authorizedPhone'].value,
+        signatorySourceOfIncome:
+          this.authorizedDetailsForm.controls['authorizedSourceofIncome'].value,
+        signatoryMonthlyIncome:
+          (
+            this.authorizedDetailsForm.controls[
+              'authorizedMonthlyIncome'
+            ] as any
+          )['rawValue'] ??
+          this.authorizedDetailsForm.controls['authorizedMonthlyIncome'].value,
+        signatoryType:
+          this.authorizedDetailsForm.controls['authorizedType'].value,
+      },
+    };
 
-        signatoryFirstName: this.authorizedDetailsForm.controls['authorizedFirstName'].value,
-        signatoryLastName: this.authorizedDetailsForm.controls['authorizedLastName'].value,
-        signatoryIdProofType: "E_TAZKIRA",
-        signatoryIdProofNumber: this.authorizedDetailsForm.controls['authorizedtazkiraNo'].value,
-        signatoryDOB: this.authorizedDetailsForm.controls['authorizedDOB'].value,
-        signatoryPlaceOfBirth: this.authorizedDetailsForm.controls['authorizedPlaceofBirth'].value,
-        signatoryNationality: this.authorizedDetailsForm.controls['authorizedNationality'].value,
-        signatoryDesignation: this.authorizedDetailsForm.controls['authorizedDesignation'].value,
-        signatoryResidentAddress: this.authorizedDetailsForm.controls['authorizedlocation'].value,
-        signatoryPhone: this.authorizedDetailsForm.controls['authorizedPhone'].value,
-        signatorySourceOfIncome: this.authorizedDetailsForm.controls['authorizedSourceofIncome'].value,
-        signatoryMonthlyIncome: this.authorizedDetailsForm.controls['authorizedMonthlyIncome'].value,
-        signatoryType: this.authorizedDetailsForm.controls['authorizedType'].value,
-      }
-    }
-    this.corporate.submitCorporateRegisterKYC(req).subscribe((data: any) => {
-      if (data.responseCode == 200) {
-        this.registerResponse = data?.data
-        const shareholders = this.registerResponse.shareholders;
-        this.uploadDocuments();
-        this.corporate.completeRegisterKYC(userId).subscribe((data: any) => {
-          if (data.responsecode == 200) {
-            this.isLoading = false;
-            alert("Registration Completed Successfully");
-            this.router.navigate(["corporate/corporate-list"]);
+    this.corporate
+      .submitCorporateRegisterKYC(req)
+      .pipe(
+        concatMap((data: any) => {
+          if (data.responseCode === 200) {
+            if (data.responseCode !== 200) {
+              alert('Corporate Registration failed, please try again later');
+              return of(null); // Return an observable here to avoid undefined
+            }
+            return of(data); // Return the original data if successful
+          } else {
+            alert('Error occurred');
+            return of(null);
           }
-          else {
-            this.isLoading = false;
-            // alert("Sorry, Registration Failed")
-
+        }),
+        concatMap((data: any) => {
+          if (data?.responseCode === 200) {
+            this.registerResponse = data.data;
+            return this.uploadDocuments(); // Proceed with document upload
+          } else {
+            alert('KYC Submission Failed, Please try again');
+            return of(false); // Ensure an observable is returned
+          }
+        }),
+        concatMap((uploadSuccess: boolean) => {
+          if (uploadSuccess) {
+            return this.corporate.completeRegisterKYC(userId); // Proceed with registration completion
+          } else {
+            alert('Document Upload Failed, Registration Incomplete');
+            return of(null); // Return observable
           }
         })
-      }
-    })
-
-
-    // this.corporate.submitCorporateRegister(reqbasic).subscribe((data: any) => {
-    //   if (data.responseCode == 200) {
-    //     let id = data.data;
-    //     this.userId = id
-    //     if (!data.data) {
-    //       alert("Corporate Registration failed,please try agian later")
-    //     }
-
-    //     let shareholdersList: any[] = [];
-    //     /*  for (let item of this.shareHoldersFormArray.controls){
-    //        let a =  {
-    //          firstName: item.controls.shareholderFirstName.value,
-    //          lastName: this.item.controls['shareholderLastName'].value,
-    //          fatherName: this.shareHolderDetailsForm.controls['shareholderFatherName'].value,
-    //          idProofType: "E_TAZKIRA" ,
-    //          idProofNumber: this.shareHolderDetailsForm.controls['shareholdertazkiraNo'].value,
-    //          dob: this.shareHolderDetailsForm.controls['shareholderDOB'].value,
-    //          placeOfBirth: this.shareHolderDetailsForm.controls['shareholderPlaceofBirth'].value,
-    //          nationality: this.shareHolderDetailsForm.controls['shareholderNationality'].value,
-    //          monthlyIncome: this.shareHolderDetailsForm.controls['shareholderMonthlyIncome'].value,
-    //          shareholdingPercentage: this.shareHolderDetailsForm.controls['shareholdingPercentage'].value,
-    //          sourceOfIncome:this.shareHolderDetailsForm.controls['shareholdingOtherSource'].value,
-    //          relationship: this.shareHolderDetailsForm.controls['shareholderRelationship'].value,
-    //          phone: this.shareHolderDetailsForm.controls['shareholderPhone'].value,
-    //          tinNumber: this.shareHolderDetailsForm.controls['shareholderTin'].value,
-    //          currLocation:this.shareHolderDetailsForm.controls['shareholderCurrentlocation'].value,
-    //          currDistrict: this.shareHolderDetailsForm.controls['shareholderCurrentDistrict'].value,
-    //          currProvince: this.shareHolderDetailsForm.controls['shareholderCurrentProvince'].value,
-    //          currCountry: this.shareHolderDetailsForm.controls['shareholderCurrentCountry'].value,
-    //          permDistrict: this.shareHolderDetailsForm.controls['shareholderPermanantDistrict'].value,
-    //          permProvince: this.shareHolderDetailsForm.controls['shareholderPermanantProvince'].value,
-    //          permCountry: this.shareHolderDetailsForm.controls['shareholderPermanantCountry'].value,
-    //        }
-
-
-    //      } */
-
-
-    //   }
-    // })
-
-
+      )
+      .subscribe((data: any) => {
+        this.isLoading = false;
+        if (data?.responseCode === 200) {
+          alert('Registration Completed Successfully');
+          this.router.navigate(['corporate/corporate-list']);
+        } else {
+          alert('Registration Failed');
+        }
+      });
   }
 
+  uploadDocuments(): Observable<boolean> {
+    let userId = sessionStorage.getItem('SenderUserId');
 
+    const fileMappings = [
+      {
+        key: 'contactPersonTazkiraPhoto',
+        mapping: 'contactPersonIdProofFrontPhoto',
+        file: this.attachedFiles['contactPersonTazkiraPhoto'],
+      },
+      {
+        key: 'contactPersonSign',
+        mapping: 'contactPersonSignature',
+        file: this.attachedFiles['contactPersonSign'],
+      },
+      {
+        key: 'businessLicencePhoto',
+        mapping: 'bizLicensePhoto',
+        file: this.attachedFiles['businessLicencePhoto'],
+      },
+      {
+        key: 'addressProof',
+        mapping: 'addressProofPhoto',
+        file: this.attachedFiles['addressProof'],
+      },
+      {
+        key: 'shareholderTazkiraPhoto',
+        mapping: 'idProofFrontPhoto',
+        file: this.attachedFiles['shareholderTazkiraPhoto'],
+      },
+      {
+        key: 'authorizedPhoto',
+        mapping: 'signatoryPhoto',
+        file: this.attachedFiles['authorizedPhoto'],
+      },
+      {
+        key: 'authorizedzkiraPhoto',
+        mapping: 'signatoryIdProofFrontPhoto',
+        file: this.attachedFiles['authorizedzkiraPhoto'],
+      },
+      {
+        key: 'authorizedSign',
+        mapping: 'signatorySignature',
+        file: this.attachedFiles['authorizedSign'],
+      },
+      {
+        key: 'authorizedLetter',
+        mapping: 'authorizationLetterPhoto',
+        file: this.attachedFiles['authorizedLetter'],
+      },
+    ].filter(({ file }) => file); // Filter out any undefined files
+
+    return of(...fileMappings).pipe(
+      concatMap(({ mapping, file }) =>
+        this.corporate.submitCorporateKYCFiles(userId, mapping, file).pipe(
+          map((response: any) => response?.responseCode === 200), // Map to `true` if successful, `false` otherwise
+          catchError((error) => {
+            console.error('Error submitting file', error);
+            return of(false); // Return `false` instead of `null` to indicate failure
+          })
+        )
+      ),
+      toArray(),
+      map((results: boolean[]) => results.every((success) => success)) // Return `true` only if all results are `true`
+    );
+  }
+
+  showFilename(formControlName: string) {
+    if (this.attachedFiles[formControlName]) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   /* detectFiles(event: any, selectedTab: string, filetitle : string) {
     if (event.target.files && event.target.files[0]) {
@@ -1102,8 +1130,6 @@ export class CorporateRegistartionComponent {
   //   this.uploadedImageFileData = reader.result;
   // };
 
-
-
   detectFilesAuth(event: any) {
     if (event.target.files && event.target.files[0]) {
       // this.uploadedImageAuth = event.target.files[0];
@@ -1118,7 +1144,6 @@ export class CorporateRegistartionComponent {
       //   this.uploadedImageFileData = reader.result;
       // };
     }
-
   }
   detectFilesPresident(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -1134,7 +1159,6 @@ export class CorporateRegistartionComponent {
       //   this.uploadedImageFileData = reader.result;
       // };
     }
-
   }
   detectFilesVice(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -1150,7 +1174,6 @@ export class CorporateRegistartionComponent {
       //   this.uploadedImageFileData = reader.result;
       // };
     }
-
   }
   detectFilesKyc(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -1166,7 +1189,6 @@ export class CorporateRegistartionComponent {
       //   this.uploadedImageFileData = reader.result;
       // };
     }
-
   }
   detectFilesOp(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -1182,7 +1204,6 @@ export class CorporateRegistartionComponent {
       //   this.uploadedImageFileData = reader.result;
       // };
     }
-
   }
   detectFilesCom(event: any) {
     if (event.target.files && event.target.files[0]) {
@@ -1198,7 +1219,6 @@ export class CorporateRegistartionComponent {
       //   this.uploadedImageFileData = reader.result;
       // };
     }
-
   }
   onCancel() {
     this.cancel.emit();

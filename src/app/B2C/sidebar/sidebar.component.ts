@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { CommonModule } from '@angular/common';
+import { DataSharingService } from '../dataSharing/data-sharing.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,16 +13,23 @@ import { CommonModule } from '@angular/common';
 })
 export class SidebarComponent implements OnInit {
   userName: any;
+  kyclevel:any
+  constructor(private route: Router,
+    private sharedService: SharedService,
+    private dataSharing:DataSharingService
+  ) {}
   ngOnInit(): void {
+    this.dataSharing.kyclevel$.subscribe((res)=>{
+      this.kyclevel = res
+      console.log(this.kyclevel);
+      
+    })
     this.sharedService.loginDeatails$.subscribe((res:any)=>{
       if(res)
       this.userName = `${res?.firstName} ${res?.lastName}`
     })
   }
   
-  constructor(private route: Router,
-    private sharedService: SharedService
-  ) {}
   navigate(nav: any) {
     this.route.navigateByUrl(nav);
   }
@@ -30,6 +38,7 @@ export class SidebarComponent implements OnInit {
   isSubMenuOpenUser = false;
   bulkSalary = false;
   isSubMenuOpenUserkyc = false
+  isAccountStatement = false
   toggleSubMenu() {
     this.isSubMenuOpen = !this.isSubMenuOpen;
   }
@@ -45,4 +54,9 @@ export class SidebarComponent implements OnInit {
   toggleKyc() {
     this.isSubMenuOpenUserkyc = !this.isSubMenuOpenUserkyc;
   }
+
+  accountStatement() {
+    this.isAccountStatement = !this.isAccountStatement;
+  }
+
 }

@@ -203,6 +203,9 @@ newPassword: any;
         res?.data?.walletAccount?.baseUserId
       );
       sessionStorage.setItem('Role', res?.data?.corpUserRole);
+      sessionStorage.setItem('Kyclevel', res?.data?.accountKycLevel);
+      this.dataSharingService.setkyclevelData(res?.data?.accountKycLevel);
+
       this.apiService
         .getPayFromAccountDetails(res?.data?.walletAccount?.walletNo)
         .subscribe((res) => {

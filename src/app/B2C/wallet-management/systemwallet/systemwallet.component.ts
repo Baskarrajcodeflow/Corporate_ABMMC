@@ -54,6 +54,7 @@ export class SystemwalletComponent {
     this.makerCheckerRestriction = sessionStorage.getItem('Role');
     this.getWalletDetails();
     this.getBanks();
+    this.getLinkedRecords()
   }
 
   getWalletDetails() {
@@ -103,7 +104,16 @@ export class SystemwalletComponent {
     });
   }
 
+  getLinkedRecords(){
+    this.walletService.getLinkedRecords().subscribe((res)=>{
+      console.log(res);
+      
+    })
+  }
+
   link(wallet: walletDetails, formName: NgForm) {
+    let baseUserId = sessionStorage.getItem('basrUserId')
+
     let userId = wallet.id;
     let req = {
       bankId: this.bankId,
@@ -115,9 +125,9 @@ export class SystemwalletComponent {
       baseUserId : userId
     } */
 
-    this.walletService.addSystemWallet(userId, req).subscribe((response) => {
+    this.walletService.addSystemWallet(baseUserId, req).subscribe((response) => {
       if (response.responseCode == 200) {
-        alert('Account Linked Successfully');
+        alert('Account linking successfully initiated');
         formName.reset();
       } else {
         alert(response?.error);
@@ -129,7 +139,7 @@ export class SystemwalletComponent {
       .authorizeSystemWalletAccount(this.accountId, userId, this.pin)
       .subscribe((response) => {
         if (response.responseCode == 200) {
-          alert('Account Authorized successfully');
+          alert('Account Validation Failed');
           formName.reset();
         } else {
           alert('Not able to fetch linked bank accounts now. Try again');
@@ -138,8 +148,10 @@ export class SystemwalletComponent {
   }
 
   showLinkedAccounts(userId: any) {
+    let baseUserId = sessionStorage.getItem('basrUserId')
+
     this.walletService
-      .getLinkedAccountsSystemWallet(userId)
+      .getLinkedAccountsSystemWallet(baseUserId)
       .subscribe((response) => {
         if (response.responseCode == 200) {
           this.accountList = response.data;
@@ -161,15 +173,16 @@ export class SystemwalletComponent {
   }
 
   switchView(selected: any, wallet: walletDetails) {
+    let baseUserId = sessionStorage.getItem('basrUserId')
     this.selectedCase = selected;
     if (selected == 'link') {
       wallet.showLink = !wallet.showLink;
     } else if (selected == 'authorize') {
       wallet.showAuthorize = !wallet.showAuthorize;
-      this.showLinkedAccounts(wallet.id);
+      this.showLinkedAccounts(baseUserId);
     } else {
       wallet.showList = !wallet.showList;
-      this.showLinkedAccounts(wallet.id);
+      this.showLinkedAccounts(baseUserId);
     }
     // wallet.showForm = !wallet.showForm;
   }

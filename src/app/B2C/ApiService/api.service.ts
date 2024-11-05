@@ -460,4 +460,15 @@ public getCountries() {
 
   return this.http.get<any>(url, { headers: h });
 }
+
+public getAccStatement(wallet: any, fromDate: any, toDate: any) {
+  let url = `${environment.apiUrl}/ts/api/transaction-services/accStmt?wallet=${wallet}&fromDate=${fromDate}&toDate=${toDate}`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.get(url, {
+    headers: h,
+  });
+}
 }
