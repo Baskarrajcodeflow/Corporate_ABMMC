@@ -36,26 +36,38 @@
                             Search
                           </button>
                     
-                         <ng-container >
-                            <img
-                            class="cursor-pointer"
-                            (click)="makePdf()"
-                            src="../../../assets/images/download.png"
-                            alt=""
-                            width="40px"
-                            height="40px"
-                          />
-                         </ng-container>
+                          <div class="mt-[10px]">
+                            <!-- Button that triggers the menu -->
+                            <button mat-icon-button [matMenuTriggerFor]="downloadMenu">
+                              <mat-icon>download</mat-icon>
+                            </button>
+                          
+                            <!-- The dropdown menu -->
+                            <mat-menu #downloadMenu="matMenu">
+                              <button mat-menu-item (click)="makePdf()">
+                                <mat-icon>picture_as_pdf</mat-icon>
+                                <span>Download as PDF</span>
+                              </button>
+                              <button mat-menu-item (click)="exportToExcel()">
+                                <mat-icon>table_view</mat-icon>
+                                <span>Download as Excel</span>
+                              </button>
+                              <button mat-menu-item (click)="exportToCSV()">
+                                <mat-icon>table_view</mat-icon>
+                                <span>Download as CSV</span>
+                              </button>
+                            </mat-menu>
+                          </div>
+                          
             
                          
                         </div>
                       </form>
                 </div>
               
-            <div  #content> 
-                <div 
+                <div
                 *ngIf="accountStatementDetails"
-                class="max-w-5xl mx-auto bg-white p-8 shadow-lg mt-[10px] border border-gray-200 print"
+                class="max-w-6xl mx-auto bg-white p-8 shadow-lg border border-gray-200 print mt-[20px]" 
               >
                 <!-- Header Section -->
                 <div class="flex justify-between header-section">
@@ -68,7 +80,7 @@
                     <p class="text-sm text-gray-700">
                       Afghan Besim Mobile Money Company,<br />
                       Darulaman Road, Hajari Najari,<br />
-                      KABUL, AFGHANISTAN
+                      KABUL ,AFGHANISTAN
                     </p>
                   </div>
                   <div class="w-1/3 text-right">
@@ -95,106 +107,136 @@
                     </p>
                     <p class="text-sm text-gray-700 text-left">
                       <strong>Current Balance</strong>:
-                      {{ accountStatementDetails?.userDetailsPojo?.closingBalance }}
+                      {{
+                        accountStatementDetails?.userDetailsPojo?.closingBalance
+                          | number : "1.2-2"
+                      }}
                     </p>
-                    <!-- <p class="text-sm text-gray-700 text-left">
-                      <strong>Opening Balance</strong>:
-                      {{ accountStatementDetails?.userDetailsPojo?.openingBalance }}
-                    </p> -->
-                    <!-- <p class="text-sm text-gray-700 text-left">
-                      <strong>Phone</strong>:
-                      {{ accountStatementDetails?.userDetailsPojo?.phone }}
-                    </p> -->
                   </div>
                 </div>
-          
-                <div class="mt-8 overflow-x-auto table-section ">
-                  <table class="w-full table-auto border-collapse ">
+        
+                <div class="mt-8 overflow-x-auto table-section">
+                  <table class="w-full table-auto border-collapse">
                     <thead>
                       <tr class="bg-[#f47a20] text-white text-left text-sm">
-                        <th class="p-2 border border-gray-200 text-center">Date</th>
+                        <th class="p-2 border border-gray-200 text-center">Txn_Date</th>
                         <th class="p-2 border border-gray-200 text-center">
                           Service Name
                         </th>
                         <th class="p-2 border border-gray-200 text-center">
                           Description
                         </th>
-                        <th class="p-2 border border-gray-200 text-center"> TxnID</th>
+                        <th class="p-2 border border-gray-200 text-center">Txn_ID</th>
                         <!-- <th class="p-2 border border-gray-200 text-center">Gl Type</th> -->
                         <th class="p-2 border border-gray-200 text-center">Credit</th>
                         <th class="p-2 border border-gray-200 text-center">Debit</th>
-                        <th class="p-2 border border-gray-200 text-center">Contra Acc</th>
-                        <th class="p-2 border border-gray-200 text-center">Closing Balance</th>
+                        <th class="p-2 border border-gray-200 text-center">
+                          Contra Acc
+                        </th>
+                        <th class="p-2 border border-gray-200 text-center">
+                          Closing Balance
+                        </th>
                       </tr>
-                      
                     </thead>
                     <tbody>
                       <tr
-                        *ngFor="let item of accountStatementDetails?.accStatementPojo"
+                        *ngFor="let item of paginatedData"
                         class="text-sm text-gray-700"
                       >
-                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.txnDate }}</td>
-                        <td class="p-2 border border-gray-200  whitespace-nowrap">
-                        <ng-container *ngIf="item?.serviceName == 'SALARY_PROCES'">
-                          SALARY PAYMENT
-                        </ng-container>
-                        <ng-container *ngIf="item?.serviceName != 'SALARY_PROCES'">
-                          {{ item?.serviceName }}
-                        </ng-container>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">
+                          {{ item?.txnDate }}
+                        </td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">
+                          <ng-container *ngIf="item?.serviceName == 'SALARY_PROCES'">
+                            SALARY PAYMENT
+                          </ng-container>
+                          <ng-container *ngIf="item?.serviceName != 'SALARY_PROCES'">
+                            {{ item?.serviceName }}
+                          </ng-container>
                         </td>
                         <td class="p-2 border border-gray-200 w-[70%]">
                           {{ item?.description }}
                         </td>
-                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.batchId }}</td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">
+                          {{ item?.batchId }}
+                        </td>
                         <!-- <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.glType }}</td> -->
-                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.credit }}</td>
-                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.debit }}</td>
-                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.contraAcc }}</td>
-                        <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.runningBal }}</td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">
+                          {{ item?.credit }}
+                        </td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">
+                          {{ item?.debit }}
+                        </td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">
+                          {{ item?.contraAcc }}
+                        </td>
+                        <td class="p-2 border border-gray-200 whitespace-nowrap">
+                          {{ item?.runningBal }}
+                        </td>
                       </tr>
                     </tbody>
                   </table>
-        <hr class="border-t-1 border-black my-4" />
-        <!-- <div class="w-full px-2 mb-4">
-          <strong>Total Credit:</strong>
-          <span class="pl-1 text-sm text-gray-700">{{totalCredit | number:'1.2-2'}}</span>
-          <strong>Total Debit:</strong>
-          <span class="pl-1 text-sm text-gray-700">{{totalDebit | number:'1.2-2'}}</span>
-        </div> -->
-        <div class="w-full flex justify-between items-center text-lg font-bold">
-          <div class="text-md text-gray-700">
-            <p>Total Credit:</p>
-            <p>Total Debit:</p>
-            <p>Total Credit Count:</p>
-            <p>Total Debit Count:</p>
-            <p>Closing Balance:</p>
-            <p class="opacity-0">ss</p>
-          </div>
-          <div class="flex flex-col space-y-2">
-            <div class="flex justify-between">
-              <span class="text-sm text-gray-700">{{totalCredit | number:'1.2-2'}}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-sm text-gray-700">{{totalDebit | number:'1.2-2'}}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-sm text-gray-700">{{totalCreditCount }}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-sm text-gray-700">{{totalDebitCount}}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-sm text-gray-700">{{accountStatementDetails?.userDetailsPojo?.closingBalance}}</span>
-            </div>
-            <div class="flex justify-between opacity-0">
-              <span>ssf</span>
-            </div>
-          </div>
-        
-        </div>
+                  <hr class="border-t-1 border-black my-4" />
+                  <div
+                    class="w-full flex justify-between items-center text-lg font-bold totals-section"
+                  >
+                    <div class="text-md text-gray-700">
+                      <p>Total Credit:</p>
+                      <p>Total Debit:</p>
+                      <p>Total Credit Count:</p>
+                      <p>Total Debit Count:</p>
+                      <p>Closing Balance:</p>
+                      <p class="opacity-0">ss</p>
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                      <div class="flex justify-between">
+                        <span class="text-sm text-gray-700">{{
+                          totalCredit | number : "1.2-2"
+                        }}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-sm text-gray-700">{{
+                          totalDebit | number : "1.2-2"
+                        }}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-sm text-gray-700">{{
+                          totalCreditCount
+                        }}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-sm text-gray-700">{{ totalDebitCount }}</span>
+                      </div>
+                      <div class="flex justify-between">
+                        <span class="text-sm text-gray-700">{{
+                          accountStatementDetails?.userDetailsPojo?.closingBalance
+                            | number : "1.2-2"
+                        }}</span>
+                      </div>
+                      <div class="flex justify-between opacity-0">
+                        <span>ssf</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mt-4 flex justify-between items-center">
+                    <button
+                      class="px-4 py-2 bg-gray-300 rounded"
+                      (click)="goToPage(currentPage - 1)"
+                      [disabled]="currentPage === 1"
+                    >
+                      Previous
+                    </button>
+                    <p>Page {{ currentPage }} of {{ totalPages }}</p>
+                    <button
+                      class="px-4 py-2 bg-gray-300 rounded"
+                      (click)="goToPage(currentPage + 1)"
+                      [disabled]="currentPage === totalPages"
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
             </div>
           </div>
           

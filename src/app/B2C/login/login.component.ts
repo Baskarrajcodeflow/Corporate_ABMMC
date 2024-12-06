@@ -159,7 +159,7 @@ newPassword: any;
     this.authService.login(this.username, this.password).subscribe({
       next: (v: any) => {
         console.log(v);
-        if (v?.responseCode == 200) {
+        if (v?.responseCode == 200 || v?.responseCode == 2) {
           alert('Success');
           this.openModal = false;
           this.auth.logged = true;
@@ -204,6 +204,8 @@ newPassword: any;
       );
       sessionStorage.setItem('Role', res?.data?.corpUserRole);
       sessionStorage.setItem('Kyclevel', res?.data?.accountKycLevel);
+      sessionStorage.setItem('profileimg', res?.data?.profilePic);
+      this.dataSharingService.setprofilepicData(res?.data?.profilePic)
       this.dataSharingService.setkyclevelData(res?.data?.accountKycLevel);
 
       this.apiService

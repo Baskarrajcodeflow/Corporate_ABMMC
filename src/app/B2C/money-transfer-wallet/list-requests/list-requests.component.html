@@ -1,0 +1,163 @@
+<div class="flex h-full overflow-y-auto">
+    <!-- Main Content -->
+    <div class="w-full p-6 bg-gray-100">
+      <div class="grid grid-cols-3 gap-6 mb-6">
+        <!-- Content can go here -->
+      </div>
+      <div class="container mx-auto p-4">
+        <div class="overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Wallet Details
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Holder Details
+                </th>
+                <th *ngIf="sandData == 'PENDING' && makerCheckerRestriction == 'CHECKER'"
+                  scope="col"
+                  class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Status/Action
+                </th>
+
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <ng-container
+                *ngFor="let wallet of wallets; let i = index"
+              >
+              <ng-container *ngIf="wallet?.status == sandData">
+                  <tr
+                    class="cursor-pointer transition duration-300 ease-in-out transform hover:bg-blue-50 hover:scale-102 hover:shadow-lg"
+                    [ngClass]="{
+                      'bg-orange-50': i % 2 === 0,
+                      'bg-white': i % 2 !== 0
+                    }"
+                  >
+                    <td class="px-6 py-2 whitespace-nowrap">
+                      
+                      <div class="flex items-center">
+                        <!-- <img [src]="transaction.profilePic" alt="Profile" class="w-10 h-10 rounded-full mr-4" /> -->
+                        <div class="text-medium font-medium text-gray-900">
+                          <span class="text-sm text-gray-500 p-1">Wallet No :</span>
+                          <span class="text-sm">
+                              {{ wallet?.
+                                  receiver
+                                  ?.walletAccount?.walletNo
+                              }}
+                          </span>
+                          <p class="text-sm text-gray-500 p-1">
+                            Created On :
+                            <span class="text-gray-900">{{
+                              wallet?.createdDate | date:'dd-MMM-yyyy hh:mm a'
+                            }}</span>
+                          </p>
+                          <p class="text-sm text-gray-500 p-1">
+                            User Name :
+                            <span class="text-gray-900">{{
+                              wallet?.receiver?.username
+    
+                            }}</span>
+                          </p>
+                          <p class="text-sm text-gray-500 p-1">
+                              User Type :
+                              <span class="text-gray-900">{{
+                                wallet?.receiver?.userType
+    
+                              }}</span>
+                            </p>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="px-6 py-2 whitespace-nowrap">
+                      <div class="text-sm text-gray-900 py-1">
+                        <i class="fa fa-user px-2 text-gray-500"></i
+                          >
+                        {{ wallet?.
+                          receiver
+                          ?.firstName }} {{ wallet?. receiver
+                              ?.lastName }}
+                      </div>
+                      <div class="text-sm text-gray-900 py-1">
+                        <i class="fa fa-envelope px-2 text-gray-500"></i
+                        >{{ wallet?.receiver?.email }}
+                      </div>
+                      <div class="text-sm text-gray-500 py-1">
+                        <i class="fa fa-phone px-2 text-gray-500"></i
+                        >{{ wallet?.receiver?.phone }}
+                      </div>
+                      <div class="text-sm text-gray-900 py-1">
+                          <i class="fa fa-coins px-2 text-gray-900"></i
+                          >{{ wallet?.totalAmount }} AFN
+                        </div>
+                    </td>
+                    <td *ngIf="sandData == 'PENDING' &&  makerCheckerRestriction == 'CHECKER'" class="px-6 py-2 whitespace-nowrap">
+                      <div class="py-1">
+                          <button
+                          (click)="toggleAuthorize(wallet)"
+                            class="border border-blue-500 text-blue-500 font-semibold py-1 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300"
+                          >
+                            Authorize
+                          </button>
+                        </div>
+                        <div class="py-1">
+                          <button
+                          (click)="authorize(wallet,false)"
+                            class="border border-blue-500 text-blue-500 font-semibold py-1 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300"
+                          >
+                            Reject
+                          </button>
+                        </div>
+                 
+                    </td>
+                    <tr >
+                    <ng-container *ngIf="wallet.showAuthorizeForm">
+                        <td [colSpan]="4" class="bg-gray-100 px-6 py-4">
+                          <form class="w-full" >
+                            <div class="flex gap-4">
+                              <div class="col-span-2">
+                                <input
+                                  type="password"
+                                  name="pin"
+                                  [(ngModel)]="pin"
+                                  class="mt-1 p-2 block w-full border-gray-300 rounded-md text-xs"
+                                  placeholder="Enter PIN"
+                                  required
+                                />
+                              </div>
+                              <div class="mt-[4px]">
+                                <button
+                                (click)="authorize(wallet,true)"
+                                  type="submit"
+                                  class="border border-blue-500 text-blue-500 font-semibold py-2 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300"
+                                >
+                                  Authorize
+                                </button>
+                              </div>
+                            </div>
+                          </form>
+                        </td> 
+                      </ng-container>
+                  </tr>
+              </ng-container>
+              
+                  
+              </ng-container>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-loader *ngIf="isLoading"></app-loader>
+  
+  
+  

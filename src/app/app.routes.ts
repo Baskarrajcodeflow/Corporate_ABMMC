@@ -4,7 +4,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { HomeComponent } from './B2C/home/home.component';
 import { CustomerKycComponent } from './components/customer-kyc/customer-kyc.component';
-import { MoneyTransferComponent } from './B2C/money-transfer/money-transfer.component';
+import { MoneyTransferComponent } from './B2C/money-transfer-wallet/money-transfer/money-transfer.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { BulkSalaryProcessComponent } from './B2C/bulk-salary-process/bulk-salary-process.component';
 import { BulkCustomerUploadComponent } from './B2C/bulk-customer-upload/bulk-customer-upload.component';
@@ -19,6 +19,8 @@ import { SalaryDashboardComponent } from './B2C/salary-processing/bulk-salary-up
 import { RegisterCorporateComponent } from './B2C/corporate-register/register-corporate/register-corporate.component';
 import { CorporateRegistartionComponent } from './B2C/corporate-register/corporate-registartion/corporate-registartion.component';
 import { AccountStatementComponent } from './B2C/report-management/account-statement/account-statement.component';
+import { AirtimeTopUpReportsComponent } from './B2C/report-management/airtime-top-up-reports/airtime-top-up-reports.component';
+import { ListMoneytransferRequestsComponent } from './B2C/money-transfer-wallet/list-moneytransfer-requests/list-moneytransfer-requests.component';
 
 // export const routes: Routes = [
 //     {
@@ -49,6 +51,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signUp', component: SignupComponent },
   { path: 'moneyTransfer', component: MoneyTransferComponent },
+  { path: 'listRequests', component: ListMoneytransferRequestsComponent },
   { path: 'breshnaPay', component: BreshnaPaymentsComponent },
   { path: 'cashoutRequests', component: CashoutRequestRejectComponent },
   { path: 'bulkCustomerUpload', component: BulkSalaryProcessComponent },
@@ -60,6 +63,7 @@ export const routes: Routes = [
   { path: 'corporateRegister', component: RegisterCorporateComponent },
   { path: 'corpKyc', component: CorporateRegistartionComponent },
   { path: 'accountStatement', component: AccountStatementComponent },
+  { path: 'airTime', component: AirtimeTopUpReportsComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,

@@ -119,4 +119,12 @@ export class DataSharingService {
   setkyclevelData(currency: any) {
     this.kyclevel.next(currency);
   }
+
+    
+  private profilepic = new BehaviorSubject<any>(null);
+  profilepic$ = this.profilepic.asObservable();
+
+  setprofilepicData(currency: any) {
+    this.profilepic.next(currency);
+  }
 }

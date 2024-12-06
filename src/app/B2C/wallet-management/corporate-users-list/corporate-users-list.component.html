@@ -42,6 +42,7 @@
                   }"
                 >
                   <td class="px-6 py-2 whitespace-nowrap">
+                    
                     <div class="flex items-center">
                       <!-- <img [src]="transaction.profilePic" alt="Profile" class="w-10 h-10 rounded-full mr-4" /> -->
                       <div class="text-medium font-medium text-gray-900">
@@ -53,6 +54,12 @@
                           Created On :
                           <span class="text-gray-900">{{
                             wallet?.createdOn | date:'dd-MMM-yyyy hh:mm a'
+                          }}</span>
+                        </p>
+                        <p class="text-sm text-gray-500">
+                          User Name :
+                          <span class="text-gray-900">{{
+                            wallet?.username
                           }}</span>
                         </p>
                       </div>

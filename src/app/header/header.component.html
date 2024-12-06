@@ -122,7 +122,7 @@
       <a href="#" class="btn text-sm font-semibold leading-7 text-gray-800">{{'menu.branch_addresses' | translate }}</a>
       
     </div>
-     <div class="hidden lg:flex lg:flex-1 lg:justify-end">     
+     <div class="hidden lg:flex lg:flex-1 lg:justify-end left-[-100px]">     
       <div class="relative"> 
         <div class="flex items-center">
           <button
@@ -140,11 +140,11 @@
               clip-rule="evenodd" />
           </svg>
           <div *ngIf="showUser"
-          class="absolute ml-[-150%] top-full z-10 mt-3 max-w-md overflow-hidden ring-1 ring-gray-900/5 bg-gradient-to-br from-white to-blue-50 w-96 rounded-3xl shadow-2xl p-6 text-gray-800">
+          class="absolute ml-[-150%] top-full z-10 mt-3 max-w-md overflow-hidden ring-1 ring-gray-900/5 bg-gradient-to-br from-white to-blue-50 w-96 rounded-3xl shadow-2xl p-6 text-gray-800 left-[-110px]">
           
           <!-- Profile Section -->
           <div class="flex flex-col items-center my-4 max-w-lg">
-            <img src="assets/images/customer-photo.png" alt="Profile" class="w-16 h-16 rounded-full mr-4">
+            <img src="{{imageUrl}}/um/static/profile/{{img}}" alt="Profile" class="w-16 h-16 rounded-full mr-4">
             <h2 class="text-2xl font-bold mt-3">Hi, {{userName}}!</h2>
           </div>
         
@@ -152,22 +152,40 @@
           <div class="bg-white rounded-lg p-4 mt-4 shadow-inner">
             <div class="flex items-center mb-3">
               <span class="material-icons text-[#4a517e] mr-2">badge</span>
-              <p class="text-sm"><span class="font-semibold">Role: </span> <span class="text-gray-800">{{userRole}}</span></p>
+              <p class="text-sm"><span class="font-semibold">Role: </span><span class="text-gray-800">{{ userRole }}</span></p>
             </div>
             <hr class="my-2 border-t border-gray-200">
+          
             <div class="flex items-center mb-3">
               <span class="material-icons text-[#4a517e] mr-2">email</span>
-              <p class="text-sm"><span class="font-semibold">Email: </span> <span class="text-gray-800">{{enail}}</span></p>
+              <p class="text-sm"><span class="font-semibold">Email: </span><span class="text-gray-800">{{ enail }}</span></p>
             </div>
             <hr class="my-2 border-t border-gray-200">
-            <div class="flex items-center">
+          
+            <div class="flex items-center mb-3">
               <span class="material-icons text-[#4a517e] mr-2">person</span>
-              <p class="text-sm"><span class="font-semibold">Corporate Type: </span> <span class="text-gray-800">{{corpType}}</span></p>
+              <p class="text-sm"><span class="font-semibold">Corporate Type: </span><span class="text-gray-800">{{ corpType }}</span></p>
             </div>
+            <hr class="my-2 border-t border-gray-200">
+          
+            <div class="mt-4">
+              <div class="flex items-center mb-2">
+                <span class="material-icons text-[#4a517e] mr-2">person</span>
+                <p class="text-sm font-semibold">Profile Picture:</p>
+              </div>
+              <input accept="image/png, image/jpeg, image/jpg" type="file" id="businessLicencePhoto" name="businessLicencePhoto" required
+                     class="mt-1 p-2 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                     (change)="onFileSelectedForProfile($event)">
+            </div>
+            <p class="text-sm"><span class="font-semibold">
+              <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+              Accepted File Format (PNG,JPEG,JPG)
+            </span></p>
           </div>
+          
         
           <!-- Sign Out Button -->
-          <div class="flex justify-center mt-6">
+          <div class="flex justify-center mt-2">
             <a href="#" class="w-full bg-gradient-to-r from-[#4a517e] to-blue-500 text-white hover:from-blue-600 hover:to-indigo-600 rounded-full py-2 font-medium shadow-lg">
               Sign out
             </a>

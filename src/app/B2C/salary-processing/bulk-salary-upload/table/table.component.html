@@ -41,7 +41,7 @@
         *ngFor="let item of bulkSalaryData"
         class="hover:bg-gray-100 cursor-pointer divide-x divide-gray-200"
       >
-        <ng-container *ngIf="item?.status == 'SANITY_CHECK_SUCCESS' || item?.status == 'RISK_NO_RISK' || item?.status == 'APPROVED_BY_CHECKER'">
+        <ng-container *ngIf="item?.status == 'SANITY_CHECK_SUCCESS' || item?.status == 'RISK_NO_RISK' || item?.status == 'APPROVED_BY_CHECKER' || item?.status == 'UPLOADED'">
         <td class="px-6 py-4 whitespace-nowrap">{{ item.id }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ item.fileName }}</td>
         <td class="px-6 py-4 whitespace-nowrap">{{ item.corpName }}</td>

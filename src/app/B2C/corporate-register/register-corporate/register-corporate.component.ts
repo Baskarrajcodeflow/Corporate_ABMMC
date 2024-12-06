@@ -4,6 +4,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -14,13 +15,15 @@ import { DataSharingService } from '../../dataSharing/data-sharing.service';
 @Component({
   selector: 'app-register-corporate',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,LoaderComponent],
+  imports: [ReactiveFormsModule, CommonModule, LoaderComponent, FormsModule],
   templateUrl: './register-corporate.component.html',
   styleUrl: './register-corporate.component.scss',
 })
 export class RegisterCorporateComponent {
-  isLoading:boolean = false
+  isLoading: boolean = false;
   isPasswordVisible: boolean = false;
+  otp: any;
+  otpVerify: boolean = false;
   basicDetailsForm!: FormGroup<{
     // type: FormControl<string | null>;
     corporteFirstName: FormControl<string | null>;
@@ -32,7 +35,16 @@ export class RegisterCorporateComponent {
     SalarythirdLevelAuth: FormControl<any | null>;
     corpname: FormControl<any | null>;
   }>;
-  constructor(private fb: FormBuilder, private apiService: ApiService,private dataSgaring:DataSharingService) {}
+  otpForm!: FormGroup<{
+    otp: FormControl<any | null>;
+  }>;
+  file1!: File;
+  userId: any;
+  constructor(
+    private fb: FormBuilder,
+    private apiService: ApiService,
+    private dataSgaring: DataSharingService
+  ) {}
   ngOnInit(): void {
     this.basicDetailsForm = this.fb.group({
       // type: ['', [Validators.required]],
@@ -52,53 +64,95 @@ export class RegisterCorporateComponent {
       ],
       //gender: ['',Validators.required],
       corporateUserName: ['', Validators.required],
-      corporatePassword: ['',
+      corporatePassword: [
+        '',
         Validators.required,
-        Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9]).{6,12}$/)
+        Validators.pattern(/^(?=.*[A-Z])(?=.*[0-9]).{6,12}$/),
       ],
       SalarythirdLevelAuth: ['', Validators.required],
     });
 
-    this.basicDetailsForm.controls['corpname'].setValue('CORPORATE')
+    this.otpForm = this.fb.group({
+      otp: ['', [Validators.required]],
+    });
+
+    this.basicDetailsForm.controls['corpname'].setValue('CORPORATE');
   }
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
   }
   createPayload() {
-    let reqbasic = {
-        corpType: 'CORPORATE',
-        email: this.basicDetailsForm.controls['corporateEmail'].value,
-        username: this.basicDetailsForm.controls['corporateEmail'].value,
-        firstName: this.basicDetailsForm.controls['corporteFirstName'].value,
-        lastName: this.basicDetailsForm.controls['corporteLastName'].value,
-        phone: this.basicDetailsForm.controls['corporatePhone'].value,
-        userType: 'CORPORATE',
-        gender: 'MALE',
-        password: this.basicDetailsForm.controls['corporatePassword'].value,
-        isNeedThirdLevelAuth:
-          this.basicDetailsForm.controls['SalarythirdLevelAuth'].value,
+    let email = this.basicDetailsForm.controls['corporateEmail'].value;
+    let body = {
+      email: email,
+      otp: this.otpForm.controls['otp'].value,
     };
-
-    this.isLoading = true
-    this.apiService.submitCorporateRegister(reqbasic).subscribe({
+    let reqbasic = {
+      corpType: 'CORPORATE',
+      email: this.basicDetailsForm.controls['corporateEmail'].value,
+      username: this.basicDetailsForm.controls['corporateEmail'].value,
+      firstName: this.basicDetailsForm.controls['corporteFirstName'].value,
+      lastName: this.basicDetailsForm.controls['corporteLastName'].value,
+      phone: this.basicDetailsForm.controls['corporatePhone'].value,
+      userType: 'CORPORATE',
+      gender: 'MALE',
+      password: this.basicDetailsForm.controls['corporatePassword'].value,
+      isNeedThirdLevelAuth:
+        this.basicDetailsForm.controls['SalarythirdLevelAuth'].value,
+    };
+    this.isLoading = true;
+    this.apiService.verifyOtp(body).subscribe({
       next: (res) => {
         if (res?.responseCode == 200) {
-    this.isLoading = false
-          alert('Corporate Registered Successfully');
-   this.dataSgaring.corpKycData(false)
+          this.isLoading = true;
+          this.apiService.submitCorporateRegister(reqbasic).subscribe({
+            next: (res) => {
+              if (res?.responseCode == 200) {
+          this.userId = res.data;
+                this.otpVerify = true;
+                this.isLoading = false;
+                alert('Corporate Registered Successfully');
+                this.dataSgaring.corpKycData(false);
+              } else {
+                this.isLoading = false;
+                alert(res?.error);
+              }
+            },
+            error: () => {
+              this.isLoading = false;
+              alert('Something Went Wrong!!!');
+            },
+          });
         } else {
-    this.isLoading = false
+          this.isLoading = false;
           alert(res?.error);
         }
       },
       error: () => {
-    this.isLoading = false
-        alert('Something Went Wrong!!!');
+        alert('Error Try Again');
       },
     });
   }
 
-  gotoLogin(){
-   this.dataSgaring.corpKycData(false)
+  sendOtp() {
+    let body = {
+      email: this.basicDetailsForm.controls['corporateEmail'].value,
+    };
+    this.apiService.generateOtp(body).subscribe({
+      next:(res)=>{
+          if (res?.responseCode == 200) {
+            this.otpVerify = true;
+          }else{
+            alert('Error Try Again')
+          }
+      },error:()=>{
+        alert('Error Try Again')
+      }
+    })
+  }
+
+
+  gotoLogin() {
+    this.dataSgaring.corpKycData(false);
   }
 }

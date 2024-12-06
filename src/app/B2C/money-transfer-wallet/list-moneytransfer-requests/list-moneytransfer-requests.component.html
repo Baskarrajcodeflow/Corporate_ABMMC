@@ -1,0 +1,72 @@
+<div
+  class="flex h-full overflow-y-auto bg-gradient-to-r from-blue-50 to-indigo-50 font-sans"
+>
+  <div class="w-full p-8 bg-gray-100">
+    <div class="grid grid-cols-3 gap-8 mb-8"></div>
+
+    <div class="bg-white shadow-lg rounded-2xl p-6">
+      <div class="flex space-x-8 px-6 py-4 m-4 border-b-2 border-gray-200">
+        <button *ngIf="makerCheckerRestriction == 'MAKER'"
+          (click)="selectTab1('requestMoney')"
+          class="pb-2 text-gray-600 font-semibold hover:text-black focus:outline-none transition-all duration-300"
+          [class]="
+            tab1 === 'requestMoney'
+              ? 'border-b-4 border-blue-600'
+              : 'border-b-4 border-transparent'
+          "
+        >
+          Request Money
+        </button>
+        <button
+          (click)="selectTab1('pending')"
+          class="pb-2 text-gray-600 font-semibold hover:text-black focus:outline-none transition-all duration-300"
+          [class]="
+            tab1 === 'pending'
+              ? 'border-b-4 border-blue-600'
+              : 'border-b-4 border-transparent'
+          "
+        >
+          Pending Trsansaction
+        </button>
+        <button
+        (click)="selectTab1('success')"
+        class="pb-2 text-gray-600 font-semibold hover:text-black focus:outline-none transition-all duration-300"
+        [class]="
+          tab1 === 'success'
+            ? 'border-b-4 border-blue-600'
+            : 'border-b-4 border-transparent'
+        "
+      >
+        Authorized Trsansaction
+      </button>
+      <button
+      (click)="selectTab1('rejected')"
+      class="pb-2 text-gray-600 font-semibold hover:text-black focus:outline-none transition-all duration-300"
+      [class]="
+        tab1 === 'rejected'
+          ? 'border-b-4 border-blue-600'
+          : 'border-b-4 border-transparent'
+      "
+    >
+      Rejected Trsansaction
+    </button>
+    
+      </div>
+
+      <div *ngIf="tab1 == 'requestMoney' && makerCheckerRestriction == 'MAKER'" class="py-6 px-8 mx-4">
+        <app-money-transfer></app-money-transfer>
+      </div>
+
+      <div *ngIf="tab1 == 'pending'" class="p-6">
+          <app-list-requests  [sandData]="'PENDING'"></app-list-requests>
+      </div>
+      <div *ngIf="tab1 == 'success'" class="p-6">
+        <app-list-requests [sandData]="'SUCCESS'"></app-list-requests>
+    </div>
+    <div *ngIf="tab1 == 'rejected'" class="p-6">
+        <app-list-requests [sandData]="'CANCELED'"></app-list-requests>
+    </div>
+    </div>
+    
+  </div>
+</div>

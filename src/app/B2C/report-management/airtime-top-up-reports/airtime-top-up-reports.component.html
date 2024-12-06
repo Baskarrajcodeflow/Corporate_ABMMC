@@ -1,0 +1,236 @@
+<div class="flex h-full w-full overflow-y-auto bg-gradient-to-r from-blue-50 to-indigo-50 font-sans">
+    <div class="w-full p-2 ">
+        <div >
+            <div class="py-10 px-8 bg-white rounded-lg shadow-xl w-full">
+                <div style="display: flex;align-items: center;justify-content: center;">
+                    <form [formGroup]="dateForm">
+                        <div class="flex gap-4">
+                          <input
+                            formControlName="fromDate"
+                            type="date"
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            id="start-date"
+                          />
+                    
+                          <input
+                            formControlName="toDate"
+                            type="date"
+                            class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            id="end-date"
+                          />
+                          <ng-container >
+                            <input readonly
+                              placeholder="Enter Account Number"
+                              formControlName="accNo"
+                              type="text"
+                              class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              id="end-date"
+                            />
+                          </ng-container>
+                          <!-- <select
+                          formControlName="type"
+                          class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          id="your-select-box"
+                        >
+                          <option value="" disabled selected>Filter</option>
+                          <option value="STATUS">Filter By Status</option>
+                          <option value="SERVICE">Filter By Service</option>
+                        </select>
+                        <select
+                        *ngIf="dateForm.controls['type'].value == 'STATUS'"
+                        formControlName="status"
+                        class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        id="your-select-box"
+                      >
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="PENDING">PENDING</option>
+                        <option value="SUCCESS">SUCCESS</option>
+                        <option value="FAILED">FAILED</option>
+                      </select>
+                      <select
+                      *ngIf="dateForm.controls['type'].value == 'SERVICE'"
+                      formControlName="service"
+                      class="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      id="your-select-box"
+                    >
+                      <option value="" disabled selected>Select an option</option>
+                      <option value="AWCC_TOPUP">AWCC_TOPUP</option>
+                      <option value="SALAAM_TOPUP">SALAAM_TOPUP</option>
+                      <option value="ETISALAT_TOPUP">ETISALAT_TOPUP</option>
+                      <option value="ROSHAN_TOPUP">ROSHAN_TOPUP</option>
+                      <option value="MTN_TOPUP">MTN_TOPUP</option>
+                      <option value="BRESHNA_SERVICE">BRESHNA_SERVICE</option>
+                      <option value="SALARY_PROCES">SALARY_PROCES</option>
+                      <option value="WITHDRAWAL">WITHDRAWAL</option>
+                      <option value="SUPPLIER_TOPUP">SUPPLIER_TOPUP</option>
+                      <option value="STOCK_PURCHASE">STOCK_PURCHASE</option>
+                      <option value="AWCC_TOPUP">AWCC_TOPUP</option>
+                      <option value="GB_PULL">GB_PULL</option>
+                      <option value="GB_PUSH">GB_PUSH</option>
+                      <option value="AUB_PUSH">AUB_PUSH</option>
+                      <option value="AUB_PULL">AUB_PULL</option>
+                      <option value="WALLET_TO_WALLET">WALLET_TO_WALLET</option>
+                      <option value="SCAN_QR">SCAN_QR</option>
+                      <option value="DEPOSIT">DEPOSIT</option>
+                      <option value="PAY_ROLL">PAY_ROLL</option>
+                      <option value="ETISALAT_TOPUP">ETISALAT_TOPUP</option>
+                      <option value="SALARY_BULK_UPLOAD">SALARY_BULK_UPLOAD</option>
+                    </select> -->
+                          <button
+                            (click)="search()"
+                            class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+                            style="background-color: #0a365a"
+                          >
+                            Search
+                          </button>
+                    
+                          <div class="mt-[10px]">
+                            <!-- Button that triggers the menu -->
+                            <button mat-icon-button [matMenuTriggerFor]="downloadMenu">
+                              <mat-icon>download</mat-icon>
+                            </button>
+                          
+                            <!-- The dropdown menu -->
+                            <mat-menu #downloadMenu="matMenu">
+                              <button mat-menu-item (click)="makePdf()">
+                                <mat-icon>picture_as_pdf</mat-icon>
+                                <span>Download as PDF</span>
+                              </button>
+                              <button mat-menu-item (click)="exportToExcel()">
+                                <mat-icon>table_view</mat-icon>
+                                <span>Download as Excel</span>
+                              </button>
+                              <button mat-menu-item (click)="exportToCSV()">
+                                <mat-icon>table_view</mat-icon>
+                                <span>Download as CSV</span>
+                              </button>
+                            </mat-menu>
+                          </div>
+                          
+            
+                         
+                        </div>
+                      </form>
+                </div>
+              
+                <div
+                *ngIf="airtimeReconciliationReport"
+                 class="max-w-6xl mx-auto mt-[10px] bg-white p-8 shadow-lg border border-gray-200 print"
+               >
+                 <!-- Header Section -->
+                 <div class="flex justify-between header-section">
+                   <div class="w-1/3">
+                     <img
+                       src="../../../assets/images/logo.png"
+                       alt="Bank Logo"
+                       class="mb-4 w-28 h-auto"
+                     />
+                     <p class="text-sm text-gray-700">
+                       Afghan Besim Mobile Money Company,<br />
+                       Darulaman Road, Hajari Najari,<br />
+                       KABUL ,AFGHANISTAN
+                     </p>
+                   </div>
+                   <div class="w-1/3 text-right">
+                     <h2 class="text-xl font-semibold text-[#f47a20] text-left">
+                       AirTime Topup Statement
+                     </h2>
+                     <p class="text-sm text-gray-700 text-left">
+                       <strong>Statement Period</strong>:
+                       {{ this.dateForm.controls["fromDate"].value }} to
+                       {{ this.dateForm.controls["toDate"].value }}
+                     </p>
+                   </div>
+                 </div>
+                 <div
+       class="max-w-6xl mx-auto print"
+       >
+       
+       <div class="mt-8 overflow-x-auto table-section">
+         <table class="w-full table-auto border-collapse">
+           <thead>
+             <tr class="bg-[#f47a20] text-white text-left text-sm">
+               <th class="p-2 border border-gray-200 text-center">Created On</th>
+               <th class="p-2 border border-gray-200 text-center">
+                 Service Name
+               </th>
+               <th class="p-2 border border-gray-200 text-center">Customer Phone No</th>
+               <th class="p-2 border border-gray-200 text-center">Txn_Ref_Id</th>
+               <th class="p-2 border border-gray-200 text-center">Txn_ID</th>
+               <th class="p-2 border border-gray-200 text-center">Sender Wallet No</th>
+               <th class="p-2 border border-gray-200 text-center">Receiver Wallet No</th>
+               <th class="p-2 border border-gray-200 text-center">Status</th>
+               <th class="p-2 border border-gray-200 text-center">Amount</th>
+       
+             </tr>
+           </thead>
+           <tbody>
+             <tr
+               *ngFor="let item of paginatedData"
+               class="text-sm text-gray-700"
+             >
+               <td class="p-2 border border-gray-200 whitespace-nowrap">
+                 {{ item?.created_date }}
+               </td>
+               <td class="p-2 border border-gray-200 whitespace-nowrap">
+                 <ng-container *ngIf="item?.service_name == 'SALARY_PROCES'">
+                   SALARY PAYMENT
+                 </ng-container>
+                 <ng-container *ngIf="item?.service_name != 'SALARY_PROCES'">
+                   {{ item?.service_name }}
+                 </ng-container>
+               </td>
+               <td class="p-2 border border-gray-200 w-[70%]">
+                 {{ item?.customer_mobile }}
+               </td>
+               <td class="p-2 border border-gray-200 w-[70%]">
+                 {{ item?.transaction_id }}
+               </td>
+               <td class="p-2 border border-gray-200 w-[70%]">
+                   {{ item?.batch_id }}
+                 </td>
+               <td class="p-2 border border-gray-200 w-[70%]">
+                 {{ item?.sender_wallet_no }}
+               </td>
+               <td class="p-2 border border-gray-200 whitespace-nowrap">
+                 {{ item?.receiver_wallet_no }}
+               </td>
+               <td class="p-2 border border-gray-200 whitespace-nowrap">
+                 {{ item?.status }}
+               </td>
+               <td class="p-2 border border-gray-200 whitespace-nowrap">
+                   {{ item?.amount | number:'1.2-2' }}
+                 </td>
+             </tr>
+           </tbody>
+         </table>
+       
+       </div>
+       
+       <div class="mt-4 flex justify-between items-center">
+         <button
+           class="px-4 py-2 bg-gray-300 rounded"
+           (click)="goToPage(currentPage - 1)"
+           [disabled]="currentPage === 1"
+         >
+           Previous
+         </button>
+         <p>Page {{ currentPage }} of {{ totalPages }}</p>
+         <button
+           class="px-4 py-2 bg-gray-300 rounded"
+           (click)="goToPage(currentPage + 1)"
+           [disabled]="currentPage === totalPages"
+         >
+           Next
+         </button>
+       </div>
+       </div>
+               </div>
+            </div>
+          </div>
+          
+
+    </div>
+  </div>
+
+  <app-loader *ngIf="isLoading"></app-loader>

@@ -9,6 +9,7 @@
         </div>
         <ng-container *ngFor="let tab of formTabs; let i = index">
           <button
+            [disabled]="tab == 'Company Shareholder Details' && companyDetailsForm.get('shareholderCount')?.value == 0"
             (click)="selectedTab(tab,i)"
             class="pb-2 text-sm text-gray-600 font-semibold hover:text-black focus:outline-none transition-all duration-300"
             [class]=" currentTab === i  ? 'border-b-4 border-blue-600' : 'border-b-4 border-transparent'">
@@ -17,7 +18,6 @@
         </ng-container>
 
       </div>
-
 
       <div *ngIf="tab == 'Company Details'" class="py-6 px-8 mx-4">
         <div class="mt-6">
@@ -48,16 +48,24 @@
               <label for="contactPersonTazkiraPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach Contact
                 Person Tazkira/Passport Photo<span class="text-red-500">*</span></label>
               <!-- <form ></form> -->
-              <input *ngIf="showFilename('contactPersonTazkiraPhoto')"
-              type="text" #contactPersonTazkiraPhoto id="contactPersonTazkiraPhoto"
-               name="contactPersonTazkiraPhoto" required
-               class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-               placeholder="Contact Person Tazkira Photo" (change)="onFileSelected($event,'contactPersonTazkiraPhoto', tab)" disabled>
-              <input *ngIf="!showFilename('contactPersonTazkiraPhoto')"
-               type="file" #contactPersonTazkiraPhoto id="contactPersonTazkiraPhoto"
-                name="contactPersonTazkiraPhoto" required
+              <input *ngIf="showFilename('contactPersonTazkiraPhoto')" type="text" #contactPersonTazkiraPhoto
+                id="contactPersonTazkiraPhoto" name="contactPersonTazkiraPhoto" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Contact Person Tazkira Photo"
+                (change)="onFileSelected($event,'contactPersonTazkiraPhoto', tab)" disabled>
+              <input *ngIf="!showFilename('contactPersonTazkiraPhoto')" type="file" #contactPersonTazkiraPhoto
+                id="contactPersonTazkiraPhoto" name="contactPersonTazkiraPhoto" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 placeholder="Attach" (change)="onFileSelected($event,'contactPersonTazkiraPhoto', tab)">
+
+              <label for="authorizedSignatoryCount" class="mt-2 block text-sm font-medium text-gray-700">Number of
+                Authorized Signatories<span class="text-red-500">*</span></label>
+              <input type="text" id="authorizedSignatoryCount" formControlName="authorizedSignatoryCount"
+                name="authorizedSignatoryCount" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                [ngClass]="{
+                    'border-red-500': companyDetailsForm.controls['authorizedSignatoryCount'].touched && companyDetailsForm.controls['authorizedSignatoryCount'].invalid,                  
+                  }" placeholder="Number of Authorized Signatories" (change)="addauthorizedSignatory()">
 
             </div>
 
@@ -85,10 +93,13 @@
 
               <label for="contactPersonSign" class="mt-2 block text-sm font-medium text-gray-700">Attach Contact Person
                 Signature Photo<span class="text-red-500">*</span></label>
-                <input *ngIf="showFilename('contactPersonSign')" type="text" id="contactPersonSign" name="contactPersonSign" required
+              <input *ngIf="showFilename('contactPersonSign')" type="text" id="contactPersonSign"
+                name="contactPersonSign" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="contact Person Sign Photo" (change)="onFileSelected($event,'contactPersonSign', tab)" disabled>
-              <input *ngIf="!showFilename('contactPersonSign')" type="file" id="contactPersonSign" name="contactPersonSign" required
+                placeholder="contact Person Sign Photo" (change)="onFileSelected($event,'contactPersonSign', tab)"
+                disabled>
+              <input *ngIf="!showFilename('contactPersonSign')" type="file" id="contactPersonSign"
+                name="contactPersonSign" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 placeholder="Attach" (change)="onFileSelected($event,'contactPersonSign', tab)">
 
@@ -165,10 +176,13 @@
 
               <label for="businessLicencePhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach Business
                 Licence Photo<span class="text-red-500">*</span></label>
-                <input *ngIf="showFilename('businessLicencePhoto')" type="text" id="businessLicencePhoto" name="businessLicencePhoto" required
+              <input *ngIf="showFilename('businessLicencePhoto')" type="text" id="businessLicencePhoto"
+                name="businessLicencePhoto" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="Business Licence Photo" (change)="onFileSelected($event,'businessLicencePhoto', tab)" disabled>
-              <input *ngIf="!showFilename('businessLicencePhoto')" type="file" id="businessLicencePhoto" name="businessLicencePhoto" required
+                placeholder="Business Licence Photo" (change)="onFileSelected($event,'businessLicencePhoto', tab)"
+                disabled>
+              <input *ngIf="!showFilename('businessLicencePhoto')" type="file" id="businessLicencePhoto"
+                name="businessLicencePhoto" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 placeholder="Attach" (change)="onFileSelected($event,'businessLicencePhoto', tab)">
 
@@ -200,18 +214,28 @@
                   'border-red-500': businessActivityDetailsForm.controls['businessName'].touched && businessActivityDetailsForm.controls['businessName'].invalid,                  
                 }" placeholder="Business Name">
 
+              <ng-container *ngIf="businessActivityDetailsForm.controls['natureofBusiness'].value == 'Other'">
+
+                <label class="mt-2 block text-sm font-medium text-gray-700">Nature Of Buisness<span
+                    class="text-red-500">*</span></label>
+                <input [(ngModel)]="natureOfBuisness" [ngModelOptions]="{standalone: true}" type="text"
+                  name="natureofBusiness" required
+                  class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
+              </ng-container>
+
               <label for="monthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly Income<span
                   class="text-red-500">*</span></label>
-              <input type="text" id="monthlyIncome" formControlName="monthlyIncome" name="monthlyIncome" required  (blur)="formatCurrency(businessActivityDetailsForm,'monthlyIncome')"
+              <input type="text" id="monthlyIncome" formControlName="monthlyIncome" name="monthlyIncome" required
+                (blur)="formatCurrency(businessActivityDetailsForm,'monthlyIncome')"
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 [ngClass]="{
                   'border-red-500': businessActivityDetailsForm.controls['monthlyIncome'].touched && businessActivityDetailsForm.controls['monthlyIncome'].invalid,                  
                 }" placeholder="Monthly Income">
-<!-- {{businessActivityDetailsForm.controls['monthlyIncome'].value ?? '' | currencyFormat }} -->
+              <!-- {{businessActivityDetailsForm.controls['monthlyIncome'].value ?? '' | currencyFormat }} -->
 
               <label for="sourceofFund" class="mt-2 block text-sm font-medium text-gray-700">Source of Fund<span
                   class="text-red-500">*</span></label>
-              <input  type="text" id="sourceofFund" formControlName="sourceofFund" name="sourceofFund" required
+              <input type="text" id="sourceofFund" formControlName="sourceofFund" name="sourceofFund" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 [ngClass]="{
                   'border-red-500': businessActivityDetailsForm.controls['sourceofFund'].touched && businessActivityDetailsForm.controls['sourceofFund'].invalid,                  
@@ -229,20 +253,25 @@
                 required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 placeholder="Nature of Business"> -->
-              <select id="natureofBusiness" name="natureofBusiness" formControlName="natureofBusiness"
-                placeholder="Select Nature of Business"
+              <select (change)="change($event)" id="natureofBusiness" name="natureofBusiness"
+                formControlName="natureofBusiness" placeholder="Select Nature of Business"
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 [ngClass]="{
                   'border-red-500': businessActivityDetailsForm.controls['natureofBusiness'].touched && businessActivityDetailsForm.controls['natureofBusiness'].invalid,                  
                 }">
                 <option value="" disabled selected>Select</option>
-                <option *ngFor="let businessType of natureofBusinesses" value="businessType.id">{{businessType.name}}
+                <option *ngFor="let businessType of natureofBusinesses" [value]="businessType?.name">
+                  {{businessType.name}}
                 </option>
               </select>
 
+
+
+
               <label for="netWorth" class="mt-2 block text-sm font-medium text-gray-700">Net Worth<span
                   class="text-red-500">*</span></label>
-              <input  (blur)="formatCurrency(businessActivityDetailsForm,'netWorth')" type="text" id="netWorth" formControlName="netWorth" name="netWorth" required
+              <input (blur)="formatCurrency(businessActivityDetailsForm,'netWorth')" type="text" id="netWorth"
+                formControlName="netWorth" name="netWorth" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 [ngClass]="{
                   'border-red-500': businessActivityDetailsForm.controls['netWorth'].touched && businessActivityDetailsForm.controls['netWorth'].invalid,                  
@@ -250,7 +279,8 @@
 
               <label for="monthlyTurnover" class="mt-2 block text-sm font-medium text-gray-700">Monthly Turnover<span
                   class="text-red-500">*</span></label>
-              <input  (blur)="formatCurrency(businessActivityDetailsForm,'monthlyTurnover')" type="text" id="monthlyTurnover" formControlName="monthlyTurnover" name="monthlyTurnover" required
+              <input (blur)="formatCurrency(businessActivityDetailsForm,'monthlyTurnover')" type="text"
+                id="monthlyTurnover" formControlName="monthlyTurnover" name="monthlyTurnover" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 [ngClass]="{
                   'border-red-500': businessActivityDetailsForm.controls['monthlyTurnover'].touched && businessActivityDetailsForm.controls['monthlyTurnover'].invalid,                  
@@ -361,7 +391,7 @@
                   'border-red-500': companyAddressDetailsForm.controls['district'].touched && companyAddressDetailsForm.controls['district'].invalid,                  
                 }">
                 <option value="" disabled selected>Select</option>
-                <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+                <option *ngFor="let district of districts" [value]="district.name">{{district.name}}</option>
               </select>
 
 
@@ -405,16 +435,17 @@
                         }" placeholder="Father Name">
 
                     <label for="shareholderDOB" class="mt-2 block text-sm font-medium text-gray-700">Date of Birth<span
-                        class="text-red-500">*</span></label>
+                        class="text-red-500">*</span> <span
+                        *ngIf="shareholder.get('shareholderDOB')?.hasError('underage')">
+                        <small style="color: red;">Age should be at least 18 years old.</small>
+                      </span></label>
                     <input type="date" id="shareholderDOB" formControlName="shareholderDOB" name="shareholderDOB"
                       required
                       class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                       [ngClass]="{
                           'border-red-500': shareholder.get('shareholderDOB')?.touched && shareholder.get('shareholderDOB')?.invalid,                  
                         }" placeholder="Date of Birth">
-                        <!-- <div *ngIf="shareholder.get('shareholderDOB')?.hasError('underage')">
-                          <small style="color: red;">You must be at least 18 years old.</small>
-                        </div> -->
+
 
                     <label for="shareholderNationality"
                       class="mt-2 block text-sm font-medium text-gray-700">Nationality<span
@@ -431,8 +462,8 @@
                           'border-red-500': shareholder.get('shareholderNationality')?.touched && shareholder.get('shareholderNationality')?.invalid,                  
                         }">
                       <option value="" disabled selected>Select</option>
-                      <option *ngFor="let nationality of nationalities" [value]="nationality?.name">
-                        {{nationality?.name}}
+                      <option *ngFor="let nationality of nationalities" [value]="nationality?.nationality">
+                        {{nationality?.nationality}}
                       </option>
                     </select>
 
@@ -455,9 +486,10 @@
                           'border-red-500': shareholder.get('shareholderRelationship')?.touched && shareholder.get('shareholderRelationship')?.invalid,                  
                         }">
                       <option value="" disabled selected>Select</option>
-                      <option value="PRESIDENT">President</option>
-                      <option value="VICE_PRESIDENT">Vice Precident</option>
-                      <option value="SHAREHOLDER">Share holder</option>
+                      <option *ngFor="let option of availableOptions" [value]="option"
+                        [disabled]="isOptionDisabled(option, i)">
+                        {{ option }}
+                      </option>
 
 
                     </select>
@@ -470,50 +502,22 @@
                       [ngClass]="{
                           'border-red-500': shareholder.get('shareholderPhone')?.touched && shareholder.get('shareholderPhone')?.invalid,                  
                         }" placeholder="Phone Number">
-
-                    <label for="shareholderCurrentlocation" class="mt-2 block text-sm font-medium text-gray-700">Current
-                      Location<span class="text-red-500">*</span></label>
-                    <input type="text" id="shareholderCurrentlocation" formControlName="shareholderCurrentlocation"
-                      name="shareholderCurrentlocation" required
-                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                      [ngClass]="{
-                          'border-red-500': shareholder.get('shareholderCurrentlocation')?.touched && shareholder.get('shareholderCurrentlocation')?.invalid,                  
-                        }" placeholder="Current Location">
-
-                    <label for="shareholderCurrentDistrict" class="mt-2 block text-sm font-medium text-gray-700">Current
-                      District<span class="text-red-500">*</span></label>
-                    <select id="shareholderCurrentDistrict" name="shareholderCurrentDistrict"
-                      formControlName="shareholderCurrentDistrict" placeholder="Select District"
-                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                      [ngClass]="{
-                          'border-red-500': shareholder.get('shareholderCurrentDistrict')?.touched && shareholder.get('shareholderCurrentDistrict')?.invalid,                  
-                        }">
-                      <option value="" disabled selected>Select</option>
-                      <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
-                    </select>
-
-                    <label for="shareholderPermanantProvince" class="mt-2 block text-sm font-medium text-gray-700">
-                      permanent Province<span class="text-red-500">*</span></label>
-                    <select id="shareholderPermanantProvince" name="shareholderPermanantProvince"
-                      formControlName="shareholderPermanantProvince" placeholder="Select Province"
-                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                      [ngClass]="{
-                          'border-red-500': shareholder.get('shareholderPermanantProvince')?.touched && shareholder.get('shareholderPermanantProvince')?.invalid,                  
-                        }" (change)="onSelectProvince($event)">
-                      <option value="" disabled selected>Select</option>
-                      <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
-                    </select>
+                   
+                    
+                    <!-- <div class="flex flex-col"> -->
+                    
 
                     <label for="shareholderTazkiraPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach
                       Tazkira/Passport Photo
                       <span class="text-red-500">*</span></label>
-                      <input *ngIf="showFilename('shareholderTazkiraPhoto')" type="text" id="shareholderTazkiraPhoto" name="shareholderTazkiraPhoto" required
+                    <!-- <input *ngIf="showFilename('shareholderTazkiraPhoto')" type="text" id="shareholderTazkiraPhoto" name="shareholderTazkiraPhoto" required
                       class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                       placeholder="shareholder Tazkira Photo" (change)="onFileSelected($event,'shareholderTazkiraPhoto', tab)" disabled>
-                    <input *ngIf="!showFilename('shareholderTazkiraPhoto')" type="file" id="shareholderTazkiraPhoto" name="shareholderTazkiraPhoto" required
+                    --> <input type="file" id="shareholderTazkiraPhoto" name="shareholderTazkiraPhoto" required
                       class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                      placeholder="Attach" (change)="onFileSelected($event,'shareholderTazkiraPhoto', tab)">
-
+                      placeholder="Attach"
+                      (change)="onFileSelectedForShareholderAndAuthorizedSignatories($event,'shareholderTazkiraPhoto', tab, i)">
+                    <!--*ngIf="!showFilename('shareholderTazkiraPhoto')"-->
 
 
 
@@ -552,7 +556,9 @@
 
                     <label for="shareholderMonthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly
                       Income<span class="text-red-500">*</span></label>
-                    <input  (blur)="formatCurrencyForShareholders('shareHolders', i, 'shareholderMonthlyIncome')" type="text" id="shareholderMonthlyIncome" formControlName="shareholderMonthlyIncome"
+                    <input
+                      (blur)="formatCurrencyForShareholdersAndAuthorizedSignatories('shareholder','shareHolders', i, 'shareholderMonthlyIncome')"
+                      type="text" id="shareholderMonthlyIncome" formControlName="shareholderMonthlyIncome"
                       name="shareholderMonthlyIncome" required
                       class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                       [ngClass]="{
@@ -576,6 +582,48 @@
                           'border-red-500': shareholder.get('shareholderTin')?.touched && shareholder.get('shareholderTin')?.invalid,                  
                         }" placeholder="TIN Number">
 
+                   
+
+
+
+
+
+                  </div>
+
+                  
+
+                  
+
+                </div>
+                <h5 class="mt-4 mb-4 font-semibold">Current Address</h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="flex flex-col">
+                    
+
+                  <label for="shareholderCurrentlocation" class="mt-2 block text-sm font-medium text-gray-700">Current
+                    Location<span class="text-red-500">*</span></label>
+                  <input type="text" id="shareholderCurrentlocation" formControlName="shareholderCurrentlocation"
+                    name="shareholderCurrentlocation" required
+                    class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                    [ngClass]="{
+                        'border-red-500': shareholder.get('shareholderCurrentlocation')?.touched && shareholder.get('shareholderCurrentlocation')?.invalid,                  
+                      }" placeholder="Current Location">
+
+                  <label for="shareholderCurrentDistrict" class="mt-2 block text-sm font-medium text-gray-700">Current
+                    District<span class="text-red-500">*</span></label>
+                  <select id="shareholderCurrentDistrict" name="shareholderCurrentDistrict"
+                    formControlName="shareholderCurrentDistrict" placeholder="Select District"
+                    class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                    [ngClass]="{
+                        'border-red-500': shareholder.get('shareholderCurrentDistrict')?.touched && shareholder.get('shareholderCurrentDistrict')?.invalid,                  
+                      }">
+                    <option value="" disabled selected>Select</option>
+                    <option *ngFor="let district of districts" [value]="district.name">{{district.name}}</option>
+                  </select>
+                  </div>
+
+                  <div class="flex flex-col">
+                    <h6></h6>
                     <label for="shareholderCurrentCountry" class="mt-2 block text-sm font-medium text-gray-700"> Current
                       Country<span class="text-red-500">*</span></label>
                     <select id="shareholderCurrentCountry" name="shareholderCurrentCountry"
@@ -604,6 +652,16 @@
                       <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
                     </select>
 
+                  </div>
+
+                </div>
+
+                <h5 class="mt-4 mb-4 font-semibold">Permanent Address</h5>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="flex flex-col">
+                    
+
+                 
                     <label for="shareholderPermanantCountry" class="mt-2 block text-sm font-medium text-gray-700">
                       permanent Country<span class="text-red-500">*</span></label>
                     <select id="shareholderPermanantCountry" name="shareholderPermanantCountry"
@@ -628,11 +686,23 @@
                           'border-red-500': shareholder.get('shareholderPermanantDistrict')?.touched && shareholder.get('shareholderPermanantDistrict')?.invalid,                  
                         }">
                       <option value="" disabled selected>Select</option>
-                      <option *ngFor="let district of districts" [value]="district.id">{{district.name}}</option>
+                      <option *ngFor="let district of districts" [value]="district.name">{{district.name}}</option>
                     </select>
+                  </div>
 
-
-
+                  <div class="flex flex-col">
+                    <h6></h6>
+                    <label for="shareholderPermanantProvince" class="mt-2 block text-sm font-medium text-gray-700">
+                      permanent Province<span class="text-red-500">*</span></label>
+                    <select id="shareholderPermanantProvince" name="shareholderPermanantProvince"
+                      formControlName="shareholderPermanantProvince" placeholder="Select Province"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                          'border-red-500': shareholder.get('shareholderPermanantProvince')?.touched && shareholder.get('shareholderPermanantProvince')?.invalid,                  
+                        }" (change)="onSelectProvince($event)">
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let province of provinces" [value]="province.name">{{province.name}}</option>
+                    </select>
 
                   </div>
 
@@ -650,190 +720,298 @@
       </div>
       <div *ngIf="tab == 'Authorized Signatory Details'" class="py-6 px-8 mx-4">
         <div class="mt-6">
-          <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+          <!--           <h2 class="text-xl font-semibold mb-6 text-gray-800">{{ tab }}</h2>
+ -->
+          <form [formGroup]="authorizedDetailsForm" (ngSubmit)="saveForm(tab)">
+            <div formArrayName="authorizedSignatories">
+              <div *ngFor="let authorized of authorizedSignatoryFormArray.controls; let i = index" [formGroupName]="i"
+                class="mb-6">
+                <h2 class="text-xl font-semibold mb-6 text-gray-800">Authorized Signatory {{ i + 1 }} Details </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="flex flex-col">
 
-          <form [formGroup]="authorizedDetailsForm" (ngSubmit)="saveForm(tab)"
-            class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="flex flex-col">
-
-              <label for="authorizedFirstName" class="block text-sm font-medium text-gray-700">First Name<span
-                  class="text-red-500">*</span></label>
-              <input type="text" id="authorizedFirstName" formControlName="authorizedFirstName"
-                name="authorizedFirstName" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedFirstName'].touched && authorizedDetailsForm.controls['authorizedFirstName'].invalid,                  
+                    <label for="authorizedFirstName" class="block text-sm font-medium text-gray-700">First Name<span
+                        class="text-red-500">*</span></label>
+                    <input type="text" id="authorizedFirstName" formControlName="authorizedFirstName"
+                      name="authorizedFirstName" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500':  authorized.get('authorizedFirstName')?.touched && authorized.get('authorizedFirstName')?.invalid,                  
                 }" placeholder="First Name">
 
-              <label for="authorizedtazkiraNo" class="mt-2 block text-sm font-medium text-gray-700">Tazkira/Passport
-                Number<span class="text-red-500">*</span></label>
-              <input type="text" id="authorizedtazkiraNo" formControlName="authorizedtazkiraNo"
-                name="authorizedtazkiraNo" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedtazkiraNo'].touched && authorizedDetailsForm.controls['authorizedtazkiraNo'].invalid,                  
+                    <label for="authorizedtazkiraNo"
+                      class="mt-2 block text-sm font-medium text-gray-700">Tazkira/Passport
+                      Number<span class="text-red-500">*</span></label>
+                    <input type="text" id="authorizedtazkiraNo" formControlName="authorizedtazkiraNo"
+                      name="authorizedtazkiraNo" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500':authorized.get('authorizedtazkiraNo')?.touched && authorized.get('authorizedtazkiraNo')?.invalid,                  
                 }" placeholder="Tazkira/Passport Number">
 
-              <label for="authorizedPlaceofBirth" class="mt-2 block text-sm font-medium text-gray-700">Place of
-                Birth<span class="text-red-500">*</span></label>
-              <input type="text" id="authorizedPlaceofBirth" formControlName="authorizedPlaceofBirth"
-                name="authorizedPlaceofBirth" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedPlaceofBirth'].touched && authorizedDetailsForm.controls['authorizedPlaceofBirth'].invalid,                  
+                    <label for="authorizedPlaceofBirth" class="mt-2 block text-sm font-medium text-gray-700">Place of
+                      Birth<span class="text-red-500">*</span></label>
+                    <input type="text" id="authorizedPlaceofBirth" formControlName="authorizedPlaceofBirth"
+                      name="authorizedPlaceofBirth" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500': authorized.get('authorizedPlaceofBirth')?.touched && authorized.get('authorizedPlaceofBirth')?.invalid,                  
                 }" placeholder="Place of Birth">
 
-              <label for="authorizedDesignation" class="mt-2 block text-sm font-medium text-gray-700">Designation<span
-                  class="text-red-500">*</span></label>
-              <input type="text" id="authorizedDesignation" formControlName="authorizedDesignation"
-                name="authorizedDesignation" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedDesignation'].touched && authorizedDetailsForm.controls['authorizedDesignation'].invalid,                  
+                    <label for="authorizedDesignation"
+                      class="mt-2 block text-sm font-medium text-gray-700">Designation<span
+                        class="text-red-500">*</span></label>
+                    <input type="text" id="authorizedDesignation" formControlName="authorizedDesignation"
+                      name="authorizedDesignation" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500': authorized.get('authorizedDesignation')?.touched && authorized.get('authorizedDesignation')?.invalid,                  
                 }" placeholder="Designation">
 
-              <label for="authorizedMonthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly
-                Income<span class="text-red-500">*</span></label>
-              <input  (blur)="formatCurrency(authorizedDetailsForm,'authorizedMonthlyIncome')" type="text" id="authorizedMonthlyIncome" formControlName="authorizedMonthlyIncome"
-                name="authorizedMonthlyIncome" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedMonthlyIncome'].touched && authorizedDetailsForm.controls['authorizedMonthlyIncome'].invalid,                  
+                    <label for="authorizedMonthlyIncome" class="mt-2 block text-sm font-medium text-gray-700">Monthly
+                      Income<span class="text-red-500">*</span></label>
+                    <input
+                      (blur)="formatCurrencyForShareholdersAndAuthorizedSignatories('authorizedSignatory','authorizedSignatories',i,'authorizedMonthlyIncome')"
+                      type="text" id="authorizedMonthlyIncome" formControlName="authorizedMonthlyIncome"
+                      name="authorizedMonthlyIncome" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500': authorized.get('authorizedMonthlyIncome')?.touched && authorized.get('authorizedMonthlyIncome')?.invalid,                
                 }" placeholder="Monthly Income">
 
-              <label for="authorizedPhone" class="mt-2 block text-sm font-medium text-gray-700">Phone Number<span
-                  class="text-red-500">*</span></label>
-              <input type="text" id="authorizedPhone" formControlName="authorizedPhone" name="authorizedPhone" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedPhone'].touched && authorizedDetailsForm.controls['authorizedPhone'].invalid,                  
+                    <label for="authorizedPhone" class="mt-2 block text-sm font-medium text-gray-700">Phone Number<span
+                        class="text-red-500">*</span></label>
+                    <input type="text" id="authorizedPhone" formControlName="authorizedPhone" name="authorizedPhone"
+                      required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500':  authorized.get('authorizedPhone')?.touched && authorized.get('authorizedPhone')?.invalid,                  
                 }" placeholder="Phone Number">
 
-              <label for="authorizedPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach Signatory
-                Photo</label>
-                <input *ngIf="showFilename('authorizedPhoto')" type="text" id="authorizedPhoto" name="authorizedPhoto" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="Authorized Signatory Photo" (change)="onFileSelected($event,'authorizedPhoto', tab)" disabled>
+                    <label for="authorizedPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach Signatory
+                      Photo</label>
+                    <!--  <input *ngIf="showFilename('authorizedPhoto')" type="text" id="authorizedPhoto"
+                      name="authorizedPhoto" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      placeholder="Authorized Signatory Photo" (change)="onFileSelected($event,'authorizedPhoto', tab)"
+                      disabled> -->
 
-              <input *ngIf="!showFilename('authorizedPhoto')" type="file" id="authorizedPhoto" name="authorizedPhoto" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="Attach" (change)="onFileSelected($event,'authorizedPhoto', tab)">
-
-              <label for="authorizedzkiraPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach
-                Tazkira/Passport Photo<span class="text-red-500">*</span></label>
-                <input *ngIf="showFilename('authorizedzkiraPhoto')" type="text" id="authorizedzkiraPhoto" name="authorizedzkiraPhoto" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="Authorized Tazkira Photo" (change)="onFileSelected($event,'authorizedzkiraPhoto', tab)"disabled>
-
-                <input *ngIf="!showFilename('authorizedzkiraPhoto')" type="file" id="authorizedzkiraPhoto" name="authorizedzkiraPhoto" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="Attach" (change)="onFileSelected($event,'authorizedzkiraPhoto', tab)">
+                    <input *ngIf="!showFilename('authorizedPhoto')" type="file" id="authorizedPhoto"
+                      name="authorizedPhoto" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      placeholder="Attach"
+                      (change)="onFileSelectedForShareholderAndAuthorizedSignatories($event,'authorizedPhoto', tab, i)">
 
 
+                    <label for="authorizedzkiraPhoto" class="mt-2 block text-sm font-medium text-gray-700">Attach
+                      Tazkira/Passport Photo<span class="text-red-500">*</span></label>
+                    <!-- <input *ngIf="showFilename('authorizedzkiraPhoto')" type="text" id="authorizedzkiraPhoto"
+                      name="authorizedzkiraPhoto" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      placeholder="Authorized Tazkira Photo"
+                      (change)="onFileSelected($event,'authorizedzkiraPhoto', tab)" disabled> -->
 
-            </div>
+                    <input *ngIf="!showFilename('authorizedzkiraPhoto')" type="file" id="authorizedzkiraPhoto"
+                      name="authorizedzkiraPhoto" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      placeholder="Attach"
+                      (change)="onFileSelectedForShareholderAndAuthorizedSignatories($event,'authorizedzkiraPhoto', tab, i)">
 
-            <div class="flex flex-col">
+                    <!-- <label for="authUsername" class="block text-sm font-medium text-gray-700">
+                      UserName
+                      <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="authUsername" formControlName="authUsername" name="authUsername" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+    'border-red-500': authorizedSignatoryGroup.controls['authUsername']?.touched &&
+                      authorizedSignatoryGroup.controls['authUsername']?.invalid
+  }" placeholder="UserName" />
+                    <div *ngIf="showUsernameExist">
+                      <sup style="color:red">Username already exists.</sup>
+                    </div> -->
+                    <!-- <div *ngIf="authorizedSignatoryGroup.controls['authUsername']?.touched && 
+         authorizedSignatoryGroup.controls['authUsername']?.hasError('usernameExists')" class="text-danger">
+                      <sup style="color:red">Username already exists.</sup>
+                    </div> -->
 
-              <label for="authorizedLastName" class="block text-sm font-medium text-gray-700">Last
-                Name<span class="text-red-500">*</span></label>
-              <input type="text" id="authorizedLastName" formControlName="authorizedLastName" name="authorizedLastName"
-                required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedLastName'].touched && authorizedDetailsForm.controls['authorizedLastName'].invalid,                  
+                    <div>
+                      <label for="authUsername" class="mt-2 block text-sm font-medium text-gray-700">
+                        Username <span class="text-red-500">*</span>
+                      </label>
+                      <input type="text" id="authUsername" formControlName="authUsername" name="authUsername" required
+                        class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                        [ngClass]="{
+                          'border-red-500': authorizedSignatoryGroup.controls['authUsername'].touched &&
+                                            authorizedSignatoryGroup.controls['authUsername'].invalid
+                        }" placeholder="Username" />
+
+                      <!-- Show error message if the username exists -->
+                      <div *ngIf="showUsernameExist" class="text-danger">
+                        <sup style="color:red">Username already exists.</sup>
+                      </div>
+                    </div>
+
+                    <label for="" class="mt-2 block text-sm font-medium text-gray-700">Assign Roles</label>
+                    <div class="md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4 mt-1 p-3">
+
+                      <label class=" space-x-2">
+                        <input type="checkbox" [formControlName]="'roleMaker'"
+                          [checked]="authorized.get('roleMaker')?.value "
+                          (change)="setRoleforAuthorizedSignatory('authorizedSignatories',i,'roleMaker','MAKER',authorized.get('roleMaker')?.value)"
+                          class="form-checkbox h-5 w-5 text-blue-600 border-gray-300 rounded mt-1 p-3">
+                        <span class="text-gray-700">Maker</span>
+                      </label>
+
+                      <!-- Checker Checkbox -->
+                      <label class=" space-x-2">
+                        <input type="checkbox" [formControlName]="'roleChecker'"
+                          [checked]="authorized.get('roleChecker')?.value"
+                          (change)="setRoleforAuthorizedSignatory('authorizedSignatories',i,'roleChecker','CHECKER',authorized.get('roleChecker')?.value)"
+                          class="form-checkbox h-5 w-5 text-blue-600 border-gray-300 rounded mt-1 p-3 ">
+                        <span class="text-gray-700">Checker</span>
+                      </label>
+                    </div>
+
+                    <!-- None Checkbox -->
+                    <!-- <label class="flex items-center space-x-2">
+                        <input type="checkbox"
+                               [formControlName]="'role'"
+                               [checked]="rolesForm.get('role')?.value == null"
+                               (change)="setRole('none')"
+                               class="form-checkbox h-5 w-5 text-blue-600 border-gray-300 rounded">
+                        <span class="text-gray-700">None</span>
+                      </label> -->
+
+
+                  </div>
+
+                  <div class="flex flex-col">
+
+                    <label for="authorizedLastName" class="block text-sm font-medium text-gray-700">Last
+                      Name<span class="text-red-500">*</span></label>
+                    <input type="text" id="authorizedLastName" formControlName="authorizedLastName"
+                      name="authorizedLastName" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500': authorized.get('authorizedLastName')?.touched && authorized.get('authorizedLastName')?.invalid,                  
                 }" placeholder="Last Name">
 
-              <label for="authorizedDOB" class="mt-2 block text-sm font-medium text-gray-700">Date
-                of Birth<span class="text-red-500">*</span></label>
-              <input type="date" id="authorizedDOB" formControlName="authorizedDOB" name="authorizedDOB" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedDOB'].touched && authorizedDetailsForm.controls['authorizedDOB'].invalid,                  
+                    <label for="authorizedDOB" class="mt-2 block text-sm font-medium text-gray-700">Date
+                      of Birth<span class="text-red-500">*</span></label>
+                    <input type="date" id="authorizedDOB" formControlName="authorizedDOB" name="authorizedDOB" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500': authorized.get('authorizedDOB')?.touched && authorized.get('authorizedDOB')?.invalid,                  
                 }" placeholder="Date of Birth">
 
-              <!-- <div *ngIf="authorizedDetailsForm.get('authorizedDOB')?.hasError('underage')">
+                    <!-- <div *ngIf="authorizedDetailsForm.get('authorizedDOB')?.hasError('underage')">
                 <small style="color: red;">You must be at least 18 years old.</small>
               </div> -->
 
-              <label for="authorizedNationality" class="mt-2 block text-sm font-medium text-gray-700">Nationality<span
-                  class="text-red-500">*</span></label>
-              <!-- <input type="text" id="authorizedNationality" formControlName="authorizedNationality"
+                    <label for="authorizedNationality"
+                      class="mt-2 block text-sm font-medium text-gray-700">Nationality<span
+                        class="text-red-500">*</span></label>
+                    <!-- <input type="text" id="authorizedNationality" formControlName="authorizedNationality"
                 name="authorizedNationality" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 [ngClass]="{
                   'border-red-500': authorizedDetailsForm.controls['authorizedNationality'].touched && authorizedDetailsForm.controls['authorizedNationality'].invalid,                  
                 }" placeholder="Nationality"> -->
-              <select id="authorizedNationality" name="authorizedNationality" formControlName="authorizedNationality"
-                placeholder="Nationality"
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedNationality'].touched && authorizedDetailsForm.controls['authorizedNationality'].invalid,                  
+                    <select id="authorizedNationality" name="authorizedNationality"
+                      formControlName="authorizedNationality" placeholder="Nationality"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500': authorized.get('authorizedNationality')?.touched && authorized.get('authorizedNationality')?.invalid,                  
                 }">
-                <option value="" disabled selected>Select</option>
-                <option *ngFor="let nationality of nationalities" [value]="nationality?.name">{{nationality?.name}}
-                </option>
-              </select>
+                      <option value="" disabled selected>Select</option>
+                      <option *ngFor="let nationality of nationalities" [value]="nationality?.nationality">
+                        {{nationality?.nationality}}
+                      </option>
+                    </select>
 
-              <label for="authorizedlocation" class="mt-2 block text-sm font-medium text-gray-700">Location<span
-                  class="text-red-500">*</span></label>
-              <input type="text" id="authorizedlocation" formControlName="authorizedlocation" name="authorizedlocation"
-                required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedlocation'].touched && authorizedDetailsForm.controls['authorizedlocation'].invalid,                  
+                    <label for="authorizedlocation" class="mt-2 block text-sm font-medium text-gray-700">Location<span
+                        class="text-red-500">*</span></label>
+                    <input type="text" id="authorizedlocation" formControlName="authorizedlocation"
+                      name="authorizedlocation" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500': authorized.get('authorizedlocation')?.touched && authorized.get('authorizedlocation')?.invalid                  
                 }" placeholder="Location">
 
-              <label for="authorizedSourceofIncome" class="mt-2 block text-sm font-medium text-gray-700">Source of
-                Income<span class="text-red-500">*</span></label>
-              <input type="text" id="authorizedSourceofIncome" formControlName="authorizedSourceofIncome"
-                name="authorizedSourceofIncome" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedSourceofIncome'].touched && authorizedDetailsForm.controls['authorizedSourceofIncome'].invalid,                  
+                    <label for="authorizedSourceofIncome" class="mt-2 block text-sm font-medium text-gray-700">Source of
+                      Income<span class="text-red-500">*</span></label>
+                    <input type="text" id="authorizedSourceofIncome" formControlName="authorizedSourceofIncome"
+                      name="authorizedSourceofIncome" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500': authorized.get('authorizedSourceofIncome')?.touched && authorized.get('authorizedSourceofIncome')?.invalid,                  
                 }" placeholder="Source of Income">
 
-              <label for="authorizedType" class="mt-2 block text-sm font-medium text-gray-700">Authorized Signatory
-                Type<span class="text-red-500">*</span></label>
-              <!-- <input type="file" id="authorizedType" formControlName="authorizedType" name="authorizedType" required
+                    <label for="authorizedType" class="mt-2 block text-sm font-medium text-gray-700">Authorized
+                      Signatory
+                      Type<span class="text-red-500">*</span></label>
+                    <!-- <input type="file" id="authorizedType" formControlName="authorizedType" name="authorizedType" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 placeholder="Authorized Signatory Type"> -->
-              <select id="authorizedType" name="authorizedType" formControlName="authorizedType"
-                placeholder="Select Type"
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                [ngClass]="{
-                  'border-red-500': authorizedDetailsForm.controls['authorizedType'].touched && authorizedDetailsForm.controls['authorizedType'].invalid,                  
+                    <select id="authorizedType" name="authorizedType" formControlName="authorizedType"
+                      placeholder="Select Type"
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                  'border-red-500': authorized.get('authorizedType')?.touched && authorized.get('authorizedType')?.invalid,                  
                 }">
-                <option value="" disabled selected>Select</option>
-                <option value="SINGLE">Single</option>
-                <option value="JOINT">Joint</option>
+                      <option value="" disabled selected>Select</option>
+                      <option value="SINGLE">Single</option>
+                      <option value="JOINT">Joint</option>
 
 
-              </select>
+                    </select>
 
 
-              <label for="authorizedSign" class="mt-2 block text-sm font-medium text-gray-700">Attach Signature
-                Photo<span class="text-red-500">*</span></label>
-                <input *ngIf="showFilename('authorizedSign')" type="text" id="authorizedSign" name="authorizedSign" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="Signature Photo" (change)="onFileSelected($event,'authorizedSign', tab)" disabled>
-              <input *ngIf="!showFilename('authorizedSign')" type="file" id="authorizedSign" name="authorizedSign" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="Attach" (change)="onFileSelected($event,'authorizedSign', tab)">
+                    <label for="authorizedSign" class="mt-2 block text-sm font-medium text-gray-700">Attach Signature
+                      Photo<span class="text-red-500">*</span></label>
+                    <!--  <input *ngIf="showFilename('authorizedSign')" type="text" id="authorizedSign" name="authorizedSign"
+                      required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      placeholder="Signature Photo" (change)="onFileSelected($event,'authorizedSign', tab)" disabled> -->
 
-              <label for="authorizedLetter" class="mt-2 block text-sm font-medium text-gray-700">Attach Authorization/
-                Power of Attony Photo<span class="text-red-500">*</span></label>
-                <input *ngIf="showFilename('authorizedLetter')" type="text" id="authorizedLetter" name="authorizedLetter" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="Authorization Letter Photo" (change)="onFileSelected($event,'authorizedLetter', tab)" disabled>
-              <input *ngIf="!showFilename('authorizedLetter')" type="file" id="authorizedLetter" name="authorizedLetter" required
-                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
-                placeholder="Attach" (change)="onFileSelected($event,'authorizedLetter', tab)">
+                    <input *ngIf="!showFilename('authorizedSign')" type="file" id="authorizedSign" name="authorizedSign"
+                      required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      placeholder="Attach"
+                      (change)="onFileSelectedForShareholderAndAuthorizedSignatories($event,'authorizedSign', tab, i)">
 
+                    <label for="authorizedLetter" class="mt-2 block text-sm font-medium text-gray-700">Attach
+                      Authorization/
+                      Power of Attony Photo<span class="text-red-500">*</span></label>
+                    <!-- <input *ngIf="showFilename('authorizedLetter')" type="text" id="authorizedLetter"
+                      name="authorizedLetter" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      placeholder="Authorization Letter Photo" (change)="onFileSelected($event,'authorizedLetter', tab)"
+                      disabled> -->
+                    <input *ngIf="!showFilename('authorizedLetter')" type="file" id="authorizedLetter"
+                      name="authorizedLetter" required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      placeholder="Attach"
+                      (change)="onFileSelectedForShareholderAndAuthorizedSignatories($event,'authorizedLetter', tab, i)">
 
+                    <label for="authorizedEmail" class="mt-2 block text-sm font-medium text-gray-700">Email<span
+                        class="text-red-500">*</span></label>
+                    <input type="text" id="authorizedEmail" formControlName="authorizedEmail" name="authorizedEmail"
+                      required
+                      class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                      [ngClass]="{
+                        'border-red-500': authorized.get('authorizedEmail')?.touched && authorized.get('authorizedEmail')?.invalid                  
+                      }" placeholder="Email">
+
+                  </div>
+
+                </div>
+              </div>
             </div>
-
           </form>
+
+
 
         </div>
       </div>
@@ -841,43 +1019,44 @@
         <div class="space-y-6">
           <!-- Loop through each section -->
           <div *ngFor="let tab of formTabs; let i = index">
-            <div *ngIf="tab != 'Final Submission'" class="flex items-center justify-between p-4 border rounded-lg shadow-sm">
-            <!-- Section Title -->
-            <div  class="flex items-center space-x-4">
-              <!-- Status Icon -->
-              <span *ngIf="formCompleted(tab)" class="text-green-500">
-                <!-- Icon for Completed -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-              </span>
-              <span *ngIf="!formCompleted(tab)" class="text-red-500">
-                <!-- Icon for Incomplete -->
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                  stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </span>
+            <div *ngIf="tab != 'Final Submission'"
+              class="flex items-center justify-between p-4 border rounded-lg shadow-sm">
               <!-- Section Title -->
-              <h3 class="text-lg font-semibold" [ngClass]="formCompleted(tab) ? 'text-green-600' : 'text-gray-800'">
-                {{ tab }}
-              </h3>
-            </div>
-          
+              <div class="flex items-center space-x-4">
+                <!-- Status Icon -->
+                <span *ngIf="formCompleted(tab)" class="text-green-500">
+                  <!-- Icon for Completed -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </span>
+                <span *ngIf="!formCompleted(tab)" class="text-red-500">
+                  <!-- Icon for Incomplete -->
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </span>
+                <!-- Section Title -->
+                <h3 class="text-lg font-semibold" [ngClass]="formCompleted(tab) ? 'text-green-600' : 'text-gray-800'">
+                  {{ tab }}
+                </h3>
+              </div>
 
-            <!-- Action Button for Incomplete Sections -->
-            <div *ngIf="!formCompleted(tab) && tab != 'Final Submission'">
-              <button (click)="selectedTab(tab,i)"
-                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                Click Here to Complete
-              </button>
+
+              <!-- Action Button for Incomplete Sections -->
+              <div *ngIf="!formCompleted(tab) && tab != 'Final Submission'">
+                <button (click)="selectedTab(tab,i)"
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                  Click Here to Complete
+                </button>
+              </div>
             </div>
-          </div>
           </div>
           <!-- //section for Documents -->
+          <div class="flex items-center justify-between p-4 border rounded-lg shadow-sm">
           <div class="flex items-center space-x-4">
-            <div class="flex items-center justify-between p-4 border rounded-lg shadow-sm">
               <span *ngIf="allDocumentsAttached()" class="text-green-500">
                 <!-- Icon for Completed -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -898,24 +1077,77 @@
                 Documents
               </h3>
             </div>
+            <div >
+              <button (click)="triggerFileInput()"
+                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                Upload Additional Documents
+              </button>
+              <input type="file" #fileInput style="display: none" (change)="onFileSelected($event, 'otherDoc')">
+            </div>
 
 
-          </div>
+          
+        </div>
 
         </div>
 
+        <div *ngIf= "otherDocArray?.length != 0"class="card" style="margin-top: 16px; border: 2px solid gray;">
+          <div class="space-y-2 py-4 px-4">
+              <div *ngFor="let file of otherDocArray;let i = index" class="flex justify-between items-center border-b pb-2">
+                  <div class="flex items-center space-x-2">
+                      <!--    <img *ngIf="file.type === 'image'" src="assets/img-icon.png" alt="image icon" class="w-6 h-6">
+                  <img *ngIf="file.type === 'pdf'" src="assets/pdf-icon.png" alt="pdf icon" class="w-6 h-6"> -->
+                      <p class="text-sm text-gray-700">{{file.name}}</p>
+                  </div>
+                  <div class="flex items-center space-x-4">
+                     
+                      <button class="text-gray-600 hover:text-blue-600" (click)="deleteFile(i)">
+                          <i class="fas fa-trash"></i> <!-- Print Icon -->
+                      </button>
+                      
+                      <!-- <button *ngIf="userStatus === 'REJECTED'"
+                      class="text-red-600 hover:text-red-800" (click)="deleteFile(i)">
+                          <i class="fas fa-trash-alt"></i> 
+                      </button> -->
+                  </div>
+              </div>
+          </div>
       </div>
-       <div class="flex float-right">
-      
+
+      </div>
+      <div class="flex float-right">
+        <button *ngIf="tab != 'Basic Info'" type="submit" (click)="previousTab(tab)"
+          class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+          Previous
+        </button>
+        <button *ngIf=" tab != 'Final Submission' " type="submit" (click)="nextTab(tab)"
+          class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+          Next
+        </button>
+      </div>
       <button *ngIf="tab != 'Final Submission'" type="submit" (click)="resetForm(tab)"
-      class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
-      Reset
-    </button>
-    <button *ngIf="tab == 'Final Submission'" type="submit" (click)="submitKYCForm()"
-    class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
-    Submit
-  </button>
+        class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+        Reset
+      </button>
+
+
+
+
+
       <!--  [disabled]="!(basicDetailsForm.valid && companyDetailsForm.valid && businessLicenceDetailsForm.valid && businessActivityDetailsForm && companyAddressDetailsForm && shareHolderDetailsForm && authorizedDetailsForm && allallDocumentsAttached())"   <button type="submit" (click)="saveForm(tab)"
+      class=" mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+      Save
+      </button> -->
+
+
+      <div class="flex float-right">
+
+
+        <button *ngIf="tab == 'Final Submission'" type="submit" (click)="submitKYCForm()"
+          class="mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+          Submit
+        </button>
+        <!--  [disabled]="!(basicDetailsForm.valid && companyDetailsForm.valid && businessLicenceDetailsForm.valid && businessActivityDetailsForm && companyAddressDetailsForm && shareHolderDetailsForm && authorizedDetailsForm && allallDocumentsAttached())"   <button type="submit" (click)="saveForm(tab)"
         class=" mx-2 disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
         Save
         </button> -->

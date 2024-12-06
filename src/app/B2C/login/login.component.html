@@ -110,7 +110,6 @@
                 #newUsernameCtrl="ngModel"
                 id="username"
                 name="username"
-                [pattern]="emailPattern"
                 [(ngModel)]="username"
                 type="email"
                 autocomplete="username"
@@ -119,12 +118,6 @@
                 placeholder="Username"
                 class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500"
               />
-              <div
-                *ngIf="username && !username.match(emailPattern)"
-                class="text-red-500 text-sm mt-1"
-              >
-                Invalid User Name
-              </div>
               <div
                 *ngIf="username?.length == 0"
                 class="text-red-500 text-sm mt-1"
@@ -151,11 +144,9 @@
                 <input
                   id="password"
                   name="password"
-                  [maxlength]="12"
                   [(ngModel)]="password"
                   type="password"
                   autocomplete="current-password"
-                  pattern="(?=.*[A-Z])(?=.*[0-9]).{6,}"
                   #newPasswordData="ngModel"
                   required
                   class="block w-full border border-gray-300 rounded-md ring-inset text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 focus:outline-none focus:ring focus:border-blue-500"
@@ -170,16 +161,13 @@
                   class="text-red-500 text-sm mt-1"
                 >
                   <div *ngIf="password.length == 0">Password is required.</div>
-                  <div *ngIf="newPasswordData.errors">
-                    Password must contain at least one uppercase letter, 0-9
-                    digits, and be at least 8 characters long.
-                  </div>
                 </div>
               </div>
             </div>
 
             <div>
               <button
+           
                 type="submit"
                 (click)="login()"
                 class="w-full py-3 bg-custom-orange bg-orange-500 text-white font-bold rounded-lg transition duration-200"

@@ -1,4 +1,4 @@
-<div class="flex justify-center items-center p-10 bg-gray-200">
+<div *ngIf="!otpVerify" class="flex justify-center items-center p-10 bg-gray-200">
   <div class="py-10 px-8 bg-white rounded-lg shadow-xl w-[85%]">
     <h6 class="text-xl font-bold text-gray-400 ">Corporate Registration</h6>
     <div class="mt-6">
@@ -96,6 +96,9 @@
               </div>
             </div>
           </div>
+
+        
+
           
         </div>
 
@@ -192,9 +195,56 @@
             class=" bg-gradient-to-r from-blue-500 to-blue-700 text-white px-[1rem] py-[0.3rem] rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
             Cancel
             </button>
-            <button [disabled]="basicDetailsForm.invalid" (click)="createPayload()" type="submit"
+            <button [disabled]="basicDetailsForm.invalid" (click)="sendOtp()" type="submit"
             class="disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-[1rem] py-[0.3rem] rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
             Register
+            </button>
+          </div>
+      </form>
+    </div>
+  </div>
+  <app-loader *ngIf="isLoading"></app-loader>
+</div>
+
+<div *ngIf="otpVerify" class="flex justify-center items-center p-[10.1rem] bg-gray-200">
+  <div class="py-10 px-8 bg-white rounded-lg shadow-xl ">
+    <h6 class="text-xl font-bold text-gray-400 ">OTP Verification</h6>
+    <div class="mt-6">
+      <form [formGroup]="otpForm"
+        class=" bg-gray-100 p-8 rounded-lg"
+      >
+        <div class="flex flex-col">
+          <label
+            class="block text-sm font-medium text-gray-700"
+            >Enter OTP<span class="text-red-500"
+              >*</span
+            ></label
+          >
+          <input
+            type="text"
+            id="otp"
+            name="otp"
+            formControlName="otp"
+            required
+            class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+            [ngClass]="{
+              'border-red-500':
+                otpForm.controls['otp'].touched &&
+                otpForm.controls['otp'].invalid
+            }"
+            placeholder="Enter Otp"
+          />
+
+         
+        </div>
+        <div class="flex gap-2 justify-end mt-2 md:col-span-2">
+            <button (click)="gotoLogin()" type="submit"
+            class=" bg-gradient-to-r from-blue-500 to-blue-700 text-white px-[1rem] py-[0.3rem] rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+            Cancel
+            </button>
+            <button (click)="createPayload()" type="submit"
+            class="disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-blue-700 text-white px-[1rem] py-[0.3rem] rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
+           Verify & Register
             </button>
           </div>
       </form>

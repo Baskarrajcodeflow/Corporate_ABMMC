@@ -1,7 +1,6 @@
 
 
 
-
 <div class="flex h-full overflow-y-auto">
   <!-- Main Content -->
   <div class="w-full p-4 bg-gray-100">
@@ -31,7 +30,7 @@
       class="px-4 w-[200px] py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" 
       id="filter-select">
       <option value="">Select All</option>
-      <option *ngFor="let item of array" [value]="item.value">{{item.type}}</option>
+      <option *ngFor="let item of array" [value]="item.value">{{item?.type}}</option>
     </select>
   
     <button 
@@ -44,7 +43,7 @@
 
 
 <app-spinner></app-spinner>
-<div class="relative overflow-y-auto max-h-[350px]">
+<div *ngIf="tranactionHistory" class="relative overflow-y-auto max-h-[350px]">
   <div *ngFor="let item of tranactionHistory" > <!-- Set max-height -->
     <div
       (click)="openDialog(item)"
@@ -81,7 +80,7 @@
     class="flex gap-2 mt-[5px]"
     style="align-items: center; justify-content: center"
   >
-    <div class="font-bold text-gray-400" style="font-size: 20px;" *ngIf="tranactionHistory.length === 0">
+    <div class="font-bold text-gray-400" style="font-size: 20px;" *ngIf="tranactionHistory.length === 0 || tranactionHistory == null">
       No Data
     </div>
   </div>

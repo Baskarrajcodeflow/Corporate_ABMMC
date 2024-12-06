@@ -42,6 +42,24 @@ export class ApiService {
     return this.http.get<any>(url, { headers: h });
   }
 
+  public getMoneyTransferRequests(id:any) {
+    let url = environment.apiUrl + `/ts/api/transaction-services/findWalletToWalletReq?id=${id}`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+    return this.http.get<any>(url, { headers: h });
+  }
+
+  public authorizeAmount(data:any) {
+    let url = environment.apiUrl + `/ts/api/transaction-services/authorizeByAppForWalletToWallet?id=${data?.id}&value=${data?.value}&pin=${data?.pin}`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+    return this.http.get<any>(url, { headers: h });
+  }
+
     public getPayFromAccountDetails(phoneOrWalletNo:any) {
     let url = environment.apiUrl + `/ts/api/transaction-services/CurrentBalance?phoneOrWalletNo=${phoneOrWalletNo}&meta=WALLET`;
     let h: HttpHeaders = this.getHeaders().set(
@@ -71,6 +89,15 @@ export class ApiService {
 
   public transferMoney(data:any) {
     let url = environment.apiUrl + `/tms/api/tms/router/basic`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+    return this.http.post<any>(url,data, { headers: h });
+  }
+
+  public requestMoney(data:any) {
+    let url = environment.apiUrl + `/ts/api/transaction-services/walletToWalletRequest`;
     let h: HttpHeaders = this.getHeaders().set(
       "Content-Type",
       "application/json"
@@ -304,7 +331,7 @@ public submitCorporateRegister(req: any) {
 }
 
 public submitCorporateRegisterKYC(req: any) {
-  let url = `${environment.apiUrl}/kyc/corporate/submit`;
+  let url = `${environment.apiUrl}/kyc/corporate/basic`;
   let h: HttpHeaders = this.getHeaders().set(
     "Content-Type",
     "application/json"
@@ -328,6 +355,14 @@ public submitCorporateKYCShareholderFiles( mapping: any,corpId:any,shareholderId
   let url = `${environment.apiUrl}/kyc/corporate/uploadImage?mapping=${mapping}&corpId=${corpId}&shareholderId=${shareholderId}`;
   return this.http.post<any>(url, formData, { headers: h });
 }
+public submitCorporateProfilePic(fileToUpload: File) {
+  let h: HttpHeaders = this.getHeaders(); 
+  const formData = new FormData(); 
+  formData.append('file', fileToUpload); 
+  let url = `${environment.apiUrl}/um/api/corps/profilePic`;
+  return this.http.post<any>(url, formData, { headers: h });
+}
+
 public completeRegisterKYC(id: any, ) {
   let url = `${environment.apiUrl}/kyc/corporate/complete?corpId=`+id;
   let h: HttpHeaders = this.getHeaders().set(
@@ -471,4 +506,45 @@ public getAccStatement(wallet: any, fromDate: any, toDate: any) {
     headers: h,
   });
 }
+
+public generateOtp(body: any) {
+  let url = `${environment.apiUrl}/um/api/otp/generate`;
+  let h: HttpHeaders = this.getHeaders().set(
+    'Content-Type',
+    'application/json'
+  );
+  console.log(h);
+  return this.http.post<any>(url, body, { headers: h });
+}
+
+public submitCorporateKYCSignatoryFiles(mapping: any, submittedFor: any, signatoryId: any, fileToUpload: File) {
+  let h: HttpHeaders = this.getHeaders();
+  const formData = new FormData();
+  formData.append('file', fileToUpload);
+  let url = `${environment.apiUrl}/kyc/corporate/uploadImage?mapping=${mapping}&submittedFor=${submittedFor}&signatoryId=${signatoryId}`;
+  return this.http.post<any>(url, formData, { headers: h });
+}
+
+public checkUserName(username: any) {
+  let url = `${environment.apiUrl}/um/api/app/userNameCheck?userName=` + username;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  console.log(url);
+
+  return this.http.get<any>(url, { headers: h });
+}
+
+public transactionReport(reportType: any, data: any) {
+  let url = `${environment.apiUrl}/report/api/report?reportType=${reportType}&fmt=.pdf`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.post(url, data, {
+    headers: h,
+  });
+}
+
 }

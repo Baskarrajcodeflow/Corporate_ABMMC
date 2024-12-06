@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { CommonModule } from '@angular/common';
 import { DataSharingService } from '../dataSharing/data-sharing.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,11 +15,21 @@ import { DataSharingService } from '../dataSharing/data-sharing.service';
 export class SidebarComponent implements OnInit {
   userName: any;
   kyclevel:any
+  imageUrl = environment.apiUrl;
+img:any
   constructor(private route: Router,
     private sharedService: SharedService,
     private dataSharing:DataSharingService
   ) {}
   ngOnInit(): void {
+    this.img = sessionStorage.getItem('profileimg')
+
+    this.dataSharing.profilepic$.subscribe((res)=>{
+      if(res){
+        this.img = res
+        sessionStorage.setItem('profileimg',res)
+      }
+    })
     this.dataSharing.kyclevel$.subscribe((res)=>{
       this.kyclevel = res
       console.log(this.kyclevel);
@@ -39,6 +50,7 @@ export class SidebarComponent implements OnInit {
   bulkSalary = false;
   isSubMenuOpenUserkyc = false
   isAccountStatement = false
+  moneyTransferval = false
   toggleSubMenu() {
     this.isSubMenuOpen = !this.isSubMenuOpen;
   }
@@ -57,6 +69,10 @@ export class SidebarComponent implements OnInit {
 
   accountStatement() {
     this.isAccountStatement = !this.isAccountStatement;
+  }
+
+  moneyTransfer() {
+    this.moneyTransferval = !this.moneyTransferval;
   }
 
 }

@@ -43,4 +43,11 @@ export class DatasharingService {
     this.currencySubject.next(currency);
   }
 
+  private tab = new BehaviorSubject<any>(null);
+  tab$ = this.tab.asObservable();
+
+  settabData(tab: any) {
+    this.tab.next(tab);
+  }
+
 }
