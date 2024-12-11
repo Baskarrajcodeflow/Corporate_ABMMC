@@ -54,17 +54,17 @@
       </div>
 
       <div *ngIf="tab1 == 'requestMoney' && makerCheckerRestriction == 'MAKER'" class="py-6 px-8 mx-4">
-        <app-money-transfer></app-money-transfer>
+        <app-breshna-payments></app-breshna-payments>
       </div>
 
       <div *ngIf="tab1 == 'pending'" class="p-6">
-          <app-list-requests  [sandData]="'PENDING'"></app-list-requests>
+          <app-get-breshna-list  [sandData]="'PENDING'" ></app-get-breshna-list>
       </div>
       <div *ngIf="tab1 == 'success'" class="p-6">
-        <app-list-requests [sandData]="'SUCCESS'"></app-list-requests>
+         <app-get-breshna-list  [sandData]="'SUCCESS'"></app-get-breshna-list>
     </div>
     <div *ngIf="tab1 == 'rejected'" class="p-6">
-        <app-list-requests [sandData]="'CANCELED'"></app-list-requests>
+         <app-get-breshna-list [sandData]="'CANCELED'"></app-get-breshna-list>
     </div>
     </div>
     

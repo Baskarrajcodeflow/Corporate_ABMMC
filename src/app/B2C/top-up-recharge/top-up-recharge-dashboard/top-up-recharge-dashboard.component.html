@@ -15,7 +15,7 @@
               : 'border-b-4 border-transparent'
           "
         >
-          Request Money
+          AirTime Topup
         </button>
         <button
           (click)="selectTab1('pending')"
@@ -54,19 +54,18 @@
       </div>
 
       <div *ngIf="tab1 == 'requestMoney' && makerCheckerRestriction == 'MAKER'" class="py-6 px-8 mx-4">
-        <app-money-transfer></app-money-transfer>
+        <app-top-up-recharge></app-top-up-recharge>
       </div>
 
       <div *ngIf="tab1 == 'pending'" class="p-6">
-          <app-list-requests  [sandData]="'PENDING'"></app-list-requests>
+          <app-list-all-topup  [sandData]="'PENDING'" ></app-list-all-topup>
       </div>
       <div *ngIf="tab1 == 'success'" class="p-6">
-        <app-list-requests [sandData]="'SUCCESS'"></app-list-requests>
+         <app-list-all-topup  [sandData]="'SUCCESS'"></app-list-all-topup>
     </div>
     <div *ngIf="tab1 == 'rejected'" class="p-6">
-        <app-list-requests [sandData]="'CANCELED'"></app-list-requests>
+         <app-list-all-topup [sandData]="'CANCELED'"></app-list-all-topup>
     </div>
     </div>
     
   </div>
-</div>

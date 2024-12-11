@@ -10,17 +10,18 @@ import { CommonModule } from "@angular/common";
 import { MatIconModule } from "@angular/material/icon";
 import { SpinnerComponent } from "../spinner/spinner.component";
 import { SpinnerService } from "../spinner.service";
+import { LoaderComponent } from "../loader/loader.component";
 
 @Component({
   selector: "app-breshna-payments",
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, MatIconModule, SpinnerComponent],
+  imports: [ReactiveFormsModule, CommonModule, MatIconModule, SpinnerComponent, LoaderComponent],
   templateUrl: "./breshna-payments.component.html",
   styleUrl: "./breshna-payments.component.css",
 })
 export class BreshnaPaymentsComponent implements OnInit {
   searchBillDetails: any;
-
+  isLoading:boolean = false
   constructor(
     private apiService: ApiService,
     private spinner: SpinnerService
@@ -38,29 +39,36 @@ export class BreshnaPaymentsComponent implements OnInit {
   }
 
   searchBill() {
-    this.spinner.show();
+    this.isLoading = true
     this.apiService
       .fetchBreshnaBill(this.breshna.controls["AccNumber"].value)
-      .subscribe((res) => {
-        console.log(res);
-        if (res?.responseCode == 200) {
-          this.spinner.hide();
-        }else{
-          this.spinner.hide();
+      .subscribe({
+        next:(res)=>{
+            console.log(res);
+            if (res?.responseCode == 200) {
+              this.isLoading = false
+              this.searchBillDetails = res?.data;
+            }else{
+              this.isLoading = false
+              alert(res?.error)
+            }
+        },error:()=>{
+          alert('Something Went Wrong')
+          this.isLoading = false
         }
-        this.searchBillDetails = res?.data;
-      });
+      })
   }
 
   payBreshnaBill() {
     let userId = sessionStorage.getItem("SenderUserId");
+    let basrUserId = sessionStorage.getItem("basrUserId");
    
     let body = {
       initiator: {
         id: Number(userId),
       },
       serviceProvider: {
-        id: Number(userId),
+        id: Number(basrUserId),
       },
       context: {
         MEDIUM: "web",
@@ -69,20 +77,27 @@ export class BreshnaPaymentsComponent implements OnInit {
         TransactionPin: this.breshna.controls["PIN"].value,
         SERVICE_NAME: "BRESHNA_SERVICE",
         accNo: this.searchBillDetails?.ACNO,
+        address:this.searchBillDetails?.ADD
       },
       serviceReceiver: {
         id: Number(userId),
       },
     };
-    this.spinner.show();
-    this.apiService.payBreshnaBill(body).subscribe((res) => {
-      console.log(res);
-      if (res?.responseCode == 200) {
-        alert(res?.data)
-        this.spinner.hide();
-      }else{
-        this.spinner.hide();
+    this.isLoading = true
+    this.apiService.payBreshnaBill(body).subscribe({
+      next:(res)=>{
+          console.log(res);
+          if (res?.responseCode == 200) {
+            alert('Success')
+            this.isLoading = false
+          }else{
+            alert(res?.error)
+            this.isLoading = false
+          }
+      },error:()=>{
+        alert('Something Went Wrong')
+        this.isLoading = false
       }
-    });
+    })
   }
 }

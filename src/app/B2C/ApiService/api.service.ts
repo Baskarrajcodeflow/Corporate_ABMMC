@@ -51,8 +51,35 @@ export class ApiService {
     return this.http.get<any>(url, { headers: h });
   }
 
+  public getMoneyTopUpRequests(id:any) {
+    let url = environment.apiUrl + `/ts/api/transaction-services/findAirTimeReq?id=${id}`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+    return this.http.get<any>(url, { headers: h });
+  }
+
   public authorizeAmount(data:any) {
     let url = environment.apiUrl + `/ts/api/transaction-services/authorizeByAppForWalletToWallet?id=${data?.id}&value=${data?.value}&pin=${data?.pin}`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+    return this.http.get<any>(url, { headers: h });
+  }
+
+  public authorizeBreshnaAmount(data:any) {
+    let url = environment.apiUrl + `/ts/api/transaction-services/authorizeByAppForBreshna?id=${data?.id}&value=${data?.value}&pin=${data?.pin}`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+    return this.http.get<any>(url, { headers: h });
+  }
+
+  public authorizeTopupAmount(data:any) {
+    let url = environment.apiUrl + `/ts/api/transaction-services/authorizeByAppForAirtime?id=${data?.id}&value=${data?.value}&pin=${data?.pin}`;
     let h: HttpHeaders = this.getHeaders().set(
       "Content-Type",
       "application/json"
@@ -115,7 +142,7 @@ export class ApiService {
   }
 
   public payBreshnaBill(data:any) {
-    let url = environment.apiUrl + `/tms/api/tms/router/basic`;
+    let url = environment.apiUrl + `/ts/api/transaction-services/breshnaRequest`;
     let h: HttpHeaders = this.getHeaders().set(
       "Content-Type",
       "application/json"
@@ -547,4 +574,27 @@ public transactionReport(reportType: any, data: any) {
   });
 }
 
+
+
+public getBreshnaRequests(id: any) {
+  let url = `${environment.apiUrl}/ts/api/transaction-services/findBreshnaReq?id=${id}`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  console.log(url);
+
+  return this.http.get<any>(url, { headers: h });
+}
+
+public topUpRecharge(data: any) {
+  let url = `${environment.apiUrl}/ts/api/transaction-services/airTimeRequest`;
+  let h: HttpHeaders = this.getHeaders().set(
+    "Content-Type",
+    "application/json"
+  );
+  return this.http.post(url, data, {
+    headers: h,
+  });
+}
 }

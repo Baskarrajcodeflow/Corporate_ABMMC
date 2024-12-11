@@ -21,6 +21,10 @@ import { CorporateRegistartionComponent } from './B2C/corporate-register/corpora
 import { AccountStatementComponent } from './B2C/report-management/account-statement/account-statement.component';
 import { AirtimeTopUpReportsComponent } from './B2C/report-management/airtime-top-up-reports/airtime-top-up-reports.component';
 import { ListMoneytransferRequestsComponent } from './B2C/money-transfer-wallet/list-moneytransfer-requests/list-moneytransfer-requests.component';
+import { GetBreshnaListComponent } from './B2C/breshna-payments/getbreshna-requests/get-breshna-list/get-breshna-list.component';
+import { BreshnaDashboardComponent } from './B2C/breshna-payments/getbreshna-requests/breshna-dashboard/breshna-dashboard.component';
+import { TopUpRechargeComponent } from './B2C/top-up-recharge/top-up-recharge/top-up-recharge.component';
+import { TopUpRechargeDashboardComponent } from './B2C/top-up-recharge/top-up-recharge-dashboard/top-up-recharge-dashboard.component';
 
 // export const routes: Routes = [
 //     {
@@ -64,6 +68,8 @@ export const routes: Routes = [
   { path: 'corpKyc', component: CorporateRegistartionComponent },
   { path: 'accountStatement', component: AccountStatementComponent },
   { path: 'airTime', component: AirtimeTopUpReportsComponent },
+  { path: 'listBreshna', component: BreshnaDashboardComponent },
+  { path: 'topup', component: TopUpRechargeDashboardComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,

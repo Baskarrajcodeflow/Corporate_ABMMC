@@ -50,7 +50,7 @@
                           <span class="text-sm text-gray-500 p-1">Wallet No :</span>
                           <span class="text-sm">
                               {{ wallet?.
-                                  receiver
+                                  sender
                                   ?.walletAccount?.walletNo
                               }}
                           </span>
@@ -63,17 +63,24 @@
                           <p class="text-sm text-gray-500 p-1">
                             User Name :
                             <span class="text-gray-900">{{
-                              wallet?.receiver?.username
+                              wallet?.sender?.username
     
                             }}</span>
                           </p>
                           <p class="text-sm text-gray-500 p-1">
                               User Type :
                               <span class="text-gray-900">{{
-                                wallet?.receiver?.userType
+                                wallet?.sender?.userType
     
                               }}</span>
                             </p>
+                            <p class="text-sm text-gray-500 p-1">
+                                Service Name :
+                                <span class="text-gray-900">{{
+                                  wallet?.serviceName
+      
+                                }}</span>
+                              </p>
                         </div>
                       </div>
                     </td>
@@ -82,26 +89,26 @@
                         <i class="fa fa-user px-2 text-gray-500"></i
                           >
                         {{ wallet?.
-                          receiver
-                          ?.firstName }} {{ wallet?. receiver
+                          sender
+                          ?.firstName }} {{ wallet?. sender
                               ?.lastName }}
                       </div>
                       <div class="text-sm text-gray-900 py-1">
                         <i class="fa fa-envelope px-2 text-gray-500"></i
-                        >{{ wallet?.receiver?.email }}
+                        >{{ wallet?.sender?.email }}
                       </div>
                       <div class="text-sm text-gray-500 py-1">
                         <i class="fa fa-phone px-2 text-gray-500"></i
-                        >{{ wallet?.receiver?.phone }}
+                        >{{ wallet?.sender?.phone }}
                       </div>
                       <div class="text-sm text-gray-900 py-1">
                           <i class="fa fa-coins px-2 text-gray-900"></i
                           >{{ wallet?.totalAmount }} AFN
                         </div>
                     </td>
-                    <td *ngIf="sandData == 'PENDING' && makerCheckerRestriction == 'CHECKER'" class="px-6 py-2 whitespace-nowrap">
+                    <td *ngIf="sandData == 'PENDING' "  class="px-6 py-2 whitespace-nowrap">
                       <div class="py-1">
-                          <button
+                          <button 
                           (click)="toggleAuthorize(wallet)"
                             class="border border-blue-500 text-blue-500 font-semibold py-1 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300"
                           >

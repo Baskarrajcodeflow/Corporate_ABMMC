@@ -51,12 +51,15 @@ export class MoneyTransferComponent implements OnInit {
       .searchUserToPay(this.Walletform.controls['walletNo'].value)
       .subscribe({
         next: (res) => {
-          if (res) {
+          if (res?.responseCode == 200) {
             this.isLoading = false;
             this.payToArray = res?.data;
             this.receiverId = res?.data[0]?.id;
             this.service = res?.data[0]?.walletType;
             console.log(this.payToArray, 'aaa');
+          }else{
+            this.isLoading = false;
+            alert(res?.error)
           }
         },
         error: () => {

@@ -51,6 +51,7 @@ img:any
   isSubMenuOpenUserkyc = false
   isAccountStatement = false
   moneyTransferval = false
+  breshnaPay = false
   toggleSubMenu() {
     this.isSubMenuOpen = !this.isSubMenuOpen;
   }
@@ -75,4 +76,7 @@ img:any
     this.moneyTransferval = !this.moneyTransferval;
   }
 
+  breshna() {
+    this.breshnaPay = !this.breshnaPay;
+  }
 }

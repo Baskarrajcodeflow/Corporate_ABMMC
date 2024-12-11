@@ -1,44 +1,25 @@
+import { Component, Input } from '@angular/core';
+import { DatasharingService } from '../../../../services/datasharing.service';
+import { EncryptService } from '../../../../services/Encrypt-Decrypt/encrypt-decrypt.service';
+import { ApiService } from '../../../ApiService/api.service';
+import { SpinnerService } from '../../../spinner.service';
 import { CommonModule } from '@angular/common';
-import { Component, Input, SimpleChanges } from '@angular/core';
-import { EncryptService } from '../../../services/Encrypt-Decrypt/encrypt-decrypt.service';
-import { ApiService } from '../../ApiService/api.service';
-import { SpinnerService } from '../../spinner.service';
-import { DatasharingService } from '../../../services/datasharing.service';
 import { FormsModule } from '@angular/forms';
-import { LoaderComponent } from '../../loader/loader.component';
-interface walletDetails {
-  id: any;
-  fullName: string;
-  walletNo: string;
-  createdDate: string;
-  tagStatus?: string;
-  email: string;
-  phone: string;
-  showLink: boolean;
-  showList: boolean;
-  showAuthorize: boolean;
-}
+import { LoaderComponent } from '../../../loader/loader.component';
+
 @Component({
-  selector: 'app-list-requests',
+  selector: 'app-get-breshna-list',
   standalone: true,
   imports: [CommonModule, FormsModule, LoaderComponent],
-  templateUrl: './list-requests.component.html',
-  styleUrl: './list-requests.component.scss',
+  templateUrl: './get-breshna-list.component.html',
+  styleUrl: './get-breshna-list.component.scss',
 })
-export class ListRequestsComponent {
-  selectedCase: any;
+export class GetBreshnaListComponent {
   wallets: any;
   pin: any;
   @Input() sandData: any;
   isLoading: boolean = false;
   makerCheckerRestriction: any;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    console.log(this.sandData);
-    
-  }
   constructor(
     private apiService: ApiService,
     private spinner: SpinnerService,
@@ -46,40 +27,38 @@ export class ListRequestsComponent {
     private data: DatasharingService
   ) {}
   ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
     console.log(this.sandData);
-      
-  this.makerCheckerRestriction = sessionStorage.getItem('Role');
+    this.makerCheckerRestriction = sessionStorage.getItem('Role');
     let alreadyCalled = false;
     this.data.tab$.subscribe((res) => {
       if (res === true && !alreadyCalled) {
         alreadyCalled = true; // Set flag to true to avoid repeated calls
         // console.log('hello');
-        this.getDataAll();
       }
     });
+    this.getDataAll();
   }
-
   getDataAll() {
-    let data = sessionStorage.getItem('basrUserId');
+    let basrUserId = sessionStorage.getItem('basrUserId');
     this.isLoading = true;
-    this.apiService.getMoneyTransferRequests(data).subscribe({
+    this.apiService.getBreshnaRequests(basrUserId).subscribe({
       next: (res) => {
+        console.log(res);
         if (res?.responseCode == 200) {
           this.isLoading = false;
           this.wallets = res?.data;
-          // console.log(this.wallets);
         } else {
-          this.isLoading = false;
           alert(res?.error);
         }
       },
       error: () => {
         this.isLoading = false;
-        alert('Error');
+        alert('Something Went Wrong');
       },
     });
   }
-
   toggleAuthorize(wallet: any) {
     wallet.showAuthorizeForm = !wallet.showAuthorizeForm;
   }
@@ -92,11 +71,11 @@ export class ListRequestsComponent {
       pin: this.pin,
     };
     this.isLoading = true;
-    this.apiService.authorizeAmount(data).subscribe({
+    this.apiService.authorizeBreshnaAmount(data).subscribe({
       next: (res) => {
         if (res?.responseCode == 200) {
           this.isLoading = false;
-          this.getDataAll()
+          this.getDataAll();
           if (boolean == true) {
             this.isLoading = false;
             alert('Money Transfer Success');
@@ -106,7 +85,7 @@ export class ListRequestsComponent {
           }
         } else {
           this.isLoading = false;
-          alert(res?.error);
+          alert(res?.error || res?.data);
         }
       },
       error: () => {
