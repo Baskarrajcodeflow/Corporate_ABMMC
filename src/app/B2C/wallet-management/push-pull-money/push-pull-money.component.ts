@@ -94,10 +94,13 @@ export class PushPullMoneyComponent {
 
     this.walletService.getPullPush(baseUserId).subscribe({
       next: (res) => {
-        console.log(res);
-        this.tranactionHistory = res?.data;
+        this.tranactionHistory = res?.data.sort((a: any, b: any) => 
+          new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime()
+        );
+        console.log(this.tranactionHistory); // Verify the sorted data
       },
     });
+    
   }
 
   getAuthorizedBankAccounts() {
