@@ -1,58 +1,79 @@
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 flex">
-      <!-- Image Section -->
-      <div class="w-1/2 flex justify-center items-center">
-        <img
-          src="../../../../assets/images/topup.jpg" 
-          alt="Breshna Payments"
-          class="rounded-lg shadow-sm"
-        />
-      </div>
-  
-      <!-- Form Section -->
-      <div class="w-1/2 px-6">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">AirTime TopUp</h2>
-        <form [formGroup]="topUp">
-          <div class="mb-4">
-            <label for="btnPayFrom" class="block text-sm font-medium text-gray-600">PayFrom</label>
-            <input
-             formControlName="BtnPayFrom"
-              type="text"
-              id="btnPayFrom"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-              readonly
-            />
-          </div>
-          <div class="mb-4">
-            <label for="mobNum" class="block text-sm font-medium text-gray-600">Enter Mobile Number</label>
-            <input
-            (input)="onPhoneNumberInput()"
-              type="text"
-              id="mobNum"
-              formControlName="mobNum"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-              placeholder="Enter Mobile Number"
-            />
-          </div>
-          <div class="mb-4">
-            <label for="amount" class="block text-sm font-medium text-gray-600">Enter Amount</label>
-            <input
-              type="text"
-              id="amount"
-              formControlName="amount"
-              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-              placeholder="Enter Amount To be Transfered"
-            />
-          </div>
-          <button
-          [disabled]="this.topUp.controls['mobNum'].invalid || this.topUp.controls['amount'].invalid"
-          (click)="submit()"
-            class="w-full bg-orange-500 font-semibold text-white py-2 px-4 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring focus:ring-orange-300"
+  <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 flex">
+    <!-- Image Section -->
+    <div class="w-1/2 flex justify-center items-center">
+      <img
+        src="../../../../assets/images/topup.jpg"
+        alt="Breshna Payments"
+        class="rounded-lg shadow-sm"
+      />
+    </div>
+
+    <!-- Form Section -->
+    <div class="w-1/2 px-6">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">AirTime TopUp</h2>
+      <form [formGroup]="topUp">
+        <div class="mb-4">
+          <label
+            for="btnPayFrom"
+            class="block text-sm font-medium text-gray-600"
+            >PayFrom</label
           >
-            TOP UP
-          </button>
-        </form>
-      </div>
+          <input
+            formControlName="BtnPayFrom"
+            type="text"
+            id="btnPayFrom"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+            readonly
+          />
+        </div>
+        <div class="mb-4">
+          <label for="mobNum" class="block text-sm font-medium text-gray-600"
+            >Enter Mobile Number</label
+          >
+          <input
+            (input)="onPhoneNumberInput()"
+            type="text"
+            id="mobNum"
+            formControlName="mobNum"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+            placeholder="Enter Mobile Number"
+          />
+          <span
+            class="text-violet-400 font-semibold"
+            *ngIf="serviceName && !errorMessage"
+          >
+            {{ serviceName }}
+          </span>
+          <span class="text-red-500 text-sm font-semibold" *ngIf="errorMessage">
+            {{ errorMessage }}
+          </span>
+        </div>
+
+        <div class="mb-4">
+          <label for="amount" class="block text-sm font-medium text-gray-600"
+            >Enter Amount</label
+          >
+          <input
+            type="text"
+            id="amount"
+            formControlName="amount"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+            placeholder="Enter Amount To be Transfered"
+          />
+        </div>
+        <button
+          [disabled]="
+            this.topUp.controls['mobNum'].invalid ||
+            this.topUp.controls['amount'].invalid
+          "
+          (click)="submit()"
+          class="w-full bg-orange-500 font-semibold text-white py-2 px-4 rounded-lg hover:bg-orange-600 focus:outline-none focus:ring focus:ring-orange-300"
+        >
+          TOP UP
+        </button>
+      </form>
     </div>
   </div>
-  <app-loader *ngIf="isLoading"></app-loader>
+</div>
+<app-loader *ngIf="isLoading"></app-loader>

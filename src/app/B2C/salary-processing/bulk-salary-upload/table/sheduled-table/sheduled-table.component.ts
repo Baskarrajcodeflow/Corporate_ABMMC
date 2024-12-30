@@ -8,11 +8,16 @@ import { SalaryUploadedDetailsComponent } from '../Dialog-components/salary-uplo
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '../../../../ApiService/api.service';
 import { DataSharingService } from '../../../../dataSharing/data-sharing.service';
+import { MatMenuModule } from '@angular/material/menu';
+import autoTable from 'jspdf-autotable';
+import jsPDF from 'jspdf';
+import * as XLSX from 'xlsx';
+import saveAs from 'file-saver';
 
 @Component({
   selector: 'app-sheduled-table',
   standalone: true,
-  imports: [CommonModule,MatIconModule,MatTooltip,MatButtonModule,LoaderComponent],
+  imports: [CommonModule,MatIconModule,MatTooltip,MatButtonModule,LoaderComponent,MatMenuModule],
   templateUrl: './sheduled-table.component.html',
   styleUrl: './sheduled-table.component.css'
 })
@@ -20,6 +25,7 @@ export class SheduledTableComponent {
   bulkSalaryData:any
   isLoading: boolean = false;
   basrUserId: any;
+  completedStatus: any;
 
   constructor(private apiService:ApiService,private data:DataSharingService,private dialog:MatDialog){
     this.data.reuploadFileData(false)
@@ -52,7 +58,7 @@ export class SheduledTableComponent {
   nextpage(item:any,id:any){
     let dialogRef = this.dialog
     .open(SalaryUploadedDetailsComponent, {
-      width: '900px',
+      width: '950px',
       height: '500px',
       data:{item,id},
       panelClass: 'custom-dialog-container',
@@ -66,4 +72,233 @@ export class SheduledTableComponent {
     
     });
   }
+
+  getReports(item:any){
+
+    this.isLoading = true;
+    this.apiService.completedSalaryTransactionReport(item?.id).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        if(res?.responseCode == 200){
+          this.isLoading = false;
+          this.completedStatus = res?.data
+        }else{
+          this.isLoading = false;
+          alert(res?.error)
+        }
+      },error:()=>{
+        this.isLoading = false;
+        alert('Something Went Wrong')
+      }
+    })
+  }
+
+  makePdf() {
+    const doc = new jsPDF("p", "pt", "a4");
+  
+    // Function to add the header content
+    const addHeader = (data: any) => {
+      doc.addImage('../../../assets/images/logo.png', 'PNG', 40, 20, 50, 25);
+      doc.setFontSize(8);
+      doc.setTextColor(40);
+      doc.text('Afghan Besim Mobile Money Company,', 40, 60);
+      doc.text('Darulaman Road, Hajari Najari,', 40, 72);
+      doc.text('KABUL, AFGHANISTAN', 40, 84);
+    };
+  
+    // Call the header for the first page explicitly
+    addHeader(null);
+  
+    // Define table columns
+    const columns = [
+      { header: 'Name', dataKey: 'name' },
+      { header: 'Account No', dataKey: 'accountNumber' },
+      { header: 'Amount', dataKey: 'amount' },
+      { header: 'Email', dataKey: 'email' },
+      { header: 'Phone', dataKey: 'phone' },
+      { header: 'Status', dataKey: 'status' },
+    ];
+  
+    // Preprocess the data to include "Success" or "Failure" for the 'status' column
+    const processedData = this.completedStatus.map((item: any) => ({
+      ...item,
+      status: item.processed ? 'Success' : 'Failure',
+    }));
+  
+    // Calculate the total amount
+    const totalAmount = processedData.reduce((sum:any, item:any) => sum + (item.amount || 0), 0);
+  
+    // Generate the table with autoTable
+    autoTable(doc, {
+      columns: columns,
+      body: processedData,
+      startY: 100, // Adjust this to start the table below the header
+      didDrawPage: (data: any) => {
+        // Call addHeader for each new page
+        addHeader(data);
+      },
+      headStyles: {
+        fillColor: [244, 122, 32],
+        textColor: 255,
+        fontSize: 10,
+      },
+      bodyStyles: {
+        fontSize: 8,
+      },
+      margin: { top: 100 }, // Ensure the table doesn't overlap with the header
+    });
+      // Add summary at the bottom of the page
+      const pageHeight = doc.internal.pageSize.height;
+      const footerY = pageHeight - 50; // Adjust Y position to be close to the bottom
+    
+      doc.setFontSize(10);
+      doc.text('Total Amount:', 40, footerY);
+      doc.text(`${totalAmount.toFixed(2)}`, 110, footerY);
+    // Save the PDF
+    doc.save('Proccessed-Salary-Statement.pdf');
+  }
+  
+  
+  exportToExcel(): void {
+    // Helper function to create styled cell objects
+    const createStyledCell = (value: any, styles: any) => ({
+      v: value,
+      s: styles,
+    });
+  
+    // Define header rows with color styling
+    const headerRows = [
+      [createStyledCell('Afghan Besim Mobile Money Company,', { fill: { fgColor: { rgb: 'FFAE19' } }, font: { color: { rgb: '000000' } } })],
+      [createStyledCell('Darulaman Road, Hajiari Najari,', { fill: { fgColor: { rgb: 'FFAE19' } }, font: { color: { rgb: '000000' } } })],
+      [createStyledCell('KABUL, AFGHANISTAN', { fill: { fgColor: { rgb: 'FFAE19' } }, font: { color: { rgb: '000000' } } })],
+      [],
+      [createStyledCell('Processed Salary Statement', { font: { bold: true }, fill: { fgColor: { rgb: 'BDD7EE' } } })],
+    ];
+  
+    // Define table headers with color styling
+    const tableHeaders = [
+      [
+        createStyledCell('Name', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+        createStyledCell('Account No', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+        createStyledCell('Amount', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+        createStyledCell('Email', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+        createStyledCell('Phone', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+        createStyledCell('Status', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+      ],
+    ];
+  
+    // Preprocess the data to include "Success" or "Failure" for the 'status' column
+    const processedData = this.completedStatus.map((item: any) => ({
+      ...item,
+      status: item.processed ? 'Success' : 'Failure',
+    }));
+  
+    // Calculate the total amount
+    const totalAmount = processedData.reduce((sum: any, item: any) => sum + (item.amount || 0), 0);
+  
+    // Convert transactions to rows for the table
+    const transactionRows = processedData.map((tx: any) => [
+      createStyledCell(tx.name, {}),
+      createStyledCell(tx.accountNumber, {}),
+      createStyledCell(tx.amount, {}),
+      createStyledCell(tx.email, {}),
+      createStyledCell(tx.phone, {}),
+      createStyledCell(tx.status, {}), // Adding status here
+    ]);
+  
+    // Define summary rows with color styling
+    const summaryRows = [
+      [],
+      [createStyledCell(`Total Amount: ${totalAmount}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
+    ];
+  
+    // Combine all rows
+    const worksheetData = [
+      ...headerRows,
+      ...tableHeaders,
+      ...transactionRows,
+      ...summaryRows,
+    ];
+  
+    // Create worksheet and workbook
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(worksheetData);
+    worksheet['!cols'] = [
+      { wch: 35 }, { wch: 30 }, { wch: 30 }, { wch: 20 },
+      { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 20 },
+    ];
+  
+    const workbook: XLSX.WorkBook = { Sheets: { Statement: worksheet }, SheetNames: ['Statement'] };
+  
+    // Write the workbook and trigger download
+    XLSX.writeFile(workbook, `Proccessed-Salary-Statement.xlsx`);
+  }
+
+
+  exportToCSV(): void {
+      // Define header rows for the CSV file
+      const headerRows = [
+       ['Afghan Besim Mobile Money Company,'],
+       ['Darulaman Road, Hajiari Najari,'],
+       ['KABUL, AFGHANISTAN'],
+       [],
+       ['Proccessed Salary Statement'],
+     ];
+   
+     // Define column headers for the transaction table
+     const tableHeaders = [['Name', 'Account No', 'Amount', 'Email', 'Phone', 'Status',]];
+       // Preprocess the data to include "Success" or "Failure" for the 'status' column
+       const processedData = this.completedStatus.map((item: any) => ({
+        ...item,
+        status: item.processed ? 'Success' : 'Failure',
+      }));
+    
+      // Calculate the total amount
+      const totalAmount = processedData.reduce((sum: any, item: any) => sum + (item.amount || 0), 0);
+     // Convert transactions to an array format
+     const transactionRows = processedData.map((tx: { name: any; accountNumber: any; amount: any; email: any; phone: any; status: any;}) => [
+       tx.name,
+       tx.accountNumber,
+       tx.amount,
+       tx.email,
+       tx.phone,
+       tx.status,
+     ]);
+   
+     // Define summary rows
+     const summaryRows = [
+       [],
+       [`Total Amount: ${totalAmount}`],
+     ];
+   
+     // Combine all rows for the CSV file
+     const csvData = [
+       ...headerRows,
+       ...tableHeaders,
+       ...transactionRows,
+       ...summaryRows
+     ];
+   
+     // Create a worksheet for CSV
+     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(csvData);
+ 
+        // Apply the column width to create spacing if needed
+        worksheet['!cols'] = [
+         { wch: 30 }, // Adjust width as needed for alignment
+         { wch: 30 },
+         { wch: 30 },
+         { wch: 20 },
+         { wch: 20 },
+         { wch: 20 },
+         { wch: 20 },
+         { wch: 20 }
+       ];
+   
+     // Write to CSV format
+     const csv = XLSX.utils.sheet_to_csv(worksheet);
+   
+     // Create a Blob from the CSV data and trigger download
+     const csvBlob: Blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+     saveAs(csvBlob, `Proccessed Salary-statement.csv`);
+  }
+  
 }

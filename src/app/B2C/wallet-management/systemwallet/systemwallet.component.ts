@@ -125,26 +125,36 @@ export class SystemwalletComponent {
       baseUserId : userId
     } */
 
-    this.walletService.addSystemWallet(baseUserId, req).subscribe((response) => {
-      if (response.responseCode == 200) {
-        alert('Account linking successfully initiated');
-        formName.reset();
-      } else {
-        alert(response?.error);
+    this.walletService.addSystemWallet(baseUserId, req).subscribe({
+      next:(response)=>{
+          if (response.responseCode == 200) {
+            alert('Account linking successfully initiated');
+            formName.reset();
+          } else {
+            alert(response?.error);
+          }
+      },error:()=>{
+        alert('Something Went Wrong')
       }
-    });
+    })
   }
   authorizeAccount(userId: any, formName: NgForm) {
+    let baseUserId = sessionStorage.getItem('basrUserId')
+
     this.walletService
-      .authorizeSystemWalletAccount(this.accountId, userId, this.pin)
-      .subscribe((response) => {
-        if (response.responseCode == 200) {
-          alert('Account Validation Failed');
-          formName.reset();
-        } else {
-          alert('Not able to fetch linked bank accounts now. Try again');
+      .authorizeSystemWalletAccount(this.accountId, baseUserId, this.pin)
+      .subscribe({
+        next:(response)=>{
+            if (response.responseCode == 200) {
+              alert('Success');
+              formName.reset();
+            } else {
+              alert(response?.error);
+            }
+        },error:()=>{
+          alert('Something Went Wrong')
         }
-      });
+      })
   }
 
   showLinkedAccounts(userId: any) {

@@ -40,7 +40,7 @@ ngOnInit(): void {
       next: (res) => {
         if (res?.responseCode == 200) {
           this.isLoading = false;
-          alert(res?.data);
+          alert('Success');
           this.dialofref.close();
         } else {
           this.isLoading = false;

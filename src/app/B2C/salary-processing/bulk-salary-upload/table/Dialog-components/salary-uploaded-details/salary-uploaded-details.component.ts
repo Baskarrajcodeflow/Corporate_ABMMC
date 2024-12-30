@@ -21,6 +21,7 @@ export class SalaryUploadedDetailsComponent {
   csvData!: string;
   completedStatus: any;
   makerCheckerRestriction: any;
+  totalAmount: any;
 
   constructor(
     private dialogRef: MatDialogRef<SalaryUploadedDetailsComponent>,
@@ -68,6 +69,8 @@ if(this.data?.id == 4){
       if(res?.responseCode == 200){
         this.isLoading = false;
         this.completedStatus = res?.data
+    this.totalAmount = this.completedStatus.reduce((sum:any, item:any) => sum + (item.amount || 0), 0);
+
       }else{
         this.isLoading = false;
         alert(res?.error)

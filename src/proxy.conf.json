@@ -1,32 +1,32 @@
 
 {
   "/constants": {
-    "target": "http://192.168.0.195:8080",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/aaa": {
-    "target": "http://192.168.0.195:8080",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/kyc": {
-    "target": "http://192.168.0.195:8080",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/um": {
-    "target": "http://192.168.0.195:8080",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/pm": {
-    "target": "http://192.168.0.195:8080",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/rmsbo": {
-    "target": "http://192.168.0.195:8080",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
@@ -36,17 +36,17 @@
     "changeOrigin": true
   }, 
   "/ts": {
-    "target": "http://192.168.0.195:8080",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/tms": {
-    "target": "http://192.168.0.195:8080",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/salary": {
-    "target": "http://192.168.0.195:8080",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   }

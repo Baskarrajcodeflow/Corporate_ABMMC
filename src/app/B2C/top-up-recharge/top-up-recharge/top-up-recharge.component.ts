@@ -32,9 +32,23 @@ export class TopUpRechargeComponent {
     '77': 'MTN_TOPUP',
   };
   serviceName: any;
+  errorMessage: string | null = null;
   onPhoneNumberInput() {
-    const prefix: any = this.topUp.controls['mobNum'].value?.slice(0, 2); // Get first two digits
-    this.serviceName = this.serviceMap[prefix] || null; // Find matching service
+    const mobileNumber: string = this.topUp.controls['mobNum'].value || '';
+    const prefix = mobileNumber.slice(0, 2);
+
+    if (mobileNumber.length === 9) {
+      if (this.serviceMap[prefix]) {
+        this.serviceName = this.serviceMap[prefix];
+        this.errorMessage = null;
+      } else {
+        this.serviceName = null;
+        this.errorMessage = 'Enter a valid number.';
+      }
+    } else {
+      this.serviceName = null;
+      this.errorMessage = null;
+    }
   }
   currentBal: any;
   isLoading:boolean = false

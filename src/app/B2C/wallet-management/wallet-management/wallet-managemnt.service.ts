@@ -126,7 +126,7 @@ public getWalletBalance(phoneOrWalletNo: any) {
 
 
 public getLinkedRecords() {
-  let url =`${environment.apiUrl}um/bank/accounts`;
+  let url =`${environment.apiUrl}/um/bank/accounts`;
     let h: HttpHeaders = this.getHeaders().set(
       "Content-Type",
       "application/json"

@@ -62,11 +62,11 @@
               <label for="bankAccount" class="block text-sm font-medium text-gray-700">Select Bank Account</label>
               <select [(ngModel)]="accountId" id="bankAccount" name="bankAccount"
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
-                <option value="" disabled selected>Select Bank Account</option>
+                <option>Select Bank Account</option>
                 <option *ngFor="let account of accountList" [value]="account.id">{{ account.accountNumber }}</option>
               </select>
             </div>
-
+            
             <div class="mb-4">
               <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
               <input type="number" id="amount" [(ngModel)]="amount" name="amount" required
@@ -74,7 +74,7 @@
                 placeholder="Enter amount">
             </div>
 
-            <button *ngIf="makerCheckerRestriction == 'MAKER'" type="submit"  [disabled]="!walletNo || !amount || !accountId"
+            <button *ngIf="makerCheckerRestriction == 'MAKER'" type="submit"  [disabled]="!walletNo || !accountId || !amount"
               class="disabled:cursor-not-allowed bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-3 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-300">
               {{ tab === 'push' ? 'Push Money' : 'Pull Money' }}
             </button>
@@ -89,16 +89,7 @@
       </div>
 
       <div *ngIf="tab1 == 'transactions'" class="p-6">
-<!-- Transaction History -->
 
-<!-- <div class="mb-4">
-  <label for="wallet" class="block text-sm font-medium text-gray-700">Select Wallet</label>
-  <select [(ngModel)]="walletData" id="wallet" name="wallet" (change)="showLinkedAccounts($event)"
-    class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm">
-    <option value="" disabled selected>Select wallet</option>
-    <option *ngFor="let wallet of walletList" [value]="wallet.id">{{ wallet.walletAccount.walletNo }}</option>
-  </select>
-</div> -->
 
 
 <div class="relative">
@@ -136,7 +127,7 @@
                           </p>
                           <p class="text-sm text-gray-500">
                             Amount:
-                            <span class="text-gray-900">{{ wallet?.amount }}</span>
+                            <span class="text-gray-900">{{ wallet?.amount }} AFN</span>
                           </p>
                         </div>
     
@@ -154,9 +145,9 @@
                           </p>
                         </div>
 
-                        <div *ngIf="makerCheckerRestriction == 'MAKER'">
-                          <div class="flex items-center justify-center">
-                            <button (click)="authorize(wallet)" type="submit"
+                        <div>
+                          <div *ngIf="wallet?.status == 'PENDING'" class="flex items-center justify-center">
+                            <button [disabled]="makerCheckerRestriction == 'MAKER'" (click)="authorize(wallet)" type="submit"
                             class="border border-blue-500 text-blue-500 font-semibold py-2 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300">
                             Authorize
                             </button>
