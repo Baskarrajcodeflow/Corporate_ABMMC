@@ -35,6 +35,7 @@ export class BulkCustomerViewComponent {
             this.bulkSalaryData = res?.data;
           } else {
             this.spinner.hide();
+            alert(res?.error);
           }
         },
         error: () => {
@@ -63,7 +64,7 @@ export class BulkCustomerViewComponent {
             this.dialogRef.close();
           } else {
             this.spinner.hide();
-            alert('Error Try Again');
+            alert(res?.error);
           }
         },
         error: () => {

@@ -34,6 +34,9 @@ export class BulkSalaryUploadViewComponent {
           if(res?.responseCode == 200){
             this.spinner.hide()        
             this.bulkSalaryData = res?.data;
+          }else{
+            this.spinner.hide()        
+            alert(res?.error);
           }
         },error:()=>{
           this.spinner.hide() 
@@ -60,7 +63,7 @@ export class BulkSalaryUploadViewComponent {
             alert('Data Updated Successfully');
             this.dialogRef.close()
           } else {
-            alert('Error Try Again');
+            alert(res?.error);
             this.spinner.hide() 
 
           }

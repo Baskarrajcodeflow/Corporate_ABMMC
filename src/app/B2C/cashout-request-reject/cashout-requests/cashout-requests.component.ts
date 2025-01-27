@@ -27,7 +27,7 @@ this.apiService.payRequstedBillForAgent(this.data?.id,true,this.pin).subscribe({
       alert('Request Aprroved Successfully')
       this.dialogRef.close()
     }else{
-      alert('Error In Aprroving Request')
+      alert(res?.error);
     }
   },error:()=>{
     alert('Error Try Again!!!')

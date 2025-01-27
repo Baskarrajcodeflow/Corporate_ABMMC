@@ -36,6 +36,8 @@ totalPages: number = 0; // Total number of pages
 currentPage: number = 1;
 
 @ViewChild("content") content!: ElementRef;
+  openingBalanceNew: any;
+closingBalNew: any;
 
 constructor(
   private fb: FormBuilder,
@@ -100,12 +102,24 @@ goToPage(page: number): void {
         )
         .subscribe({
           next: (res: any) => {
+            this.isLoading = false;
             if (res?.responseCode == 200) {
-              this.isLoading = false;
               console.log(res);
               this.accountStatementDetails = res?.data;
               this.agentSummaryReport = res?.data?.
               accStatementPojo
+              if (res?.data?.accStatementPojo?.length > 0) {
+                const runningBal = parseFloat(res.data.accStatementPojo[0].runningBal) || 0;
+                const debit = parseFloat(res.data.accStatementPojo[0].debit) || 0;
+                const credit = parseFloat(res.data.accStatementPojo[0].credit) || 0;
+                const add = runningBal - credit
+                this.openingBalanceNew = add + debit;
+            } else {
+                this.openingBalanceNew = 0; // Default value
+            }
+            const lastObject = res?.data?.accStatementPojo?.[res.data.accStatementPojo.length - 1];
+            console.log(lastObject); 
+            this.closingBalNew = lastObject?.runningBal
               this.calculatePagination();
               this.totalCredit = this.accountStatementDetails?.accStatementPojo.reduce((acc: number, item: any) => {
                 return acc + parseFloat(item?.credit || '0');
@@ -134,6 +148,8 @@ goToPage(page: number): void {
   }
 
   search(){
+    this.currentPage = 1
+
     let profileWalletNo = sessionStorage.getItem('profileWalletNo')
 
     this.showDate = true;
@@ -141,50 +157,62 @@ goToPage(page: number): void {
     let toDate = this.dateForm.controls["toDate"].value;
     this.isLoading = true;
     this.apiService
-      .getAccStatement(
-        profileWalletNo,
-        fromDate,
-        toDate
-      )
-      .subscribe({
-        next: (res: any) => {
-          this.isLoading = false;
-          if (res?.responseCode == 200) {
-            console.log(res);
-            this.accountStatementDetails = res?.data;
-            this.agentSummaryReport = res?.data?.
-            accStatementPojo
-            this.calculatePagination();
-            this.totalCredit = this.accountStatementDetails?.accStatementPojo.reduce((acc: number, item: any) => {
-              return acc + parseFloat(item?.credit || '0');
-            }, 0);
-      
-            this.totalDebit = this.accountStatementDetails?.accStatementPojo.reduce((acc: number, item: any) => {
-              return acc + parseFloat(item?.debit || '0');
-            }, 0);
+    .getAccStatement(
+     profileWalletNo,
+      fromDate,
+      toDate
+    )
+    .subscribe({
+      next: (res: any) => {
+        this.isLoading = false;
+        if (res?.responseCode == 200) {
+          console.log(res);
+          this.accountStatementDetails = res?.data;
+          this.agentSummaryReport = res?.data?.
+          accStatementPojo
+          if (res?.data?.accStatementPojo?.length > 0) {
+            const runningBal = parseFloat(res.data.accStatementPojo[0].runningBal) || 0;
+            const debit = parseFloat(res.data.accStatementPojo[0].debit) || 0;
+            const credit = parseFloat(res.data.accStatementPojo[0].credit) || 0;
+            const add = runningBal - credit
+            this.openingBalanceNew = add + debit;
+        } else {
+            this.openingBalanceNew = 0; // Default value
+        }
+        const lastObject = res?.data?.accStatementPojo?.[res.data.accStatementPojo.length - 1];
+        console.log(lastObject); 
+        this.closingBalNew = lastObject?.runningBal
+          this.calculatePagination();
+          this.totalCredit = this.accountStatementDetails?.accStatementPojo.reduce((acc: number, item: any) => {
+            return acc + parseFloat(item?.credit || '0');
+          }, 0);
     
-            this.totalCreditCount = this.accountStatementDetails?.accStatementPojo.reduce((acc: number, item: any) => {
-              // Only count if debit is 0 and credit is non-zero
-              return acc + (parseFloat(item?.debit) === 0 && parseFloat(item?.credit) !== 0 ? 1 : 0);
-            }, 0);
-      
-            this.totalDebitCount = this.accountStatementDetails?.accStatementPojo.reduce((acc: number, item: any) => {
-              // Only count if credit is 0 and debit is non-zero
-              return acc + (parseFloat(item?.credit) === 0 && parseFloat(item?.debit) !== 0 ? 1 : 0);
-            }, 0);
-          }
-        },
-        error: () => {
-          this.isLoading = false;
+          this.totalDebit = this.accountStatementDetails?.accStatementPojo.reduce((acc: number, item: any) => {
+            return acc + parseFloat(item?.debit || '0');
+          }, 0);
+          this.totalCreditCount = this.accountStatementDetails?.accStatementPojo.reduce((acc: number, item: any) => {
+            // Only count if debit is 0 and credit is non-zero
+            return acc + (parseFloat(item?.debit) === 0 && parseFloat(item?.credit) !== 0 ? 1 : 0);
+          }, 0);
+    
+          this.totalDebitCount = this.accountStatementDetails?.accStatementPojo.reduce((acc: number, item: any) => {
+            // Only count if credit is 0 and debit is non-zero
+            return acc + (parseFloat(item?.credit) === 0 && parseFloat(item?.debit) !== 0 ? 1 : 0);
+          }, 0);
+        }
+      },
+      error: () => {
+        this.isLoading = false;
 
-          alert("Error Try Again");
-        },
-      });
+        alert("Error Try Again");
+      },
+    });
   }
 
   makePdf() {
     const doc = new jsPDF("p", "pt", "a4");
     
+
       // Function to add the header content
       const addHeader = (data: any) => {
         doc.addImage('../../../assets/images/logo.png', 'PNG', 40, 20, 50, 25);
@@ -196,7 +224,7 @@ goToPage(page: number): void {
     
         doc.setFontSize(10);
         doc.setTextColor('#f47a20');
-        doc.text('Your Statement', 380, 30);
+        doc.text(`${'Your Statement'}`, 380, 30);
     
         const startX = 380;
         const startY = 40;
@@ -210,7 +238,8 @@ goToPage(page: number): void {
         doc.text(`Name: ${userDetails?.name}`, startX, startY);
         doc.text(`Account Number: ${userDetails?.accNo}`, startX, startY + lineSpacing);
         doc.text(`Statement Period: ${fromDate} to ${toDate}`, startX, startY + 2 * lineSpacing);
-        doc.text(`Current Balance: ${userDetails?.closingBalance}`, startX, startY + 3 * lineSpacing);
+        doc.text(`Opening Balance: ${this.openingBalanceNew}`, startX, startY + 3 * lineSpacing);
+        doc.text(`Closing Balance: ${this.closingBalNew}`, startX, startY + 4 * lineSpacing);
       };
     
       // Call the header for the first page explicitly
@@ -219,13 +248,13 @@ goToPage(page: number): void {
       // Define table columns and data
       const columns = [
         { header: 'Txn_Date', dataKey: 'txnDate' },
-        { header: 'Service Name', dataKey: 'serviceName' },
+        { header: 'Service_Name', dataKey: 'serviceName' },
         { header: 'Description', dataKey: 'description' },
         { header: 'Txn_ID', dataKey: 'batchId' },
-        { header: 'Credit', dataKey: 'credit' },
+        { header: 'Contra_Acc', dataKey: 'contraAcc' },
         { header: 'Debit', dataKey: 'debit' },
-        { header: 'Contra Acc', dataKey: 'contraAcc' },
-        { header: 'Closing Balance', dataKey: 'runningBal' }
+        { header: 'Credit', dataKey: 'credit' },
+        { header: 'Balance', dataKey: 'runningBal' }
       ];
     
       const data = this.accountStatementDetails?.accStatementPojo
@@ -242,12 +271,12 @@ goToPage(page: number): void {
         headStyles: {
           fillColor: [244, 122, 32], 
           textColor: 255,
-          fontSize: 10,
-        },
-        bodyStyles: {
           fontSize: 8,
         },
-        margin: { top: 100 }, // Ensure the table doesn't overlap with the header
+        bodyStyles: {
+          fontSize: 6,
+        },
+        margin: { top: 110 }, // Ensure the table doesn't overlap with the header
       });
     
        // Add summary at the bottom of the page
@@ -268,157 +297,158 @@ goToPage(page: number): void {
     doc.text(`${this.totalDebitCount}`, 150, footerY + 60);
   
     doc.text('Closing Balance:', 40, footerY + 80);
-    doc.text(`${this.accountStatementDetails?.userDetailsPojo?.closingBalance.toFixed(2)}`, 150, footerY + 80);
+    doc.text(`${this.closingBalNew}`, 150, footerY + 80);
   
       // Save the PDF
       doc.save('account-statement.pdf');
   }
   
   exportToExcel(): void {
-     // Helper function to create styled cell objects
-     const createStyledCell = (value: any, styles: any) => ({
-      v: value,
-      s: styles
-    });
-  
-    // Define header rows with color styling
-    const headerRows = [
-      [createStyledCell('Afghan Besim Mobile Money Company,', { fill: { fgColor: { rgb: 'FFAE19' } }, font: { color: { rgb: '000000' } } })],
-      [createStyledCell('Darulaman Road, Hajiari Najari,', { fill: { fgColor: { rgb: 'FFAE19' } }, font: { color: { rgb: '000000' } } })],
-      [createStyledCell('KABUL, AFGHANISTAN', { fill: { fgColor: { rgb: 'FFAE19' } }, font: { color: { rgb: '000000' } } })],
-      [],
-      [createStyledCell('Your Statement', { font: { bold: true }, fill: { fgColor: { rgb: 'BDD7EE' } } })],
-      [`Name: ${this.accountStatementDetails?.userDetailsPojo?.name}`],
-      [`Account Number: ${this.accountStatementDetails?.userDetailsPojo?.accNo}`],
-      [`Statement Period: ${this.dateForm.controls["fromDate"].value} to ${this.dateForm.controls["toDate"].value}`],
-      [`Current Balance: ${this.accountStatementDetails?.userDetailsPojo?.closingBalance}`],
-      []
-    ];
-  
-    // Define table headers with color styling
-    const tableHeaders = [
-      [
-        createStyledCell('Txn_Date', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
-        createStyledCell('Service Name', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
-        createStyledCell('Description', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
-        createStyledCell('Txn_ID', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
-        createStyledCell('Credit', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
-        createStyledCell('Debit', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
-        createStyledCell('Contra Acc', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
-        createStyledCell('Closing Balance', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } })
-      ]
-    ];
-  
-    // Convert transactions to a basic format (without specific styling)
-    const transactionRows = this.accountStatementDetails?.accStatementPojo.map((tx: any) => [
-      tx.txnDate,
+         // Helper function to create styled cell objects
+         const createStyledCell = (value: any, styles: any) => ({
+          v: value,
+          s: styles
+        });
+      
+        // Define header rows with color styling
+        const headerRows = [
+          [createStyledCell('Afghan Besim Mobile Money Company,', { fill: { fgColor: { rgb: 'FFAE19' } }, font: { color: { rgb: '000000' } } })],
+          [createStyledCell('Darulaman Road, Hajiari Najari,', { fill: { fgColor: { rgb: 'FFAE19' } }, font: { color: { rgb: '000000' } } })],
+          [createStyledCell('KABUL, AFGHANISTAN', { fill: { fgColor: { rgb: 'FFAE19' } }, font: { color: { rgb: '000000' } } })],
+          [],
+          [createStyledCell(`Your Statement`, { font: { bold: true }, fill: { fgColor: { rgb: 'BDD7EE' } } })],
+          [`Name: ${this.accountStatementDetails?.userDetailsPojo?.name}`],
+          [`Account Number: ${this.accountStatementDetails?.userDetailsPojo?.accNo}`],
+          [`Statement Period: ${this.dateForm.controls["fromDate"].value} to ${this.dateForm.controls["toDate"].value}`],
+          [`Opening Balance: ${this.openingBalanceNew}`],
+          [createStyledCell(`Closing Balance: ${this.closingBalNew}`,{ font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
+          []
+        ];
+      
+        // Define table headers with color styling
+        const tableHeaders = [
+          [
+            createStyledCell('Txn_Date', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+            createStyledCell('Service Name', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+            createStyledCell('Description', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+            createStyledCell('Txn_ID', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+            createStyledCell('Contra Acc', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+            createStyledCell('Debit', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+            createStyledCell('Credit', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } }),
+            createStyledCell('Balance', { font: { bold: true }, fill: { fgColor: { rgb: 'A9D08E' } } })
+          ]
+        ];
+      
+        // Convert transactions to a basic format (without specific styling)
+      const transactionRows = this.accountStatementDetails?.accStatementPojo.map((tx: any) => [
+      createStyledCell(tx.txnDate, { fill: { fgColor: { rgb: 'F8CBAD' } } }), 
       tx.serviceName,
       tx.description,
       tx.batchId,
-      tx.credit,
+      createStyledCell(tx.contraAcc, { fill: { fgColor: { rgb: 'F8CBAD' } } }), 
       tx.debit,
-      tx.contraAcc,
+      tx.credit,
       tx.runningBal
-    ]);
+  ]);
   
-    // Define summary rows with color styling
-    const summaryRows = [
-      [],
-      [createStyledCell(`Total Credit: ${this.totalCredit}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
-      [createStyledCell(`Total Debit: ${this.totalDebit}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
-      [createStyledCell(`Total Credit Count: ${this.totalCreditCount}`, { fill: { fgColor: { rgb: 'FCE4D6' } } })],
-      [createStyledCell(`Total Debit Count: ${this.totalDebitCount}`, { fill: { fgColor: { rgb: 'FCE4D6' } } })],
-      [createStyledCell(`Closing Balance: ${this.accountStatementDetails?.userDetailsPojo?.closingBalance}`, { font: { bold: true }, fill: { fgColor: { rgb: 'AFE1AF' } } })]
-    ];
-  
-    // Combine all rows
-    const worksheetData = [
-      ...headerRows,
-      ...tableHeaders,
-      ...(transactionRows || []),
-      ...summaryRows
-    ];
-  
-    // Create worksheet and workbook
-    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(worksheetData);
-    worksheet['!cols'] = [
-      { wch: 35 }, { wch: 30 }, { wch: 30 }, { wch: 20 },
-      { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 20 }
-    ];
-  
-    const workbook: XLSX.WorkBook = { Sheets: { 'Statement': worksheet }, SheetNames: ['Statement'] };
+      
+        // Define summary rows with color styling
+        const summaryRows = [
+          [],
+          [createStyledCell(`Total Credit: ${this.totalCredit}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
+          [createStyledCell(`Total Debit: ${this.totalDebit}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
+          [createStyledCell(`Total Credit Count: ${this.totalCreditCount}`, { fill: { fgColor: { rgb: 'FCE4D6' } } })],
+          [createStyledCell(`Total Debit Count: ${this.totalDebitCount}`, { fill: { fgColor: { rgb: 'FCE4D6' } } })],
+          [createStyledCell(`Closing Balance: ${this.closingBalNew}`, { font: { bold: true }, fill: { fgColor: { rgb: 'AFE1AF' } } })]
+        ];
+      
+        // Combine all rows
+        const worksheetData = [
+          ...headerRows,
+          ...tableHeaders,
+          ...(transactionRows || []),
+          ...summaryRows
+        ];
+      
+        // Create worksheet and workbook
+        const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(worksheetData);
+        worksheet['!cols'] = [
+          { wch: 35 }, { wch: 30 }, { wch: 30 }, { wch: 20 },
+          { wch: 20 }, { wch: 20 }, { wch: 20 }, { wch: 20 }
+        ];
+      
+        const workbook: XLSX.WorkBook = { Sheets: { 'Statement': worksheet }, SheetNames: ['Statement'] };
   
     // Write the workbook and trigger download
     XLSX.writeFile(workbook, `Account-Statement.xlsx`);
   }
 
   exportToCSV(): void {
-      // Define header rows for the CSV file
-      const headerRows = [
-       ['Afghan Besim Mobile Money Company,'],
-       ['Darulaman Road, Hajiari Najari,'],
-       ['KABUL, AFGHANISTAN'],
-       [],
-       ['Your Statement'],
-       [`Name: ${this.accountStatementDetails?.userDetailsPojo?.name}`],
-       [`Account Number: ${this.accountStatementDetails?.userDetailsPojo?.accNo}`],
-       [`Statement Period: ${this.dateForm.controls["fromDate"].value} to ${this.dateForm.controls["toDate"].value}`],
-       [`Current Balance: ${this.accountStatementDetails?.userDetailsPojo?.closingBalance}`],
-       []
-     ];
-   
-     // Define column headers for the transaction table
-     const tableHeaders = [['Txn_Date', 'Service Name', 'Description', 'Txn_ID', 'Credit', 'Debit', 'Contra Acc', 'Closing Balance']];
-   
-     // Convert transactions to an array format
-     const transactionRows = this.accountStatementDetails?.accStatementPojo.map((tx: { txnDate: any; serviceName: any; description: any; batchId: any; credit: any; debit: any; contraAcc: any; runningBal: any; }) => [
-       tx.txnDate,
-       tx.serviceName,
-       tx.description,
-       tx.batchId ? tx.batchId.toString() : '',
-       tx.credit,
-       tx.debit,
-       tx.contraAcc,
-       tx.runningBal
-     ]);
-   
-     // Define summary rows
-     const summaryRows = [
-       [],
-       [`Total Credit: ${this.totalCredit}`],
-       [`Total Debit: ${this.totalDebit}`],
-       [`Total Credit Count: ${this.totalCreditCount}`],
-       [`Total Debit Count: ${this.totalDebitCount}`],
-       [`Closing Balance: ${this.accountStatementDetails?.userDetailsPojo?.closingBalance}`]
-     ];
-   
-     // Combine all rows for the CSV file
-     const csvData = [
-       ...headerRows,
-       ...tableHeaders,
-       ...transactionRows,
-       ...summaryRows
-     ];
-   
-     // Create a worksheet for CSV
-     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(csvData);
- 
-        // Apply the column width to create spacing if needed
-        worksheet['!cols'] = [
-         { wch: 30 }, // Adjust width as needed for alignment
-         { wch: 30 },
-         { wch: 30 },
-         { wch: 20 },
-         { wch: 20 },
-         { wch: 20 },
-         { wch: 20 },
-         { wch: 20 }
-       ];
-   
-     // Write to CSV format
-     const csv = XLSX.utils.sheet_to_csv(worksheet);
-   
-     // Create a Blob from the CSV data and trigger download
+         // Define header rows for the CSV file
+         const headerRows = [
+          ['Afghan Besim Mobile Money Company,'],
+          ['Darulaman Road, Hajiari Najari,'],
+          ['KABUL, AFGHANISTAN'],
+          [],
+          [`Your Statement`],
+          [`Name: ${this.accountStatementDetails?.userDetailsPojo?.name}`],
+          [`Account Number: ${this.accountStatementDetails?.userDetailsPojo?.accNo}`],
+          [`Statement Period: ${this.dateForm.controls["fromDate"].value} to ${this.dateForm.controls["toDate"].value}`],
+          [`Opening Balance: ${this.openingBalanceNew}`],
+          [`Closing Balance: ${this.closingBalNew}`],
+          []
+        ];
+      
+        // Define column headers for the transaction table
+        const tableHeaders = [['Txn_Date', 'Service Name', 'Description', 'Txn_ID', 'Contra Acc', 'Debit','Credit', 'Balance']];
+      
+        // Convert transactions to an array format
+        const transactionRows = this.accountStatementDetails?.accStatementPojo.map((tx: { txnDate: any; serviceName: any; description: any; batchId: any; credit: any; debit: any; contraAcc: any; runningBal: any; }) => [
+          tx.txnDate,
+          tx.serviceName,
+          tx.description,
+          tx.batchId ? tx.batchId.toString() : '',
+          tx.contraAcc,
+          tx.debit,
+          tx.credit,
+          tx.runningBal
+        ]);
+      
+        // Define summary rows
+        const summaryRows = [
+          [],
+          [`Total Credit: ${this.totalCredit}`],
+          [`Total Debit: ${this.totalDebit}`],
+          [`Total Credit Count: ${this.totalCreditCount}`],
+          [`Total Debit Count: ${this.totalDebitCount}`],
+          [`Closing Balance: ${this.closingBalNew}`]
+        ];
+      
+        // Combine all rows for the CSV file
+        const csvData = [
+          ...headerRows,
+          ...tableHeaders,
+          ...transactionRows,
+          ...summaryRows
+        ];
+      
+        // Create a worksheet for CSV
+        const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(csvData);
+    
+           // Apply the column width to create spacing if needed
+           worksheet['!cols'] = [
+            { wch: 30 }, // Adjust width as needed for alignment
+            { wch: 30 },
+            { wch: 30 },
+            { wch: 20 },
+            { wch: 20 },
+            { wch: 20 },
+            { wch: 20 },
+            { wch: 20 }
+          ];
+      
+        // Write to CSV format
+        const csv = XLSX.utils.sheet_to_csv(worksheet);     // Create a Blob from the CSV data and trigger download
      const csvBlob: Blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
      saveAs(csvBlob, `account-statement.csv`);
   }

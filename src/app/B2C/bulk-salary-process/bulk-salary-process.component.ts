@@ -85,8 +85,7 @@ export class BulkSalaryProcessComponent implements OnInit {
             this.getDataValues(this.uploadedBy, this.serviceName);
           } else {
             this.spinner.hide();
-
-            alert('Error Try Again');
+            alert(res?.error);
           }
         },
         error: () => {

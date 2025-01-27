@@ -127,6 +127,9 @@ export class SheduledTableComponent {
   
     // Calculate the total amount
     const totalAmount = processedData.reduce((sum:any, item:any) => sum + (item.amount || 0), 0);
+    const totalAmountProcessed = processedData.reduce((sum: any, item: any) => {
+      return item?.processed ? sum + (item.amount || 0) : sum;
+    }, 0);
   
     // Generate the table with autoTable
     autoTable(doc, {
@@ -154,6 +157,9 @@ export class SheduledTableComponent {
       doc.setFontSize(10);
       doc.text('Total Amount:', 40, footerY);
       doc.text(`${totalAmount.toFixed(2)}`, 110, footerY);
+
+      doc.text('Total Amount Processed:', 40, footerY + 20);
+      doc.text(`${totalAmountProcessed.toFixed(2)}`, 160, footerY + 20);
     // Save the PDF
     doc.save('Proccessed-Salary-Statement.pdf');
   }
@@ -195,7 +201,9 @@ export class SheduledTableComponent {
   
     // Calculate the total amount
     const totalAmount = processedData.reduce((sum: any, item: any) => sum + (item.amount || 0), 0);
-  
+    const totalAmountProcessed = processedData.reduce((sum: any, item: any) => {
+      return item?.processed ? sum + (item.amount || 0) : sum;
+    }, 0);
     // Convert transactions to rows for the table
     const transactionRows = processedData.map((tx: any) => [
       createStyledCell(tx.name, {}),
@@ -210,6 +218,7 @@ export class SheduledTableComponent {
     const summaryRows = [
       [],
       [createStyledCell(`Total Amount: ${totalAmount}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
+      [createStyledCell(`Total Amount Processed: ${totalAmountProcessed}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
     ];
   
     // Combine all rows
@@ -254,6 +263,9 @@ export class SheduledTableComponent {
     
       // Calculate the total amount
       const totalAmount = processedData.reduce((sum: any, item: any) => sum + (item.amount || 0), 0);
+      const totalAmountProcessed = processedData.reduce((sum: any, item: any) => {
+        return item?.processed ? sum + (item.amount || 0) : sum;
+      }, 0);
      // Convert transactions to an array format
      const transactionRows = processedData.map((tx: { name: any; accountNumber: any; amount: any; email: any; phone: any; status: any;}) => [
        tx.name,
@@ -268,6 +280,7 @@ export class SheduledTableComponent {
      const summaryRows = [
        [],
        [`Total Amount: ${totalAmount}`],
+       [`Total Amount Processed: ${totalAmountProcessed}`],
      ];
    
      // Combine all rows for the CSV file

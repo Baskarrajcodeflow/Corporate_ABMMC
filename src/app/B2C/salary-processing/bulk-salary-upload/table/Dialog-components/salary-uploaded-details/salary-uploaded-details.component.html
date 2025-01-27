@@ -29,6 +29,9 @@
           </tbody>
         </table>
       </div>
+      <div class="mt-[10px] pl-[10px]">
+        <span class="font-serif font-semibold">Total Amount:</span> {{totalAmountUploaded  | number : "1.2-2"}}
+       </div>
     </div>
   </div>
   <div *ngIf="this.data?.id == 2" class="overflow-x-auto mt-[10px]">
@@ -145,6 +148,9 @@
       </div>
    <div class="mt-[10px] pl-[10px]">
     <span class="font-serif font-semibold">Total Amount:</span> {{totalAmount  | number : "1.2-2"}}
+   </div>
+   <div class="mt-[5px] pl-[10px]">
+    <span class="font-serif font-semibold">Total Amount Processed:</span> {{totalAmountProcessed  | number : "1.2-2"}}
    </div>
 
     </div>

@@ -3,7 +3,8 @@
         <mat-icon>close</mat-icon>
       </button>
     <div class="text-center mt-[10px]">
-        <p style="font-size: 21px; font-weight: 600; color: gray;">Enter PIN to Aprrove Transaction</p>
+        <p *ngIf="data?.bool == true" style="font-size: 21px; font-weight: 600; color: gray;">Enter PIN to Aprrove Transaction</p>
+        <p *ngIf="data?.bool == false" style="font-size: 21px; font-weight: 600; color: gray;">Enter PIN to Reject Transaction</p>
       </div>
       
       <div class="mt-[30px] px-4">

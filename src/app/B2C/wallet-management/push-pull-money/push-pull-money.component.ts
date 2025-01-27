@@ -11,6 +11,7 @@ import { ApiService } from '../../ApiService/api.service';
 import { SystemwalletComponent } from '../systemwallet/systemwallet.component';
 import { AuthorizePushPullDialogComponent } from './Dialog/authorize-push-pull-dialog/authorize-push-pull-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { LoaderComponent } from "../../loader/loader.component";
 
 @Component({
   selector: 'app-push-pull-money',
@@ -20,7 +21,8 @@ import { MatDialog } from '@angular/material/dialog';
     CommonModule,
     ReactiveFormsModule,
     SystemwalletComponent,
-  ],
+    LoaderComponent
+],
   templateUrl: './push-pull-money.component.html',
   styleUrl: './push-pull-money.component.css',
 })
@@ -60,6 +62,7 @@ export class PushPullMoneyComponent {
   ];
   walletNo: any;
   UserId: any;
+description: any;
 
   constructor(
     private walletService: WalletService,
@@ -124,7 +127,7 @@ export class PushPullMoneyComponent {
       if (resp.responseCode == 200) {
         this.walletList = resp.data;
       } else {
-        alert('Something went wrong');
+        alert(resp?.error);
       }
     });
   }
@@ -169,26 +172,34 @@ export class PushPullMoneyComponent {
         SERVICE_NAME: serviceName,
         MEDIUM: 'Web',
         CHANNEL: 'Backoffice',
+        DESCRIPTION:this.description,
         AMOUNT: this.amount.toString(),
         bankPin: '',
         bankAccId: this.accountId,
       },
     };
-    this.walletService.addPushPull(pullPushReq).subscribe((response) => {
-      if (response.responseCode == 200) {
-        alert('Success');
-        this.accountId = '';
-        this.amount = '';
-      } else {
-        alert('Failed,, Try Again');
+    this.walletService.addPushPull(pullPushReq).subscribe({
+      next:(response)=>{
+          if (response.responseCode == 200) {
+            alert('Success');
+            this.accountId = '';
+            this.description = '';
+            this.amount = '';
+          } else {
+            alert(response?.error);
+          }
+      },error:()=>{
+        alert('Something Went Wrong, Try Again');
       }
-    });
+    })
   }
 
   selectTab(selected: any) {
     this.tab = selected;
     this.accountId = '';
     this.amount = '';
+    this.description = '';
+
   }
   selectTab1(selected: any) {
     this.tab1 = selected;
@@ -196,14 +207,16 @@ export class PushPullMoneyComponent {
     this.getAuthorizedBankAccounts();
     this.accountId = '';
     this.amount = '';
+    this.description = '';
+
   }
-  authorize(event: any) {
+  authorize(event: any,bool:any) {
     let dialogRef = this.dialog
       .open(AuthorizePushPullDialogComponent, {
         width: '500px',
         height: '220px',
         panelClass: 'custom-dialog-container',
-        data: event,
+        data: {data:event,bool:bool},
         disableClose: true,
       })
       .afterClosed()
@@ -212,5 +225,30 @@ export class PushPullMoneyComponent {
         //  this.dialogRef.close()
         this.getPullPush();
       });
+  }
+  isLoading: boolean = false;
+
+  reject(event:any,bool:any){
+    let data = {
+      reqId: event?.id,
+      value:bool
+    };
+    this.isLoading = true;
+    this.walletService.authorizePushPull(data).subscribe({
+      next: (res) => {
+        if (res?.responseCode == 200) {
+          this.isLoading = false;
+          alert('Success');
+        this.getPullPush();
+        } else {
+          this.isLoading = false;
+          alert(res?.error);
+        }
+      },
+      error: () => {
+        this.isLoading = false;
+        alert("Something Went Wrong!!!");
+      },
+    });
   }
 }

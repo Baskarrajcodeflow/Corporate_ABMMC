@@ -67,7 +67,7 @@
               
                 <div
                 *ngIf="accountStatementDetails"
-                class="max-w-6xl mx-auto bg-white p-8 shadow-lg border border-gray-200 print mt-[20px]" 
+                class="max-w-6xl mx-auto bg-white p-8 mt-[10px] shadow-lg border border-gray-200 print"
               >
                 <!-- Header Section -->
                 <div class="flex justify-between header-section">
@@ -85,7 +85,7 @@
                   </div>
                   <div class="w-1/3 text-right">
                     <h2 class="text-xl font-semibold text-[#f47a20] text-left">
-                      Your Statement
+                      Your Statement 
                     </h2>
                     <!-- <p class="text-sm text-gray-700 text-left"><strong>Statement 10</strong> (Page 1 of 1)</p> -->
                     <p class="text-sm text-gray-700 text-left">
@@ -106,12 +106,24 @@
                       {{ this.dateForm.controls["toDate"].value }}
                     </p>
                     <p class="text-sm text-gray-700 text-left">
-                      <strong>Current Balance</strong>:
+                      <strong>Opening Balance</strong>:
+                      {{openingBalanceNew | number : "1.2-2" }}
+                    </p>
+                    <p class="text-sm text-gray-700 text-left">
+                      <strong>Closing Balance</strong>:
                       {{
-                        accountStatementDetails?.userDetailsPojo?.closingBalance
+                       closingBalNew
                           | number : "1.2-2"
                       }}
                     </p>
+                    <!-- <p class="text-sm text-gray-700 text-left">
+                      <strong>Back Office User</strong>:
+                      {{ backOfficeUser }}
+                    </p> -->
+                    <!-- <p class="text-sm text-gray-700 text-left">
+                      <strong>Phone</strong>:
+                      {{ accountStatementDetails?.userDetailsPojo?.phone }}
+                    </p> -->
                   </div>
                 </div>
         
@@ -128,13 +140,13 @@
                         </th>
                         <th class="p-2 border border-gray-200 text-center">Txn_ID</th>
                         <!-- <th class="p-2 border border-gray-200 text-center">Gl Type</th> -->
-                        <th class="p-2 border border-gray-200 text-center">Credit</th>
-                        <th class="p-2 border border-gray-200 text-center">Debit</th>
                         <th class="p-2 border border-gray-200 text-center">
                           Contra Acc
                         </th>
+                        <th class="p-2 border border-gray-200 text-center">Debit</th>
+                        <th class="p-2 border border-gray-200 text-center">Credit</th>
                         <th class="p-2 border border-gray-200 text-center">
-                          Closing Balance
+                          Balance
                         </th>
                       </tr>
                     </thead>
@@ -162,13 +174,13 @@
                         </td>
                         <!-- <td class="p-2 border border-gray-200 whitespace-nowrap">{{ item?.glType }}</td> -->
                         <td class="p-2 border border-gray-200 whitespace-nowrap">
-                          {{ item?.credit }}
+                          {{ item?.contraAcc }}
                         </td>
                         <td class="p-2 border border-gray-200 whitespace-nowrap">
                           {{ item?.debit }}
                         </td>
                         <td class="p-2 border border-gray-200 whitespace-nowrap">
-                          {{ item?.contraAcc }}
+                          {{ item?.credit }}
                         </td>
                         <td class="p-2 border border-gray-200 whitespace-nowrap">
                           {{ item?.runningBal }}
@@ -209,7 +221,7 @@
                       </div>
                       <div class="flex justify-between">
                         <span class="text-sm text-gray-700">{{
-                          accountStatementDetails?.userDetailsPojo?.closingBalance
+                          closingBalNew
                             | number : "1.2-2"
                         }}</span>
                       </div>

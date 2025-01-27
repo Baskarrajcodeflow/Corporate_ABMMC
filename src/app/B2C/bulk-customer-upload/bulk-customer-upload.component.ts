@@ -85,7 +85,8 @@ export class BulkCustomerUploadComponent {
             alert('File Upload Success');
             this.getDataValues(this.uploadedBy, this.serviceName);
           } else {
-            alert('Error Try Again');
+            this.spinner.hide();
+            alert(res?.error);
           }
         },
         error: () => {

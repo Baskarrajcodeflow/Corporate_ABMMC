@@ -29,6 +29,7 @@ export class MoneyTransferComponent implements OnInit {
   profileId!: number;
   receiverId!: number;
   service: any;
+  suspend: any;
   constructor(
     private apiService: ApiService,
     private spinner: SpinnerService,
@@ -53,6 +54,10 @@ export class MoneyTransferComponent implements OnInit {
         next: (res) => {
           if (res?.responseCode == 200) {
             this.isLoading = false;
+            this.suspend = res?.data[0]?.accountState;
+            if(this.suspend != 'ACTIVE'){
+              alert('Receiver Account Suspended')
+            }
             this.payToArray = res?.data;
             this.receiverId = res?.data[0]?.id;
             this.service = res?.data[0]?.walletType;

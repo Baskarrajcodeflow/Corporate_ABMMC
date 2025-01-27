@@ -22,6 +22,8 @@ export class SalaryUploadedDetailsComponent {
   completedStatus: any;
   makerCheckerRestriction: any;
   totalAmount: any;
+  totalAmountProcessed: any;
+  totalAmountUploaded: any;
 
   constructor(
     private dialogRef: MatDialogRef<SalaryUploadedDetailsComponent>,
@@ -70,6 +72,10 @@ if(this.data?.id == 4){
         this.isLoading = false;
         this.completedStatus = res?.data
     this.totalAmount = this.completedStatus.reduce((sum:any, item:any) => sum + (item.amount || 0), 0);
+    this.totalAmountProcessed = this.completedStatus.reduce((sum: any, item: any) => {
+      return item?.processed ? sum + (item.amount || 0) : sum;
+    }, 0);
+    
 
       }else{
         this.isLoading = false;
@@ -85,6 +91,7 @@ if(this.data?.id == 4){
   }
 
   parsedData: any[] = [];
+  uploadedAmount: any[] = [];
 
   parseCSV(csv: string): any[] {
     const lines = csv.split("\n");
@@ -97,7 +104,12 @@ if(this.data?.id == 4){
       headers.forEach((header, index) => {
         obj[header] = values[index];
       });
+      console.log(obj);
+      this.uploadedAmount.push(obj)
+      this.totalAmountUploaded = this.uploadedAmount.reduce((sum:any, item:any) => sum + parseFloat(item.amount || 0), 0);
       return obj;
+
+      
     });
   }
 

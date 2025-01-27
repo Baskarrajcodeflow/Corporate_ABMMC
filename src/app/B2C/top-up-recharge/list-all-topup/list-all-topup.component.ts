@@ -41,6 +41,7 @@ ngOnInit(): void {
           this.isLoading = false;
           this.wallets = res?.data;
         } else {
+          this.isLoading = false;
           alert(res?.error);
         }
       },

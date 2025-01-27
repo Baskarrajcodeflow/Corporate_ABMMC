@@ -52,7 +52,7 @@ export class CashoutRequestRejectComponent implements OnInit {
         if (res?.responseCode == 200) {
           alert('Request Rejected Successfully');
         } else {
-          alert('Error In Rejecting Request');
+          alert(res?.error);
         }
       },
       error: () => {

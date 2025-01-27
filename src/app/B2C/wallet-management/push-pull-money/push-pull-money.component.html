@@ -66,6 +66,13 @@
                 <option *ngFor="let account of accountList" [value]="account.id">{{ account.accountNumber }}</option>
               </select>
             </div>
+
+            <div class="mb-4">
+              <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+              <input type="text" id="description" [(ngModel)]="description" name="description" required
+                class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
+                placeholder="Enter Description">
+            </div>
             
             <div class="mb-4">
               <label for="amount" class="block text-sm font-medium text-gray-700">Amount</label>
@@ -109,58 +116,63 @@
                       'bg-white': i % 2 !== 0
                     }"
                   >
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="flex gap-20 ">
-                        <!-- Left Side: Service Name, Created On, Amount -->
-                        <div>
-                          <p class="text-sm text-gray-500">
-                            Service Name:
-                            <span class="text-gray-900">
-                              {{ wallet?.serviceName }}
-                            </span>
-                          </p>
-                          <p class="text-sm text-gray-500">
-                            Created On:
-                            <span class="text-gray-900">
-                              {{ wallet?.createdOn | date:'dd-MMM-yyyy hh:mm a' }}
-                            </span>
-                          </p>
-                          <p class="text-sm text-gray-500">
-                            Amount:
-                            <span class="text-gray-900">{{ wallet?.amount }} AFN</span>
-                          </p>
-                        </div>
-    
-                        <!-- Right Side: Description, Status -->
-                        <div>
-                          <p class="text-sm text-gray-500">
-                            Description:
-                            <span class="text-gray-900">
-                              {{ wallet?.description || 'No description' }}
-                            </span>
-                          </p>
-                          <p class="text-sm text-gray-500">
-                            Status:
-                            <span class="text-gray-900">{{ wallet?.status }}</span>
-                          </p>
-                        </div>
-
-                        <div>
-                          <div *ngIf="wallet?.status == 'PENDING'" class="flex items-center justify-center">
-                            <button [disabled]="makerCheckerRestriction == 'MAKER'" (click)="authorize(wallet)" type="submit"
-                            class="border border-blue-500 text-blue-500 font-semibold py-2 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <p>
+                        <strong>Service Name:</strong>
+                        <span class="text-gray-900">{{ wallet?.serviceName }}</span>
+                      </p>
+                      <p>
+                        <strong>Created On:</strong>
+                        <span class="text-gray-900">
+                          {{ wallet?.createdOn | date: 'dd-MMM-yyyy hh:mm a' }}
+                        </span>
+                      </p>
+                      <p>
+                        <strong>Amount:</strong>
+                        <span class="text-gray-900">{{ wallet?.amount }} AFN</span>
+                      </p>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-gray-500 break-words">
+                      <p>
+                        <strong>Description:</strong>
+                        <span class="text-gray-900">
+                          {{ wallet?.description || 'No description' }}
+                        </span>
+                      </p>
+                      <p>
+                        <strong>Status:</strong>
+                        <span class="text-gray-900"> {{ wallet?.status }}</span>
+                      </p>
+                    </td>
+                    <td class="px-6 py-4 text-sm text-center">
+                      <div class="flex gap-4 justify-center">
+                        <div *ngIf="wallet?.status == 'PENDING'">
+                          <button
+                            [disabled]="makerCheckerRestriction == 'MAKER'"
+                            (click)="authorize(wallet, true)"
+                            type="button"
+                            class="border border-blue-500 text-blue-500 font-semibold py-2 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300"
+                          >
                             Authorize
-                            </button>
+                          </button>
                         </div>
+                        <div *ngIf="wallet?.status == 'PENDING'">
+                          <button
+                            [disabled]="makerCheckerRestriction == 'MAKER'"
+                            (click)="reject(wallet, false)"
+                            type="button"
+                            class="border border-blue-500 text-blue-500 font-semibold py-2 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300"
+                          >
+                            Reject
+                          </button>
                         </div>
                       </div>
                     </td>
-
-                    
                   </tr>
                 </ng-container>
               </tbody>
             </table>
+            
           </div>
         </div>
       </div>
@@ -187,3 +199,4 @@
     </div>
   </div>
 </div>
+<app-loader *ngIf="isLoading"></app-loader>

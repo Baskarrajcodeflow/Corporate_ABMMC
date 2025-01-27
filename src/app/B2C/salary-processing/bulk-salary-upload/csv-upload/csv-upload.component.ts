@@ -343,7 +343,7 @@ export class CsvUploadComponent {
           else if(res?.responseCode == 0) {
             this.isLoading = false;
             this.uploadView = false;
-            alert('File Already Uploaded.');
+            alert(res?.error);
           }else{
             this.isLoading = false;
             this.uploadView = false;

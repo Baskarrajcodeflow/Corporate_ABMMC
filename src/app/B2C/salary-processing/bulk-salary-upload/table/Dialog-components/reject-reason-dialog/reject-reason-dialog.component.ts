@@ -38,8 +38,8 @@ rejectUploadedFiles(){
 this.dialog.close()
       }else{
   this.isLoading = false
-        alert('Unable to Reject the File')
-      }
+  alert(res?.error);
+}
     },error:()=>{
   this.isLoading = false
       alert('Unable to Reject the File')

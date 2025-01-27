@@ -1,32 +1,32 @@
 
 {
   "/constants": {
-    "target": "https://corp.mymoney.af",
+    "target": "http://uatbo.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/aaa": {
-    "target": "https://corp.mymoney.af",
+    "target": "http://uatbo.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/kyc": {
-    "target": "https://corp.mymoney.af",
+    "target": "http://uatbo.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/um": {
-    "target": "https://corp.mymoney.af",
+    "target": "http://uatbo.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/pm": {
-    "target": "https://corp.mymoney.af",
+    "target": "http://uatbo.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/rmsbo": {
-    "target": "https://corp.mymoney.af",
+    "target": "http://uatbo.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
@@ -36,17 +36,17 @@
     "changeOrigin": true
   }, 
   "/ts": {
-    "target": "https://corp.mymoney.af",
+    "target": "http://uatbo.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/tms": {
-    "target": "https://corp.mymoney.af",
+    "target": "http://uatbo.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/salary": {
-    "target": "https://corp.mymoney.af",
+    "target": "http://uatbo.mymoney.af",
     "secure": false,
     "changeOrigin": true
   }

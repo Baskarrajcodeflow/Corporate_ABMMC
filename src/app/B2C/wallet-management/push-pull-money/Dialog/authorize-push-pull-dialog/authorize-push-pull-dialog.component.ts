@@ -33,7 +33,8 @@ ngOnInit(): void {
   approve() {
     let data = {
       pin: this.pin,
-      reqId: this.data?.id,
+      reqId: this.data?.data?.id,
+      value:this.data?.bool
     };
     this.isLoading = true;
     this.walletService.authorizePushPull(data).subscribe({
@@ -52,6 +53,8 @@ ngOnInit(): void {
         alert("Something Went Wrong!!!");
       },
     });
+    console.log(data);
+    
   }
   closeDialog() {
     this.dialofref.close();
