@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://corp.mymoney.af',
+  apiUrl: 'http://uatcorp.mymoney.af',
 };

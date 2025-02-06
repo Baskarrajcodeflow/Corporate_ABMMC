@@ -4,7 +4,7 @@
   </button>
   <div *ngIf="this.data?.id == 0" class="overflow-x-auto mt-[10px]">
     <div class="table-container-uploaded">
-      <div class="scroll-table">
+      <div >
         <table class="min-w-full border border-gray-200 text-left">
           <thead style="background-color: rgb(10, 54, 90)">
             <tr class="cursor-pointer divide-x divide-gray-200">
@@ -17,7 +17,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let row of parsedData"
+              *ngFor="let row of displayedData"
               class="hover:bg-gray-100 cursor-pointer divide-x divide-gray-200"
             >
               <td class="py-2 px-4 border">{{ row["name"] }}</td>
@@ -30,10 +30,30 @@
         </table>
       </div>
       <div class="mt-[10px] pl-[10px]">
-        <span class="font-serif font-semibold">Total Amount:</span> {{totalAmountUploaded  | number : "1.2-2"}}
-       </div>
+        <span class="font-serif font-semibold">Total Amount:</span>
+        {{ totalAmountUploaded | number: "1.2-2" }}
+      </div>
+   
+    </div>
+    <div class="pagination mt-4 flex justify-center items-center">
+      <button
+        class="py-2 px-4 bg-gray-200 text-sm mr-2"
+        [disabled]="currentPage === 1"
+        (click)="changePage('prev')"
+      >
+        Previous
+      </button>
+      <span class="text-sm">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button
+        class="py-2 px-4 bg-gray-200 text-sm ml-2"
+        [disabled]="currentPage === totalPages"
+        (click)="changePage('next')"
+      >
+        Next
+      </button>
     </div>
   </div>
+  
   <div *ngIf="this.data?.id == 2" class="overflow-x-auto mt-[10px]">
     <!-- <table class="min-w-full h-[200px] border border-gray-200 text-left">
     
@@ -56,7 +76,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let result of comparisonResults"
+              *ngFor="let result of displayedData2"
               class="hover:bg-gray-100 cursor-pointer divide-x divide-gray-200"
             >
               <td class="py-6 px-4 border font-medium text-sm">
@@ -100,6 +120,48 @@
         </table>
       </div>
     </div>
+    <div class="pagination mt-4 flex justify-center items-center">
+      <button
+        class="py-2 px-4 bg-gray-200 text-sm mr-2"
+        [disabled]="currentPage === 1"
+        (click)="changePage2('prev')"
+      >
+        Previous
+      </button>
+      <span class="text-sm">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button
+        class="py-2 px-4 bg-gray-200 text-sm ml-2"
+        [disabled]="currentPage === totalPages"
+        (click)="changePage2('next')"
+      >
+        Next
+      </button>
+    </div>
+
+    <ng-container *ngIf="makerCheckerRestriction == 'CHECKER'">
+      <div
+        *ngIf="this.data?.id == 2"
+        class="w-full"
+        style="display: flex; justify-content: flex-end; margin-left: -16px; margin-top: -30px;"
+      >
+        <button
+          (click)="authorize()"
+          type="submit"
+          class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+          style="background-color: #0a365a; margin-right: 10px"
+        >
+          Authorize
+        </button>
+        <button
+          (click)="confirmDialog()"
+          type="submit"
+          class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
+          style="background-color: #0a365a"
+        >
+          Reject
+        </button>
+      </div>
+    </ng-container>
   </div>
   <div *ngIf="this.data?.id == 4" class="overflow-x-auto mt-[10px]">
     <div class="table-container-uploaded">
@@ -117,7 +179,7 @@
           </thead>
           <tbody>
             <tr
-              *ngFor="let row of completedStatus"
+              *ngFor="let row of displayedDataNew"
               class="hover:bg-gray-100 cursor-pointer divide-x divide-gray-200"
             >
               <td class="py-2 px-4 border">{{ row["name"] }}</td>
@@ -146,41 +208,51 @@
           </tbody>
         </table>
       </div>
-   <div class="mt-[10px] pl-[10px]">
-    <span class="font-serif font-semibold">Total Amount:</span> {{totalAmount  | number : "1.2-2"}}
-   </div>
-   <div class="mt-[5px] pl-[10px]">
-    <span class="font-serif font-semibold">Total Amount Processed:</span> {{totalAmountProcessed  | number : "1.2-2"}}
-   </div>
-
+      <div class="flex justify-between">
+        <div>
+          <div class="mt-[9px] pl-[10px]">
+           <span class="font-serif font-semibold">Total Amount:</span> {{totalAmount  | number : "1.2-2"}}
+          </div>
+          <div class="mt-[4px] pl-[10px]">
+           <span class="font-serif font-semibold">Total Amount Processed:</span> {{totalAmountProcessed  | number : "1.2-2"}}
+          </div>
+          <div class="mt-[4px] pl-[10px] pb-1">
+           <span class="font-serif font-semibold">Total Amount UnProcessed:</span> {{totalAmountUnProcessed  | number : "1.2-2"}}
+          </div>
+        </div>
+        <div class="pr-5">
+          <div class="mt-[9px] ">
+           <span class="font-serif font-semibold">Total Count:</span> {{completedStatus?.length}}
+          </div>
+          <div class="mt-[4px] ">
+           <span class="font-serif font-semibold">Total Processed Count:</span> {{processedCount}}
+          </div>
+          <div class="mt-[4px]  pb-1">
+           <span class="font-serif font-semibold">Total UnProcessed Count:</span> {{unprocessedCount}}
+          </div>
+        </div>
+      </div>
     </div>
-
+    <div class="pagination mt-4 flex justify-center items-center">
+      <button
+        class="py-2 px-4 bg-gray-200 text-sm mr-2"
+        [disabled]="currentPage === 1"
+        (click)="changePageNew('prev')"
+      >
+        Previous
+      </button>
+      <span class="text-sm">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button
+        class="py-2 px-4 bg-gray-200 text-sm ml-2"
+        [disabled]="currentPage === totalPages"
+        (click)="changePageNew('next')"
+      >
+        Next
+      </button>
+    </div>
   </div>
 </div>
 
-<ng-container *ngIf="makerCheckerRestriction == 'CHECKER'">
-  <div
-    *ngIf="this.data?.id == 2"
-    class="w-full"
-    style="display: flex; justify-content: flex-end; margin-left: -16px"
-  >
-    <button
-      (click)="authorize()"
-      type="submit"
-      class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
-      style="background-color: #0a365a; margin-right: 10px"
-    >
-      Authorize
-    </button>
-    <button
-      (click)="confirmDialog()"
-      type="submit"
-      class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
-      style="background-color: #0a365a"
-    >
-      Reject
-    </button>
-  </div>
-</ng-container>
+
 
 <app-loader *ngIf="isLoading"></app-loader>

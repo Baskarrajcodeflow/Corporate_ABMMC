@@ -103,16 +103,29 @@ export class TableComponent {
     }
   }
 
-
-
- 
-
-
+  nextpage1(item:any,id:any){
+    let dialogRef = this.dialog
+    .open(SalaryUploadedDetailsComponent, {
+      width: '900px',
+      height: '590px',
+      data:{item,id},
+      panelClass: 'custom-dialog-container',
+      disableClose:true
+    })
+    .afterClosed()
+    .subscribe((res) => {
+      console.log(res);
+    if(res == undefined){
+      this.expression()
+    }  
+    
+    });
+  }
   nextpage(item:any,id:any){
     let dialogRef = this.dialog
     .open(SalaryUploadedDetailsComponent, {
       width: '900px',
-      height: '500px',
+      height: '510px',
       data:{item,id},
       panelClass: 'custom-dialog-container',
       disableClose:true

@@ -59,7 +59,7 @@ export class SheduledTableComponent {
     let dialogRef = this.dialog
     .open(SalaryUploadedDetailsComponent, {
       width: '950px',
-      height: '500px',
+      height: '590px',
       data:{item,id},
       panelClass: 'custom-dialog-container',
       disableClose:true
@@ -130,7 +130,13 @@ export class SheduledTableComponent {
     const totalAmountProcessed = processedData.reduce((sum: any, item: any) => {
       return item?.processed ? sum + (item.amount || 0) : sum;
     }, 0);
-  
+    const totalAmountUnProcessed = processedData.reduce((sum: any, item: any) => {
+      return item?.processed ? sum : sum + (item.amount || 0);
+    }, 0);
+    const count = processedData.filter((item: any) => item).length;
+    const processedCount = processedData.filter((item: any) => item.processed).length;
+    const UnprocessedCount = processedData.filter((item: any) => !item.processed).length;
+
     // Generate the table with autoTable
     autoTable(doc, {
       columns: columns,
@@ -148,7 +154,7 @@ export class SheduledTableComponent {
       bodyStyles: {
         fontSize: 8,
       },
-      margin: { top: 100 }, // Ensure the table doesn't overlap with the header
+      margin: { top: 110 }, // Ensure the table doesn't overlap with the header
     });
       // Add summary at the bottom of the page
       const pageHeight = doc.internal.pageSize.height;
@@ -160,6 +166,18 @@ export class SheduledTableComponent {
 
       doc.text('Total Amount Processed:', 40, footerY + 20);
       doc.text(`${totalAmountProcessed.toFixed(2)}`, 160, footerY + 20);
+
+      doc.text('Total Amount UnProcessed:', 40, footerY + 40);
+      doc.text(`${totalAmountUnProcessed.toFixed(2)}`, 170, footerY + 40);
+
+      doc.text('Total Count:', 400, footerY);
+      doc.text(`${count}`, 460, footerY);
+
+      doc.text('Total Processed Count:', 400, footerY + 20);
+      doc.text(`${processedCount}`, 510, footerY + 20);
+
+      doc.text('Total UnProcessed Count:', 400, footerY + 40);
+      doc.text(`${UnprocessedCount}`, 520, footerY + 40);
     // Save the PDF
     doc.save('Proccessed-Salary-Statement.pdf');
   }
@@ -204,6 +222,12 @@ export class SheduledTableComponent {
     const totalAmountProcessed = processedData.reduce((sum: any, item: any) => {
       return item?.processed ? sum + (item.amount || 0) : sum;
     }, 0);
+    const totalAmountUnProcessed = processedData.reduce((sum: any, item: any) => {
+      return item?.processed ? sum : sum + (item.amount || 0);
+    }, 0);
+    const count = processedData.filter((item: any) => item).length;
+    const processedCount = processedData.filter((item: any) => item.processed).length;
+    const unProcessedCount = processedData.filter((item: any) => !item.processed).length;
     // Convert transactions to rows for the table
     const transactionRows = processedData.map((tx: any) => [
       createStyledCell(tx.name, {}),
@@ -219,6 +243,10 @@ export class SheduledTableComponent {
       [],
       [createStyledCell(`Total Amount: ${totalAmount}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
       [createStyledCell(`Total Amount Processed: ${totalAmountProcessed}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
+      [createStyledCell(`Total Amount UnProcessed: ${totalAmountUnProcessed}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
+      [createStyledCell(`Total Count: ${count}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
+      [createStyledCell(`Total Processed Count: ${processedCount}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
+      [createStyledCell(`Total UnProcessed Count: ${unProcessedCount}`, { font: { bold: true }, fill: { fgColor: { rgb: 'F8CBAD' } } })],
     ];
   
     // Combine all rows
@@ -266,6 +294,12 @@ export class SheduledTableComponent {
       const totalAmountProcessed = processedData.reduce((sum: any, item: any) => {
         return item?.processed ? sum + (item.amount || 0) : sum;
       }, 0);
+      const totalAmountUnProcessed = processedData.reduce((sum: any, item: any) => {
+        return item?.processed ? sum : sum + (item.amount || 0) ;
+      }, 0);
+      const count = processedData.filter((item: any) => item).length;
+    const processedCount = processedData.filter((item: any) => item.processed).length;
+    const unProcessedCount = processedData.filter((item: any) => !item.processed).length;
      // Convert transactions to an array format
      const transactionRows = processedData.map((tx: { name: any; accountNumber: any; amount: any; email: any; phone: any; status: any;}) => [
        tx.name,
@@ -281,6 +315,10 @@ export class SheduledTableComponent {
        [],
        [`Total Amount: ${totalAmount}`],
        [`Total Amount Processed: ${totalAmountProcessed}`],
+       [`Total Amount UnProcessed: ${totalAmountUnProcessed}`],
+       [`Total Count: ${count}`],
+       [`Total Processed Count: ${processedCount}`],
+       [`Total UnProcessed Count: ${unProcessedCount}`],
      ];
    
      // Combine all rows for the CSV file

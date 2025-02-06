@@ -9,13 +9,11 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 //import { TranslateHttpLoader   } from '@ngx-translate/';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AuthServices } from './core/authservice.service';
-import { authInterceptor } from './interceptors/auth.interceptors.service';
+import { encryptionInterceptor } from './interceptors/auth.interceptors.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(
-      withInterceptors([authInterceptor])
-    ),
+    provideHttpClient(withInterceptors([encryptionInterceptor])),
     AuthServices,
     provideRouter(routes),
     provideClientHydration(),
