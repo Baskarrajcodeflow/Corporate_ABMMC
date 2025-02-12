@@ -20,7 +20,6 @@
             "outputPath": "dist/mi-pay-b2c",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "baseHref": "/web/",
             "polyfills": [
               "zone.js"
             ],
@@ -61,7 +60,7 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": false
             }
           },
           "defaultConfiguration": "production"

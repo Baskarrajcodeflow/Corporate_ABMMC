@@ -14,10 +14,10 @@ export class AuthServices {
   endpoint: string = "";
   currentUser = signal<string>("");
 
-  login(username: string, password: string): Observable<any> {
+  login(username: string, password: string,otp:string): Observable<any> {
       this.endpoint = "/aaa/corps/login";
 
-    return this.apiService.post(this.endpoint, { username, password }).pipe(
+    return this.apiService.post(this.endpoint, { username, password,otp }).pipe(
       tap((response: any) => {
         // let tokens = JSON.stringify(response);
         this.doLoginUser(username, response.token);
@@ -30,7 +30,8 @@ export class AuthServices {
     // this.router.navigate(["/CustomerComponent"]);
   }
   storeToken(jwt: string) {
-    localStorage.setItem(this.JWT_TOKEN, jwt);
+    
+    sessionStorage.setItem(this.JWT_TOKEN, jwt);
     this.token = jwt;
   }
 

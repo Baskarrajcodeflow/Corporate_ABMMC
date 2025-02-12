@@ -8,18 +8,18 @@ export class StorageService {
   private isBrowser = typeof window !== 'undefined';
 
   getItem(key: string): string | null {
-    return this.isBrowser ? window.localStorage.getItem(key) : null;
+    return this.isBrowser ? window.sessionStorage.getItem(key) : null;
   }
 
   setItem(key: string, value: string): void {
     if (this.isBrowser) {
-      window.localStorage.setItem(key, value);
+      window.sessionStorage.setItem(key, value);
     }
   }
 
   removeItem(key: string): void {
     if (this.isBrowser) {
-      window.localStorage.removeItem(key);
+      window.sessionStorage.removeItem(key);
     }
   }
 }

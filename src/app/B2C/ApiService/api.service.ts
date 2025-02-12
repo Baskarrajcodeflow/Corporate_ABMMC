@@ -10,8 +10,8 @@ export class ApiService {
   constructor(private http: HttpClient) {}
   private getHeaders(): HttpHeaders {
     let token;
-    if (localStorage) {
-      token = localStorage.getItem("JWT_TOKEN");
+    if (sessionStorage) {
+      token = sessionStorage.getItem("JWT_TOKEN");
       if (token == null || token == undefined) {
         token = "Dummy Value";
       }
@@ -253,6 +253,16 @@ export class ApiService {
     return this.http.post<any>(url, body, { headers: h });
   }
 
+  public generate(body: any) {
+    let url = `${environment.apiUrl}/aaa/generate`;
+    let h: HttpHeaders = this.getHeaders().set(
+      'Content-Type',
+      'application/json'
+    );
+    console.log(h);
+    return this.http.post<any>(url, body, { headers: h });
+  }
+  
     // Transaction History
 public getTranasctionHistory(walletNo: any,trxnType:any,fromDate:any,toDate:any) {
   let url = environment.apiUrl + `/ts/api/transaction-services/getFilteredHistory?walletNo=${walletNo}&trxnType=${trxnType}&fromDate=${fromDate}&toDate=${toDate}`;

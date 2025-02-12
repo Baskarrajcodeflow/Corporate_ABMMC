@@ -62,7 +62,7 @@ export class AuthService {
   }
 
   getAuthToken(): string | null {
-    return localStorage.getItem('JWT_TOKEN');
+    return sessionStorage.getItem('JWT_TOKEN');
 }
 
 }

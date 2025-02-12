@@ -10,8 +10,8 @@ export class KycService {
   private apiUrl = environment.apiUrl;
   private getHeaders(): HttpHeaders {
     let token;
-    if (localStorage) {
-      token = localStorage.getItem('JWT_TOKEN');
+    if (sessionStorage) {
+      token = sessionStorage.getItem('JWT_TOKEN');
       if (token == null || token == undefined) {
         token = 'Dummy Value';
       }

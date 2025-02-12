@@ -17,6 +17,7 @@ import { DatasharingService } from '../../services/datasharing.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RegisterCorporateComponent } from '../corporate-register/register-corporate/register-corporate.component';
 import { DataSharingService } from '../dataSharing/data-sharing.service';
+import { LoaderComponent } from "../loader/loader.component";
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ import { DataSharingService } from '../dataSharing/data-sharing.service';
     OurServicesComponent,
     MatSnackBarModule,
     RegisterCorporateComponent,
-  ],
+    LoaderComponent
+],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -43,7 +45,7 @@ export class LoginComponent {
   email: string = '';
   emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  currentView: 'login' | 'forgotPassword' | 'otpVerification' | 'newPassword' | 'OTP' | 'OTPVerify' | 'resetPwd' =
+  currentView: 'login' | 'forgotPassword' | 'otpVerification' | 'newPassword' | 'OTP' | 'OTPVerify' | 'resetPwd' | 'OTPNew' =
     'login';
   result: any;
   key: any;
@@ -68,6 +70,7 @@ export class LoginComponent {
   newpasswordreset: any;
 otpnew: any;
 newPassword: any;
+otpnewData: any;
 
   constructor(
     private sharedService: SharedService,
@@ -152,14 +155,60 @@ newPassword: any;
   username: any = null;
   passwords: any = null;
   changePassword: boolean = false;
-
-  login() {
+  otpDigits: string[] = ['', '', '', '', '', ''];
+  otpError: string = '';
+  isLoading:boolean = false
+  moveToNext(index: number, event: any) {
+    if (event.target.value.length === 1 && index < 5) {
+      event.target.nextElementSibling?.focus();
+    }
+  }
+  
+  login(event:any) {
+    sessionStorage.clear()
     this.credentials.username = this.username;
     this.credentials.password = this.passwords;
-    this.authService.login(this.username, this.password).subscribe({
+
+    let body = {
+      emailOrPhone:this.username,
+      password:this.password,
+      userType:'CORPORATE'
+    }
+    this.isLoading = true
+    this.apiService.generate(body).subscribe({
+      next:(res)=>{
+        console.log(res);
+        if(res?.responseCode == 200){
+         this.isLoading = false
+          if(event == 0){
+            alert('OTP has been sent to your email / Phone. Please verify.');
+          }else if(event == 1){
+          this.otpDigits = ['', '', '', '', '', ''];      
+            alert('OTP has been resent to your email. Please verify.');
+          }
+        this.currentView = 'OTPNew'
+        }else{
+         this.isLoading = false
+          this.otpDigits = ['', '', '', '', '', ''];      
+          alert(res?.error)
+        }
+      },error:()=>{
+        this.isLoading = false
+        alert('Something Went Wrong')
+      }
+    })
+
+   
+  }
+
+  loginNew(){
+    const otp = this.otpDigits.join('');
+    this.isLoading = true
+ this.authService.login(this.username, this.password,otp).subscribe({
       next: (v: any) => {
         console.log(v);
         if (v?.responseCode == 200 || v?.responseCode == 2) {
+         this.isLoading = false
           alert('Success');
           this.openModal = false;
           this.auth.logged = true;
@@ -175,14 +224,18 @@ newPassword: any;
           // console.log(decodedToken);
           this.router.navigateByUrl('/dashboard');
         } else if (v?.responseCode == 2) {
+         this.isLoading = false
           this.currentView = 'newPassword';
           this.changePassword = true;
           alert(v?.message);
         } else {
+          this.otpDigits = ['', '', '', '', '', ''];      
+         this.isLoading = false
           alert(v?.message);
         }
       },
       error: () => {
+        this.isLoading = false
         alert('Something Went Wrong');
       },
     });

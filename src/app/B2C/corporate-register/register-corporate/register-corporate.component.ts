@@ -142,8 +142,9 @@ export class RegisterCorporateComponent {
       next:(res)=>{
           if (res?.responseCode == 200) {
             this.otpVerify = true;
+            alert('OTP has been sent to your email. Please verify.');
           }else{
-            alert('Error Try Again')
+            alert(res?.error)
           }
       },error:()=>{
         alert('Error Try Again')
