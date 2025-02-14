@@ -250,6 +250,7 @@ otpnewData: any;
         'profileWalletNo',
         res?.data?.walletAccount?.walletNo
       );
+      this.dataSharing.setwalletNoData(res?.data?.walletAccount?.walletNo)
       sessionStorage.setItem('walletId', res?.data?.walletAccount?.id);
       sessionStorage.setItem(
         'basrUserId',

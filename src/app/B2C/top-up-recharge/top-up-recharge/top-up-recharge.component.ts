@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
+  AbstractControl,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { ApiService } from '../../ApiService/api.service';
@@ -55,15 +57,43 @@ export class TopUpRechargeComponent {
   topUp = new FormGroup({
     BtnPayFrom: new FormControl('', Validators.required),
     mobNum: new FormControl('', Validators.required),
-    amount: new FormControl('', Validators.required),
-    PIN: new FormControl('', Validators.required),
+    amount: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^[1-9][0-9]*$/) ,
+      this.maxAmountValidatorFactory() // Ensures only numbers, no leading zero, no 0 itself
+    ]),   
+     PIN: new FormControl('', Validators.required),
   });
+
+ 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.currentBal = sessionStorage.getItem('WalletAmount');
+console.log(this.currentBal);
 
     this.topUp.controls['BtnPayFrom'].setValue(this.currentBal);
+
+    this.topUp.get('amount')?.setValidators([
+      Validators.required,
+      Validators.pattern(/^[1-9][0-9]*$/),
+      this.maxAmountValidatorFactory()
+    ]);
+    this.topUp.get('amount')?.updateValueAndValidity(); // Refresh validation
+  }
+  maxAmountValidatorFactory() {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = Number(control.value);
+      return value > this.currentBal ? { maxAmount: true } : null;
+    };
+  }
+  validateAmount(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    
+    // Allow only numbers (48-57 are ASCII codes for 0-9)
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
   }
   submit() {
     let userId = sessionStorage.getItem("SenderUserId");

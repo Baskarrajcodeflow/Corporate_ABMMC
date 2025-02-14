@@ -96,8 +96,8 @@ export class ApiService {
     return this.http.get<any>(url, { headers: h });
   }
 
-  public searchUserToPay(phoneOrWalletNo:any) {
-    let url = environment.apiUrl + `/ts/api/transaction-services/findUser?phoneOrWalletNo=${phoneOrWalletNo}&meta=WALLET`;
+  public searchUserToPay(type:any,phoneOrWalletNo:any) {
+    let url = environment.apiUrl + `/ts/api/transaction-services/findUser?phoneOrWalletNo=${phoneOrWalletNo}&meta=${type}`;
     let h: HttpHeaders = this.getHeaders().set(
       "Content-Type",
       "application/json"

@@ -91,7 +91,12 @@ description: any;
     this.getPullPush();
     this.getAuthorizedBankAccounts();
   }
-
+  preventInvalidCharacters(event: KeyboardEvent): void {
+    const char = event.key;
+    if (!/^[0-9]$/.test(char)) {
+      event.preventDefault();
+    }
+  }
   getPullPush() {
     let baseUserId = sessionStorage.getItem('basrUserId');
 

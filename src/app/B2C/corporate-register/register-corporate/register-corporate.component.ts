@@ -90,7 +90,7 @@ export class RegisterCorporateComponent {
     let reqbasic = {
       corpType: 'CORPORATE',
       email: this.basicDetailsForm.controls['corporateEmail'].value,
-      username: this.basicDetailsForm.controls['corporateEmail'].value,
+      username: this.basicDetailsForm.controls['corporateUserName'].value,
       firstName: this.basicDetailsForm.controls['corporteFirstName'].value,
       lastName: this.basicDetailsForm.controls['corporteLastName'].value,
       phone: this.basicDetailsForm.controls['corporatePhone'].value,

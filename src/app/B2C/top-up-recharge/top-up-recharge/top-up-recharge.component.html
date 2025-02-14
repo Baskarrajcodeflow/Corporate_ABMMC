@@ -51,17 +51,29 @@
         </div>
 
         <div class="mb-4">
-          <label for="amount" class="block text-sm font-medium text-gray-600"
-            >Enter Amount</label
-          >
+          <label for="amount" class="block text-sm font-medium text-gray-600">
+            Enter Amount
+          </label>
           <input
             type="text"
             id="amount"
             formControlName="amount"
             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
-            placeholder="Enter Amount To be Transfered"
+            placeholder="Enter Amount"
+            (keypress)="validateAmount($event)" 
           />
+          <div *ngIf="topUp.get('amount')?.invalid && topUp.get('amount')?.touched" class="text-red-500 text-sm">
+            <span *ngIf="topUp.get('amount')?.errors?.['required']">Amount is required.</span>
+            <span *ngIf="topUp.get('amount')?.errors?.['pattern']">
+              Enter a valid amount (Only numbers, no 0, no special characters).
+            </span>
+            <span *ngIf="topUp.get('amount')?.errors?.['maxAmount']">
+              Amount cannot exceed Current Balance.
+            </span>
+          </div>
         </div>
+        
+        
         <button
           [disabled]="
             this.topUp.controls['mobNum'].invalid ||

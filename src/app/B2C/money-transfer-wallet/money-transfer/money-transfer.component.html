@@ -1,16 +1,13 @@
-
 <div class="flex h-full overflow-y-auto">
   <!-- Main Content -->
   <div class="w-full p-6 bg-gray-100">
-    <div class="grid grid-cols-3 gap-6 mb-6">
-     
-    </div>
+    <div class="grid grid-cols-3 gap-6 mb-6"></div>
 
     <div class="bg-white p-6 rounded-md shadow-md mb-6">
       <div class="flex justify-center items-center">
         <form [formGroup]="Walletform" class="w-full max-w-lg">
-        <h2 class="text-xl font-bold">Money Transfer</h2>
-      
+          <h2 class="text-xl font-bold">Money Transfer</h2>
+
           <div *ngIf="nextPage != 1">
             <div class="gap-4 mt-4">
               <div>
@@ -25,31 +22,36 @@
                   />
                 </div>
                 <div>
-              <app-spinner></app-spinner>
+                  <app-spinner></app-spinner>
                   <button
-                  (click)="serchBill()"
-                  class="bg-orange-600 text-white py-2 px-4 rounded hover:bg-[rgb(244,122,32)]"
-                >
-                  Search
-                </button>
+                    (click)="serchBill()"
+                    class="bg-orange-600 text-white py-2 px-4 rounded hover:bg-[rgb(244,122,32)]"
+                  >
+                    Search
+                  </button>
                 </div>
                 <div class="mb-4">
                   <label class="block text-gray-700 text-sm">Pay From</label>
-                  <input readonly
+                  <input
+                    readonly
                     formControlName="payFrom"
                     class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-      
+                  />
                 </div>
                 <div class="mb-4">
                   <label class="block text-gray-700 text-sm"
                     >Destination User Info</label
                   >
-                  <select 
+                  <select
                     formControlName="payTo"
                     class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    <option *ngFor="let item of payToArray" [value]="item.firstName">{{item?.walletNo}}</option>
+                    <option
+                      *ngFor="let item of payToArray"
+                      [value]="item.firstName"
+                    >
+                      {{ item?.walletNo }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -59,10 +61,20 @@
                     >Enter Amount To be Transferred (AFN)</label
                   >
                   <input
+                    (keypress)="validateAmount($event)"
                     formControlName="amount"
                     type="text"
                     class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
+                  <div *ngIf="Walletform.get('amount')?.invalid && Walletform.get('amount')?.touched" class="text-red-500 text-sm">
+                    <span *ngIf="Walletform.get('amount')?.errors?.['required']">Amount is required.</span>
+                    <span *ngIf="Walletform.get('amount')?.errors?.['pattern']">
+                      Enter a valid amount (Only numbers, no 0, no special characters).
+                    </span>
+                    <span *ngIf="Walletform.get('amount')?.errors?.['maxAmount']">
+                      Amount cannot exceed Current Balance.
+                    </span>
+                  </div>
                 </div>
               </div>
               <div>
@@ -77,16 +89,22 @@
                   />
                 </div>
               </div>
-      
-              <div  class="text-[rgb(244,122,32)]" style="font-weight: 600;" *ngIf="totalAmount">
+
+              <div
+                class="text-[rgb(244,122,32)]"
+                style="font-weight: 600"
+                *ngIf="totalAmount"
+              >
                 <span>The Total Amount including Fees and Commission is</span>
-                {{totalAmount}} AFN
+                {{ totalAmount }} AFN
               </div>
             </div>
             <div *ngIf="!totalAmount" class="mt-4 mb-2">
               <app-spinner></app-spinner>
               <button
-              [disabled]="suspend != 'ACTIVE'"
+                [disabled]="suspend != 'ACTIVE' || 
+            this.Walletform.controls['amount'].invalid || walletNoLength.length != 13
+            "
                 (click)="CheckAFC()"
                 class="bg-orange-600 text-white py-2 px-4 rounded hover:bg-[rgb(244,122,32)]"
               >
@@ -102,11 +120,14 @@
               </button>
             </div>
           </div>
-      
+
           <div *ngIf="nextPage == 1">
-            <div><span>Paying To:</span> {{payToArray[0]?.firstName}} {{payToArray[0]?.lastName}}</div>
-            <div class="mt-[10px]"><span>Amount: </span>{{totalAmount}}</div>
-      
+            <div>
+              <span>Paying To:</span> {{ payToArray[0]?.firstName }}
+              {{ payToArray[0]?.lastName }}
+            </div>
+            <div class="mt-[10px]"><span>Amount: </span>{{ totalAmount }}</div>
+
             <!-- <div class="mb-4 mt-[10px]">
               <label class="block text-gray-700 text-sm"
                 >Wallet PIN</label
@@ -128,16 +149,10 @@
           </div>
         </form>
       </div>
-      
+
       <div id="chart" class="h-64"></div>
     </div>
 
-   
-    
-  
-  
-
-
-
-
     <app-loader *ngIf="isLoading"></app-loader>
+  </div>
+</div>
