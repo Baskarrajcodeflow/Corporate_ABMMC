@@ -271,6 +271,13 @@ public getTranasctionHistory(walletNo: any,trxnType:any,fromDate:any,toDate:any)
   return this.http.get<any>(url, { headers: h })
 }
 
+public downloadTransactionPdf() {
+  let url = environment.apiUrl + `/ts/api/transaction-services/downloadTransactionPdf?walletNo=8010000350&trxnType=ALL&downloadType=PDF&userId=516&fromDate=2024-07-19&toDate=2024-11-06`;
+  let h: HttpHeaders =
+    this.getHeaders().set("Content-Type", "application/json");
+  return this.http.get<any>(url, { headers: h })
+}
+
 public getCorpUsers() {
   let url = environment.apiUrl + `/um/api/corps/getCorpUsers`;
   let h: HttpHeaders =

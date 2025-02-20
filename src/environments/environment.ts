@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://uatcorp.mymoney.af',
+  apiUrl: 'http://localhost:4200',
 };  

@@ -38,6 +38,29 @@
       class="px-6 py-2 text-white bg-blue-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
       Search
     </button>
+
+    <div class="mt-[10px]">
+      <!-- Button that triggers the menu -->
+      <button mat-icon-button [matMenuTriggerFor]="downloadMenu">
+        <mat-icon>download</mat-icon>
+      </button>
+    
+      <!-- The dropdown menu -->
+      <mat-menu #downloadMenu="matMenu">
+        <button mat-menu-item (click)="makePdf()">
+          <mat-icon>picture_as_pdf</mat-icon>
+          <span>Download as PDF</span>
+        </button>
+        <button mat-menu-item (click)="exportToExcel()">
+          <mat-icon>table_view</mat-icon>
+          <span>Download as Excel</span>
+        </button>
+        <button mat-menu-item (click)="exportToCSV()">
+          <mat-icon>table_view</mat-icon>
+          <span>Download as CSV</span>
+        </button>
+      </mat-menu>
+    </div>
   </div>
 </form>
 

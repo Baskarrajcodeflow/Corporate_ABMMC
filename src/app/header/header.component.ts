@@ -8,6 +8,7 @@ import { DatasharingService } from '../services/datasharing.service';
 import { environment } from '../../environments/environment';
 import { ApiService } from '../B2C/ApiService/api.service';
 import { DataSharingService } from '../B2C/dataSharing/data-sharing.service';
+import { SessionService } from '../services/session-service/session.service';
 
 @Component({
   selector: 'app-header',
@@ -96,7 +97,8 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private data: DatasharingService,
     private dataSharing: DataSharingService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private sessionService:SessionService
   ) {}
 
   /* showHeaderProfile() : boolean {
@@ -161,5 +163,6 @@ export class HeaderComponent implements OnInit {
   }
   logout(){
     sessionStorage.clear()
+    this.sessionService.stopTimer(); // Stop auto-logout timer
   }
 }

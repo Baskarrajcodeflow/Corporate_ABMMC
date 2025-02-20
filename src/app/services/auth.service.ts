@@ -24,8 +24,6 @@ export class AuthService {
   }
   setUserLoggedIn(token: string, expiresIn: number): void {
     if(typeof window !== 'undefined'){
-
-
     const expiryTime = new Date().getTime() + expiresIn * 1000; // Assuming expiresIn is in seconds
     sessionStorage.setItem('userToken', token);
     sessionStorage.setItem('tokenExpiry', expiryTime.toString());

@@ -18,6 +18,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RegisterCorporateComponent } from '../corporate-register/register-corporate/register-corporate.component';
 import { DataSharingService } from '../dataSharing/data-sharing.service';
 import { LoaderComponent } from "../loader/loader.component";
+import { SessionService } from '../../services/session-service/session.service';
 
 @Component({
   selector: 'app-login',
@@ -82,7 +83,8 @@ otpnewData: any;
     private apiService: ApiService,
     private dataSharing: DatasharingService,
     private dataSharingService: DataSharingService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private sessionService:SessionService
   ) {}
   ngOnInit() {
     this.dataSharingService.corpKyc$.subscribe((res) => {
@@ -210,6 +212,7 @@ otpnewData: any;
         if (v?.responseCode == 200 || v?.responseCode == 2) {
          this.isLoading = false
           alert('Success');
+      this.sessionService.startTimer();
           this.openModal = false;
           this.auth.logged = true;
           this.getProfileData();

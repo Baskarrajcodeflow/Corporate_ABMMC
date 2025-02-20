@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://uatcorp.mymoney.af',
-  enableLogs:false
+  apiUrl: 'https://corp.mymoney.af',
+  enableLogs:true
 };
