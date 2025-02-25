@@ -35,6 +35,7 @@ export class SalaryUploadedDetailsComponent {
   totalAmountUnProcessed: any;
   processedCount: any;
   unprocessedCount: any;
+  totalAmountUploadedForApprove: any;
   constructor(
     private dialogRef: MatDialogRef<SalaryUploadedDetailsComponent>,
     private apiService: ApiService,
@@ -168,6 +169,12 @@ export class SalaryUploadedDetailsComponent {
 
     // Slice the comparisonResults array to get data for the current page
     this.displayedData2 = this.comparisonResults.slice(startIndex, endIndex);
+    console.log(this.displayedData2,'amount');
+    this.totalAmountUploadedForApprove = this.displayedData2.reduce(
+      (sum: any, item: any) => sum + parseFloat(item.actualAmount || 0),
+      0
+    );
+    
   }
 
   changePage2(direction: string) {

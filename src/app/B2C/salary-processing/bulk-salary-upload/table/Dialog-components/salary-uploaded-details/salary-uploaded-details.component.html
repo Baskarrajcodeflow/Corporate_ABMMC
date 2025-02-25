@@ -120,6 +120,62 @@
         </table>
       </div>
     </div>
+    <div class="flex items-center justify-between mt-[20px] px-4">
+      <!-- Left: Total Amount -->
+      <div class="flex items-center">
+        <span class="font-serif font-semibold">Total Amount:</span>
+        {{ totalAmountUploadedForApprove | number: "1.2-2" }}
+      </div>
+    
+      <!-- Center: Pagination -->
+      <div class="pagination flex justify-center items-center">
+        <button
+          class="py-2 px-4 bg-gray-200 text-sm mr-2"
+          [disabled]="currentPage === 1"
+          (click)="changePage2('prev')"
+        >
+          Previous
+        </button>
+        <span class="text-sm">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button
+          class="py-2 px-4 bg-gray-200 text-sm ml-2"
+          [disabled]="currentPage === totalPages"
+          (click)="changePage2('next')"
+        >
+          Next
+        </button>
+      </div>
+    
+      <!-- Right: Buttons (Authorize & Reject) -->
+      <ng-container *ngIf="makerCheckerRestriction == 'CHECKER'">
+        <div *ngIf="this.data?.id == 2" class="flex gap-2">
+          <button
+            (click)="authorize()"
+            type="submit"
+            class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white"
+            style="background-color: #0a365a"
+          >
+            Authorize
+          </button>
+          <button
+            (click)="confirmDialog()"
+            type="submit"
+            class="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white"
+            style="background-color: #0a365a"
+          >
+            Reject
+          </button>
+        </div>
+      </ng-container>
+    </div>
+    
+    <!-- <ng-container class=" pl-[10px]">
+      <div style="display: flex; justify-content: flex-start; margin-top: -30px;"      >
+        <span class="font-serif font-semibold">Total Amount:</span>
+        {{ totalAmountUploadedForApprove | number: "1.2-2" }}
+      </div>
+    </ng-container>
+
     <div class="pagination mt-4 flex justify-center items-center">
       <button
         class="py-2 px-4 bg-gray-200 text-sm mr-2"
@@ -161,7 +217,7 @@
           Reject
         </button>
       </div>
-    </ng-container>
+    </ng-container> -->
   </div>
   <div *ngIf="this.data?.id == 4" class="overflow-x-auto mt-[10px]">
     <div class="table-container-uploaded">

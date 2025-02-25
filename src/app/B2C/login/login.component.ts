@@ -192,7 +192,11 @@ otpnewData: any;
         }else{
          this.isLoading = false
           this.otpDigits = ['', '', '', '', '', ''];      
-          alert(res?.error)
+          if(res?.error){
+            alert(res?.error)
+          }else if(res?.data){
+            alert(res?.data)
+          }
         }
       },error:()=>{
         this.isLoading = false

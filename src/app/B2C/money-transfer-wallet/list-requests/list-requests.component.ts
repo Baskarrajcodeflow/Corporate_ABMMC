@@ -116,4 +116,11 @@ export class ListRequestsComponent {
       },
     });
   }
+
+  preventInvalidCharacters(event: KeyboardEvent): void {
+    const char = event.key;
+    if (!/^[0-9]$/.test(char)) {
+      event.preventDefault();
+    }
+  }
 }

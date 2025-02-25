@@ -16,6 +16,7 @@
                     >Mobile Number or Wallet Number</label
                   >
                   <input
+                  (keypress)="validateNumberInput($event)"
                     formControlName="walletNo"
                     type="text"
                     class="mt-1 p-1 border rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -30,6 +31,34 @@
                     Search
                   </button>
                 </div>
+
+                <div *ngIf="payToArray">
+                  <div class="max-w-sm mx-auto bg-white shadow-lg rounded-lg mt-[10px] overflow-hidden border border-gray-200 transition-transform transform hover:scale-100">
+                    <div class="flex items-center p-4">
+                      <img 
+                        class="w-16 h-16 rounded-full border-2 border-blue-300 shadow-md" 
+                        src="{{imageUrl}}/um/static/profile/{{payToArray[0]?.imagePath}}" 
+                        alt="User Image"
+                      >
+                      <div class="ml-4">
+                        <h2 class="text-lg font-semibold text-gray-800">
+                          {{payToArray[0]?.firstName}} {{payToArray[0]?.lastName}}
+                        </h2>
+                        <p class="text-gray-600 text-sm font-medium">Wallet No: 
+                          <span class="text-gray-500 font-semibold">{{payToArray[0]?.walletNo}}</span>
+                        </p>
+                        <p class="text-gray-600 text-sm font-medium">Phone: 
+                          <span class="text-gray-500 font-semibold">{{payToArray[0]?.phone}}</span>
+                        </p>
+                        <p class="text-gray-600 text-sm font-medium">Wallet Type: 
+                          <span class="text-gray-500 font-semibold">{{payToArray[0]?.walletType}}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+
                 <div class="mb-4">
                   <label class="block text-gray-700 text-sm">Pay From</label>
                   <input

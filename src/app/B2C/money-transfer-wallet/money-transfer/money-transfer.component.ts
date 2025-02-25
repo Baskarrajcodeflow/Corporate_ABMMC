@@ -13,6 +13,7 @@ import { SpinnerService } from '../../spinner.service';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { LoaderComponent } from '../../loader/loader.component';
 import { EncryptService } from '../../../services/Encrypt-Decrypt/encrypt-decrypt.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-money-transfer',
@@ -57,6 +58,8 @@ export class MoneyTransferComponent implements OnInit {
     this.Walletform.get('amount')?.updateValueAndValidity(); // Refresh validation
   }
   payToArray: any;
+    imageUrl = environment.apiUrl;
+  
   serchBill() {
     let walletAccountNo:any = this.Walletform.controls['walletNo'].value
     if (walletAccountNo.length >= 9 && walletAccountNo.slice(-9).startsWith("7")) {
@@ -103,7 +106,10 @@ export class MoneyTransferComponent implements OnInit {
   nextPage: any = 0;
   isLoading: boolean = false;
   Walletform = new FormGroup({
-    walletNo: new FormControl('', Validators.required),
+    walletNo:  new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]*$') 
+    ]),
     payFrom: new FormControl('', Validators.required),
     payTo: new FormControl('', Validators.required),
     PIN: new FormControl('', Validators.required),
@@ -213,5 +219,12 @@ export class MoneyTransferComponent implements OnInit {
   }
   next() {
     this.nextPage++;
+  }
+
+  validateNumberInput(event: KeyboardEvent) {
+    const charCode = event.which ? event.which : event.keyCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault();
+    }
   }
 }

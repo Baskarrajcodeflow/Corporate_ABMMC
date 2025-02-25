@@ -80,16 +80,14 @@
               pattern="^[1-9][0-9]*$"
               #amountRef="ngModel"
               (keypress)="preventInvalidCharacters($event)"
-      min="1"
-      max="{{ currentBalance }}" 
               type="number" id="amount" [(ngModel)]="amount" name="amount" required
                 class="mt-1 p-3 block w-full border border-gray-300 rounded-lg text-sm focus:ring-blue-600 focus:border-blue-600 transition ease-in-out duration-200 shadow-sm"
                 placeholder="Enter amount">
                 <div *ngIf="amountRef.invalid && amountRef.touched" class="text-red-500 text-sm mt-1">
                   <span *ngIf="amountRef.errors?.['required']">Amount is required.</span>
-                  <span *ngIf="amountRef.errors?.['pattern']">Enter a valid amount (no zero, no special characters).</span>
+                  <span *ngIf="amountRef.errors?.['pattern']">Enter a valid amount.</span>
                   <span *ngIf="amountRef.errors?.['min']">Amount must be at least 1.</span>
-                  <span *ngIf="amountRef.errors?.['max']">Amount cannot exceed {{ currentBalance }}.</span>
+                  <!-- <span *ngIf="amountRef.errors?.['max']">Amount cannot exceed {{ currentBalance }}.</span> -->
                 </div>
             </div>
 
