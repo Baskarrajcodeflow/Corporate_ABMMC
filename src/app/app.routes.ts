@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './B2C/dashboard/dashboard.component';
-import { AuthGuardService } from './services/auth-guard.service';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { HomeComponent } from './B2C/home/home.component';
 import { CustomerKycComponent } from './components/customer-kyc/customer-kyc.component';
@@ -25,6 +24,7 @@ import { GetBreshnaListComponent } from './B2C/breshna-payments/getbreshna-reque
 import { BreshnaDashboardComponent } from './B2C/breshna-payments/getbreshna-requests/breshna-dashboard/breshna-dashboard.component';
 import { TopUpRechargeComponent } from './B2C/top-up-recharge/top-up-recharge/top-up-recharge.component';
 import { TopUpRechargeDashboardComponent } from './B2C/top-up-recharge/top-up-recharge-dashboard/top-up-recharge-dashboard.component';
+import { AuthGuard } from './services/auth-guard.service';
 
 // export const routes: Routes = [
 //     {
@@ -49,30 +49,30 @@ import { TopUpRechargeDashboardComponent } from './B2C/top-up-recharge/top-up-re
 //     }
 // ];
 export const routes: Routes = [
-  { path: 'createUser', component: CreateUserComponent },
-  { path: 'AgentKyc', component: CustomerKycComponent },
+  { path: 'createUser', component: CreateUserComponent, canActivate: [AuthGuard] },
+  { path: 'AgentKyc', component: CustomerKycComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signUp', component: SignupComponent },
-  { path: 'moneyTransfer', component: MoneyTransferComponent },
-  { path: 'listRequests', component: ListMoneytransferRequestsComponent },
-  { path: 'breshnaPay', component: BreshnaPaymentsComponent },
-  { path: 'cashoutRequests', component: CashoutRequestRejectComponent },
-  { path: 'bulkCustomerUpload', component: BulkSalaryProcessComponent },
-  { path: 'bulkSalaryProcess', component: BulkCustomerUploadComponent },
-  { path: 'corpsUser', component: CorporateUsersListComponent },
-  { path: 'pushpull', component: PushPullMoneyComponent },
-  { path: 'tranactionHistory', component: TransactionHistoryComponent },
-  { path: 'bulkSalaryProcessNew', component: SalaryDashboardComponent },
-  { path: 'corporateRegister', component: RegisterCorporateComponent },
-  { path: 'corpKyc', component: CorporateRegistartionComponent },
-  { path: 'accountStatement', component: AccountStatementComponent },
-  { path: 'airTime', component: AirtimeTopUpReportsComponent },
-  { path: 'listBreshna', component: BreshnaDashboardComponent },
-  { path: 'topup', component: TopUpRechargeDashboardComponent },
+  { path: 'moneyTransfer', component: MoneyTransferComponent, canActivate: [AuthGuard] },
+  { path: 'listRequests', component: ListMoneytransferRequestsComponent, canActivate: [AuthGuard] },
+  { path: 'breshnaPay', component: BreshnaPaymentsComponent , canActivate: [AuthGuard]},
+  { path: 'cashoutRequests', component: CashoutRequestRejectComponent, canActivate: [AuthGuard] },
+  { path: 'bulkCustomerUpload', component: BulkSalaryProcessComponent, canActivate: [AuthGuard] },
+  { path: 'bulkSalaryProcess', component: BulkCustomerUploadComponent, canActivate: [AuthGuard] },
+  { path: 'corpsUser', component: CorporateUsersListComponent , canActivate: [AuthGuard]},
+  { path: 'pushpull', component: PushPullMoneyComponent , canActivate: [AuthGuard]},
+  { path: 'tranactionHistory', component: TransactionHistoryComponent, canActivate: [AuthGuard] },
+  { path: 'bulkSalaryProcessNew', component: SalaryDashboardComponent , canActivate: [AuthGuard]},
+  { path: 'corporateRegister', component: RegisterCorporateComponent, canActivate: [AuthGuard] },
+  { path: 'corpKyc', component: CorporateRegistartionComponent, canActivate: [AuthGuard] },
+  { path: 'accountStatement', component: AccountStatementComponent , canActivate: [AuthGuard]},
+  { path: 'airTime', component: AirtimeTopUpReportsComponent , canActivate: [AuthGuard]},
+  { path: 'listBreshna', component: BreshnaDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'topup', component: TopUpRechargeDashboardComponent, canActivate: [AuthGuard] },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    component: DashboardComponent, canActivate: [AuthGuard]
   },
  
   { path: '', redirectTo: '/home', pathMatch: 'full' }, // default route

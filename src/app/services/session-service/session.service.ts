@@ -23,6 +23,8 @@ export class SessionService {
   startTimer(): void {
     this.stopTimer(); // Properly clears previous timer before starting a new one
     this.timerSubscription = timer(this.sessionTimeout).subscribe(() => {
+      console.log('new');
+      
       this.logoutUser();
     });
   }
@@ -33,8 +35,8 @@ export class SessionService {
   }
 
   logoutUser(): void {
-    this.getAuthService().logout(); 
-    this.router.navigate(['/home']);
+    this.getAuthService().logoutExpiry(); 
+    // this.router.navigate(['/home']);
   }
 
   stopTimer(): void {

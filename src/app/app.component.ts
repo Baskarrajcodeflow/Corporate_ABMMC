@@ -14,6 +14,7 @@ import { AuthService } from './services/auth.service';
 import { SidebarComponent } from "./B2C/sidebar/sidebar.component";
 import { OurServicesComponent } from "./B2C/Our-Services/our-services.component";
 import { DatasharingService } from './services/datasharing.service';
+import { BackButtonService } from './services/back-button.service';
 
 @Component({
   selector: 'app-root',
@@ -34,21 +35,28 @@ import { DatasharingService } from './services/datasharing.service';
     SidebarComponent,
     OurServicesComponent
 ],
+providers:[BackButtonService]
 })
 export class AppComponent {
   constructor(
     private translate: TranslateService,
     private sharedService: SharedService,
     public authService : AuthService,
-    public data:DatasharingService
+    public data:DatasharingService,
+    private back:BackButtonService
   ) {
+    console.log(this.back,'backservice');
+    
     this.translate.setDefaultLang('en');
     // Set the default language
     this.translate.use('en');
+    console.log(authService.logged,'logged?');
   }
   title = 'miPay-b2c';
   showSignup: boolean = false;
   showLogin: boolean = false;
+  showLoginPage: boolean = true;
+
   ngOnInit() {
     
    /*  this.sharedService.showSignupCard$.subscribe((data) => {
@@ -62,5 +70,14 @@ export class AppComponent {
     this.data.loginSubject.subscribe((res)=>{
       this.showLogin = res
     })
+
+    // -------------------------------------------------------------------------//
+    this.showLoginPage = !this.data.loginNew.getValue();
+    this.data.login$.subscribe((res) => {
+      console.log(res,'app-compon');
+      
+      this.showLoginPage = !res;
+    });
+// -------------------------------------------------------------------------//
   }
 }

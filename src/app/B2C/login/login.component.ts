@@ -85,7 +85,20 @@ otpnewData: any;
     private dataSharingService: DataSharingService,
     private snackBar: MatSnackBar,
     private sessionService:SessionService
-  ) {}
+  ) {
+    if(sessionStorage.getItem('JWT_TOKEN')){
+      window.location.reload()
+      console.log('login');
+      
+     }
+    // this.dataSharing.setCondition$.subscribe((res) => {
+    //   if(res){
+    //     this.value = res;
+    //   }
+    //   console.log('Login Component - Value:', this.value);
+   
+    // });
+  }
   ngOnInit() {
     this.dataSharingService.corpKyc$.subscribe((res) => {
       this.viewCorporateRegister = res;
@@ -230,6 +243,7 @@ otpnewData: any;
           let decodedToken = helper.decodeToken(JSON.stringify(token));
           // console.log(decodedToken);
           this.router.navigateByUrl('/dashboard');
+          this.dataSharing.loginSignUp(true);
         } else if (v?.responseCode == 2) {
          this.isLoading = false
           this.currentView = 'newPassword';
@@ -239,6 +253,7 @@ otpnewData: any;
           this.otpDigits = ['', '', '', '', '', ''];      
          this.isLoading = false
           alert(v?.message);
+          this.otpDigits = ['', '', '', '', '', ''];      
         }
       },
       error: () => {

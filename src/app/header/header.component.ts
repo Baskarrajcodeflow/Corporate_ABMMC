@@ -1,14 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedService } from '../services/shared.service';
 import { AuthService } from '../services/auth.service';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { DatasharingService } from '../services/datasharing.service';
 import { environment } from '../../environments/environment';
 import { ApiService } from '../B2C/ApiService/api.service';
 import { DataSharingService } from '../B2C/dataSharing/data-sharing.service';
 import { SessionService } from '../services/session-service/session.service';
+import { filter } from 'rxjs';
+import { AuthServices } from '../core/authservice.service';
 
 @Component({
   selector: 'app-header',
@@ -94,12 +96,17 @@ export class HeaderComponent implements OnInit {
   constructor(
     private sharedService: SharedService,
     public authService: AuthService,
+    public auth: AuthServices,
     private router: Router,
     private data: DatasharingService,
     private dataSharing: DataSharingService,
     private apiService: ApiService,
-    private sessionService:SessionService
-  ) {}
+    private sessionService:SessionService,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {
+    console.log(authService.logged,'_++++++++++++=____________+++++++++++++++____________+++++++++++');
+
+  }
 
   /* showHeaderProfile() : boolean {
   this.authService.isLoggedIn.subscribe(data => {
@@ -161,8 +168,38 @@ export class HeaderComponent implements OnInit {
   getWalletBalance() {
     return this.sharedService.walletBalance;
   }
-  logout(){
+
+  logOut(){
     sessionStorage.clear()
+    // this.router.navigate(['/home']).then(() => {
+    //   window.location.reload(); // Ensures cached views are cleared
+    //   history.pushState(null, '', location.href);
+    // });
+     if (isPlatformBrowser(this.platformId)) {
+          window.history.pushState(null, '', window.location.href);
+          // window.onpopstate = () => {
+            window.history.pushState(null, '', window.location.href);
+            console.log('logout-----------------------------------------');
+            
+            this.auth.logout();
+            window.history.pushState(null, '', window.location.href);
+            // this.router.navigate(['/home']);
+          // };
+    
+          // Re-add the state when route changes
+          this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd)
+          ).subscribe(() => {
+          });
+    
+    
+          this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd)
+          ).subscribe(() => {
+            console.log('asdssssssssssssssssssssssssssssssssssssssssssssss');
+            history.pushState(null, '', window.location.href);
+          });
+        }
     this.sessionService.stopTimer(); // Stop auto-logout timer
   }
 }

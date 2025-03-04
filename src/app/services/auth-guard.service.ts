@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateFn, Router } from '@angular/router';
-import { AuthService } from './auth.service';
-@Injectable({
-  providedIn: 'root'
-}) 
-export class AuthGuardService implements CanActivate {
+import { CanActivate, Router } from '@angular/router';
 
-  constructor( private authService: AuthService, private router: Router) { }
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthGuard implements CanActivate {
+  constructor(private router: Router) {}
+
   canActivate(): boolean {
-    if (this.authService.logged) {
-      return true;
-    } else {
-      // this.router.navigate(['/dashboard']);
+    const token = sessionStorage.getItem('JWT_TOKEN');
+    console.log('authIN');
+    console.log('tokenlog'+token);
+    
+    if (!token) {
+      console.log('auth');
+      this.router.navigateByUrl('/home');
       return false;
     }
+    return true;
   }
 }

@@ -2,7 +2,7 @@
 
 <div class="flex flex-col min-h-screen overflow-hidden">
   <div *ngIf="!authService.logged; else loggedIn">
-<div *ngIf="!showLogin">
+<div  *ngIf="showLoginPage">
   <app-home></app-home>
 </div>
     <div *ngIf="showLogin">
@@ -13,7 +13,7 @@
   
   <ng-template #loggedIn>
     <app-header></app-header>
-    <div class="flex bg-radial-gradient">
+    <div  *ngIf="!showLoginPage" class="flex bg-radial-gradient">
       <div class="ml-4">
         <app-sidebar class="mx-6 my-4 w-[23%]"></app-sidebar>
       </div>

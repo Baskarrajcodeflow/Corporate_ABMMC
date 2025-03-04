@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -6,7 +7,6 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DatasharingService {
 
-  constructor() { }
 
   private operatorSubject = new BehaviorSubject<any>(null);
   operator$ = this.operatorSubject.asObservable();
@@ -56,5 +56,24 @@ export class DatasharingService {
   setwalletNoData(currency: any) {
     this.walletNo.next(currency);
   }
+  public loginNew = new BehaviorSubject<boolean>(false);
+  loginnew$ = this.loginNew.asObservable();
+  private isBrowser!: boolean;
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+    if (this.isBrowser) {
+      const savedState = sessionStorage.getItem('isLoggedIn');
+      if (savedState) {
+        this.loginNew.next(JSON.parse(savedState));
+      }
+    }
+  }
+
+  loginSignUp(isLoggedIn: boolean) {
+    if (this.isBrowser) {
+      this.loginNew.next(isLoggedIn);
+      sessionStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+    }
+  }
 }
