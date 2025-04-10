@@ -223,34 +223,53 @@ otpnewData: any;
   loginNew(){
     const otp = this.otpDigits.join('');
     this.isLoading = true
- this.authService.login(this.username, this.password,otp).subscribe({
+     this.authService.login(this.username, this.password,otp).subscribe({
       next: (v: any) => {
         console.log(v);
         if (v?.responseCode == 200 || v?.responseCode == 2) {
-         this.isLoading = false
-          alert('Success');
-      this.sessionService.startTimer();
-          this.openModal = false;
-          this.auth.logged = true;
-          this.getProfileData();
           let token = v?.token;
-          this.snackBar.open('Success', 'Close', {
-            duration: 5000,
-            panelClass: ['mdc-snackbar__surface'],
-          });
-
           const helper = new JwtHelperService();
           let decodedToken = helper.decodeToken(JSON.stringify(token));
-          // console.log(decodedToken);
-          this.router.navigateByUrl('/dashboard');
-          this.dataSharing.loginSignUp(true);
+          if (decodedToken?.iat) {
+            const decodedTime = decodedToken.iat * 1000; // Convert from seconds to milliseconds
+            const currentTime = Date.now(); // Current time in milliseconds
+
+            console.log(new Date(decodedTime), 'Decoded Time');
+            console.log(new Date(currentTime), 'Current Time');
+
+            const timeDifference = (currentTime - decodedTime) / 1000; // Convert to seconds
+
+            if (timeDifference <= 60) {
+              this.isLoading = false
+              alert('Success');
+             this.sessionService.startTimer();
+              this.openModal = false;
+              this.auth.logged = true;
+              this.getProfileData();
+              this.snackBar.open('Success', 'Close', {
+                duration: 5000,
+                panelClass: ['mdc-snackbar__surface'],
+              });
+              this.router.navigateByUrl('/dashboard');
+              this.dataSharing.loginSignUp(true);
+              // const helper = new JwtHelperService();
+              // let decodedToken = helper.decodeToken(JSON.stringify(token));
+              // // console.log(decodedToken);
+            } else {
+              // alert('Invalid Token!!!');
+              sessionStorage.clear();
+              window.location.reload();
+              // console.log('❌ Token is older than 30 seconds.');
+            }
+          } else {
+            console.log("⚠️ Invalid token or missing 'iat' field.");
+          }       
         } else if (v?.responseCode == 2) {
          this.isLoading = false
           this.currentView = 'newPassword';
           this.changePassword = true;
           alert(v?.message);
         } else {
-          this.otpDigits = ['', '', '', '', '', ''];      
          this.isLoading = false
           alert(v?.message);
           this.otpDigits = ['', '', '', '', '', ''];      

@@ -135,6 +135,24 @@ public getLinkedRecords() {
 
   return this.httpClient.get<any>(url, {headers});
 }
+public checkBalance(data:any) {
+  let url =`${environment.apiUrl}/um/bank/account/balance`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+  const headers: HttpHeaders = this.getHeaders(); // Get the headers with the authorization token
 
-  
+  return this.httpClient.post<any>(url,data, {headers});
+}
+public delinkBankAccount(data:any) {
+  let url =`${environment.apiUrl}/um/bank/account/remove`;
+    let h: HttpHeaders = this.getHeaders().set(
+      "Content-Type",
+      "application/json"
+    );
+  const headers: HttpHeaders = this.getHeaders(); // Get the headers with the authorization token
+
+  return this.httpClient.post<any>(url,data, {headers});
+}
 }

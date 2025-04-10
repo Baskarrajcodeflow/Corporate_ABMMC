@@ -213,7 +213,12 @@
                             >
                               Status/Action
                             </th>
-                  
+                            <th
+                            scope="col"
+                            class="px-6 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Action
+                          </th>
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -251,6 +256,24 @@
                                   >
                                   <ng-container *ngIf="!account.active"
                                     >Authorization Pending</ng-container
+                                  ></span
+                                >
+                              </p>
+                            </td>
+
+                            <td class="px-6 py-2 whitespace-nowrap">
+                              <p>
+                                <span
+                                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                                 
+                                >
+                                  <ng-container 
+                                    ><i (click)="select('view',account)" class="fa fa-eye px-2 text-gray-500 cursor-pointer"></i>
+                                    </ng-container
+                                  >
+                                  <ng-container 
+                                    ><i (click)="select('delink',account)" class="fa fa-unlink px-2 text-red-700 cursor-pointer"></i>
+                                    </ng-container
                                   ></span
                                 >
                               </p>
@@ -335,6 +358,113 @@
                   </td>
                 </ng-container>
               </tr>
+              <td
+            
+              *ngIf="viewNew == 'view'"
+              class="bg-gray-100 px-6 py-4"
+            >
+            <span class="text-sm text-gray-700">Check Balance :</span>
+            
+            <span class="text-sm text-gray-500"> 
+              <img
+              src="{{ acccountNumber.bank.logo }}"
+              class="w-10 h-8"
+              alt="Logo"
+            />Bank Name : {{acccountNumber?.bank?.bankName}}</span>
+            <div class="text-sm text-gray-500"> 
+           Account Number : {{acccountNumber?.accountNumber}}</div>
+              <form
+                class="w-full"
+              >
+                <div class="grid grid-cols-5 gap-6">
+                  <div class="col-span-2">
+                    <input
+                      type="password"
+                      id="ifscCode"
+                      name="ifscCode"
+                      [(ngModel)]="checkpin"
+                      class="mt-1 p-2 block w-full border-gray-300 rounded-md text-xs"
+                      placeholder="PIN"
+                      required
+                    />
+                  </div>
+                  <div  class="col-span-2 flex items-end">
+                    <button
+                    (click)="checkBalance()"
+                      type="submit"
+                      class="border border-blue-500 text-blue-500 font-semibold py-2 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300"
+                    >
+                      Check Balance
+                    </button>
+                  </div>
+
+                 
+                </div>
+
+                <div *ngIf="accountBalance"
+              class="px-2 py-2 text-left text-xs font-medium text-gray-500 tracking-wider"
+              >
+                  Your current balance of {{acccountNumber?.accountNumber}} account is {{accountBalance}}AFN.
+                </div>
+              </form>
+            </td>
+            <td
+            
+            *ngIf="viewNew == 'delink'"
+            class="bg-gray-100 px-6 py-4"
+          >
+          <span class="text-sm text-gray-700">De-Link Bank Account :</span>
+          
+          <span class="text-sm text-gray-500"> 
+            <img
+            src="{{ acccountNumber.bank.logo }}"
+            class="w-10 h-8"
+            alt="Logo"
+          />Bank Name : {{acccountNumber?.bank?.bankName}}</span>
+          <div class="text-sm text-gray-500"> 
+         Account Number : {{acccountNumber?.accountNumber}}</div>
+            <form
+              class="w-full"
+            >
+       
+         <ng-container *ngIf="makerCheckerRestriction == 'CHECKER'">
+          <div *ngIf="otpRequestFlag" class="col-span-2 flex items-end">
+            <button
+            (click)="requestOtp()"
+              type="submit"
+              class="border border-blue-500 text-blue-500 font-semibold py-2 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300"
+            >
+              Request OTP
+            </button>
+          </div>
+          <div *ngIf="!otpRequestFlag" class="grid grid-cols-5 gap-6">
+            <div class="col-span-2">
+              <input
+                type="password"
+                id="ifscCode"
+                name="ifscCode"
+                [(ngModel)]="otp"
+                class="mt-1 p-2 block w-full border-gray-300 rounded-md text-xs"
+                placeholder="Enter Otp"
+                required
+              />
+            </div>
+            <div  class="col-span-2 flex items-end">
+              <button
+              (click)="delinkRequest()"
+                type="submit"
+                class="border border-blue-500 text-blue-500 font-semibold py-2 px-3 text-xs rounded hover:bg-blue-500 hover:text-white transition duration-300"
+              >
+                Delink Account
+              </button>
+            </div>
+
+           
+          </div>
+         </ng-container>
+         
+            </form>
+          </td>
             </ng-container>
           </tbody>
         </table>
@@ -343,4 +473,5 @@
   </div>
 </div>
 
+<app-loader *ngIf="isLoading"></app-loader>
 

@@ -1,52 +1,52 @@
 
 {
   "/constants": {
-    "target": "http://uatcorp.mymoney.af",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/aaa": {
-    "target": "http://uatcorp.mymoney.af",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/kyc": {
-    "target": "http://uatcorp.mymoney.af",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/um": {
-    "target": "http://uatcorp.mymoney.af",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/pm": {
-    "target": "http://uatcorp.mymoney.af",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/rmsbo": {
-    "target": "http://uatcorp.mymoney.af",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "*": {
-    "target": "http://localhost:4200",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   }, 
   "/ts": {
-    "target": "http://uatcorp.mymoney.af",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/tms": {
-    "target": "http://uatcorp.mymoney.af",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   },
   "/salary": {
-    "target": "http://uatcorp.mymoney.af",
+    "target": "https://corp.mymoney.af",
     "secure": false,
     "changeOrigin": true
   }
