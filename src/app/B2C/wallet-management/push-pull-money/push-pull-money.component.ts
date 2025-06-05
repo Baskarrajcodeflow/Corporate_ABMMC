@@ -183,6 +183,8 @@ description: any;
         bankAccId: this.accountId,
       },
     };
+    console.log(pullPushReq);
+    
     this.walletService.addPushPull(pullPushReq).subscribe({
       next:(response)=>{
           if (response.responseCode == 200) {

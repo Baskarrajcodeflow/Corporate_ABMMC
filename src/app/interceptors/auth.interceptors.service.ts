@@ -20,6 +20,7 @@ const PADDING_CHAR = '=';
 
 // Interceptor
 export const encryptionInterceptor: HttpInterceptorFn = (req, next) => {
+console.log(req.url);
 
   getUrlDomain(req.url);
   const token = getJwtToken();
